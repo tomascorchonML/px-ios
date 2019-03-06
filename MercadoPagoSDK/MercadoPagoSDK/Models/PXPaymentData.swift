@@ -35,6 +35,7 @@ import UIKit
         copyObj.transactionDetails = transactionDetails
         copyObj.discount = discount
         copyObj.campaign = campaign
+        copyObj.consumedDiscount = consumedDiscount
         copyObj.payer = payer
         return copyObj
     }

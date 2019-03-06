@@ -47,7 +47,6 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     var lifecycleProtocol: PXLifeCycleProtocol?
 
-    var consumedDiscount: Bool = false
     // In order to ensure data updated create new instance for every usage
     var amountHelper: PXAmountHelper {
         get {
@@ -170,8 +169,6 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             clearDiscount()
             return
         }
-
-        self.consumedDiscount = discountConfiguration.getDiscountConfiguration().isNotAvailable
 
         guard let campaign = discountConfiguration.getDiscountConfiguration().campaign, shouldApplyDiscount() else {
             clearDiscount()

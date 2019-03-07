@@ -218,13 +218,8 @@ internal extension OneTapFlowModel {
         if let paymentFlow = paymentFlow, paymentMethod.isAccountMoney || hasSavedESC() {
             if !paymentFlow.model.didESChanagedRecently() {
                 return paymentFlow.hasPaymentPluginScreen()
-            } else {
-                return true
             }
-        } else if let paymentFlow = paymentFlow, paymentFlow.model.didESChanagedRecently() {
-            return paymentFlow.hasPaymentPluginScreen()
         }
-
         return true
     }
 

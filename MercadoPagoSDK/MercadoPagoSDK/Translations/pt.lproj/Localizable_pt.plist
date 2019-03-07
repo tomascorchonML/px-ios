@@ -172,6 +172,13 @@ Se preferir, você pode escolher outro meio de pagamento.</string>
 		<key>value</key>
 		<string>Nome</string>
 	</dict>
+	<key>payer_info_legal</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Razão Social</string>
+	</dict>
 	<key>payer_info_surname</key>
 	<dict>
 		<key>comment</key>

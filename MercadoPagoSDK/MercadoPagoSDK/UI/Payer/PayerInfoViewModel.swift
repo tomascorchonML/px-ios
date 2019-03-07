@@ -10,7 +10,7 @@ internal enum PayerInfoFlowStep: String {
 
     case CANCEL
     case SCREEN_IDENTIFICATION
-    // For CNPJ: case SCREEN_LEGAL_NAME
+    case SCREEN_LEGAL_NAME
     case SCREEN_NAME
     case SCREEN_LAST_NAME
     case FINISH
@@ -24,7 +24,9 @@ internal class PayerInfoViewModel {
 
     var name: String = ""
     var lastName: String = ""
+    var legalName: String = ""
     var identificationNumber: String = ""
+    
     let payer: PXPayer!
     let amountHelper: PXAmountHelper
 
@@ -46,7 +48,7 @@ internal class PayerInfoViewModel {
     }
 
     func filterSupported(identificationTypes: [PXIdentificationType]) -> [PXIdentificationType] {
-        let supportedIdentificationTypes = identificationTypes.filter {$0.id == "CPF"}
+        let supportedIdentificationTypes = identificationTypes.filter {$0.id == BoletoType.cpf.rawValue || $0.id == BoletoType.cnpj.rawValue}
         return supportedIdentificationTypes
     }
 
@@ -59,12 +61,37 @@ internal class PayerInfoViewModel {
     }
 
      func getNextStep() -> PayerInfoFlowStep {
+        guard let type = getBoletoType() else {
+            return .FINISH
+        }
+        
+        switch type {
+        case BoletoType.cpf:
+            return getCPFNextStep()
+        case BoletoType.cnpj:
+            return getCNPJNextStep()
+        }
+    }
+    
+    func getCPFNextStep() -> PayerInfoFlowStep {
         switch currentStep {
         case .SCREEN_IDENTIFICATION:
             currentStep = .SCREEN_NAME
         case .SCREEN_NAME:
             currentStep = .SCREEN_LAST_NAME
         case .SCREEN_LAST_NAME:
+            return .FINISH
+        default:
+            return .CANCEL
+        }
+        return currentStep
+    }
+    
+    func getCNPJNextStep() -> PayerInfoFlowStep {
+        switch currentStep {
+        case .SCREEN_IDENTIFICATION:
+            currentStep = .SCREEN_LEGAL_NAME
+        case .SCREEN_LEGAL_NAME:
             return .FINISH
         default:
             return .CANCEL
@@ -80,6 +107,8 @@ internal class PayerInfoViewModel {
             currentStep = .SCREEN_IDENTIFICATION
         case .SCREEN_LAST_NAME:
             currentStep = .SCREEN_NAME
+        case .SCREEN_LEGAL_NAME:
+            currentStep = .SCREEN_IDENTIFICATION
         default:
             return .CANCEL
         }
@@ -94,6 +123,8 @@ internal class PayerInfoViewModel {
             return validateName()
         case .SCREEN_LAST_NAME:
             return validateLastName()
+        case .SCREEN_LEGAL_NAME:
+            return validateLegalName()
         default:
             return true
         }
@@ -106,9 +137,14 @@ internal class PayerInfoViewModel {
     private func validateLastName() -> Bool {
         return !String.isNullOrEmpty(lastName)
     }
+    
+    private func validateLegalName() -> Bool {
+        return !String.isNullOrEmpty(legalName)
+    }
 
     private func validateIdentificationNumber() -> Bool {
         let length = currentMask?.textUnmasked(identificationNumber).count
+        return true
         return identificationType.minLength <= length! &&  length! <= identificationType.maxLength
     }
 
@@ -119,10 +155,26 @@ internal class PayerInfoViewModel {
     func update(lastName: String) {
         self.lastName = lastName
     }
+    
+    func update(legalName: String) {
+        self.legalName = legalName
+    }
 
     func update(identificationNumber: String) {
         let maskedText = currentMask?.textMasked(identificationNumber, remasked: true)
         self.identificationNumber = (currentMask?.textUnmasked(maskedText))!
+    }
+    
+    func update(identificationType: String) {
+        for identificationElement in identificationTypes {
+            if (identificationElement.name == identificationType) {
+                self.identificationType = identificationElement
+            }
+        }
+    }
+    
+    func getBoletoType() -> BoletoType? {
+        return BoletoType(rawValue: identificationType.id)
     }
 
     func getFullName() -> String {
@@ -148,9 +200,17 @@ internal class PayerInfoViewModel {
     func getFinalPayer() -> PXPayer {
         let identification = PXIdentification(identificationType: identificationType, identificationNumber: identificationNumber)
         self.payer.identification = identification
-        self.payer.firstName = name
-        self.payer.lastName = lastName
-
+        if let type = getBoletoType() {
+            switch type {
+            case .cpf:
+                self.payer.firstName = name
+                self.payer.lastName = lastName
+                break
+            case .cnpj:
+                self.payer.legalName = legalName
+                break
+            }
+        }
         return payer
     }
 }

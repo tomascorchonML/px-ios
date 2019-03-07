@@ -17,6 +17,7 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
     let NAME_INPUT_TEXT = "payer_info_name"
     let SURNAME_INPUT_TEXT = "payer_info_surname"
     let NUMBER_INPUT_TEXT = "payer_info_number"
+    let LEGAL_INPUT_TEXT = "payer_info_legal"
     let TYPE_INPUT_TEXT = "payer_info_type"
     let CONTINUE_INPUT_TEXT = "card_form_next_button"
     let PREVIOUS_INPUT_TEXT = "card_form_previous_button"
@@ -29,6 +30,7 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
     var identificationComponent: CompositeInputComponent?
     var secondNameComponent: SimpleInputComponent?
     var firstNameComponent: SimpleInputComponent?
+    var legalNameComponent: SimpleInputComponent?
     var boletoComponent: BoletoComponent?
 
     var viewModel: PayerInfoViewModel!
@@ -96,6 +98,14 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
         self.secondNameComponent?.delegate = self
         self.view.addSubview(self.secondNameComponent!)
     }
+    func initLegalNameComponent() {
+        let availableHeight = self.getAvailableHeight()
+        let nameText = LEGAL_INPUT_TEXT.localized_beta
+        self.legalNameComponent = SimpleInputComponent(frame: getDefaultFrame(), numeric: false, placeholder: nameText, textFieldDelegate: self)
+        self.legalNameComponent?.frame.origin.y = availableHeight
+        self.legalNameComponent?.delegate = self
+        self.view.addSubview(self.legalNameComponent!)
+    }
     func initIdentificationComponent() {
         let numberText = NUMBER_INPUT_TEXT.localized_beta
         let typeText = TYPE_INPUT_TEXT.localized_beta
@@ -143,6 +153,7 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
         self.initBoletoComponent()
         self.initFirstNameComponent()
         self.initSecondNameComponent()
+        self.initLegalNameComponent()
         self.presentIdentificationComponent()
         setupToolbarButtons()
         setUpToolbarErrorMessage()
@@ -153,6 +164,7 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
         self.identificationComponent?.frame.origin.y = availableHeight
         self.secondNameComponent?.frame.origin.y = availableHeight
         self.firstNameComponent?.frame.origin.y = availableHeight
+        self.legalNameComponent?.frame.origin.y = availableHeight
         self.boletoComponent?.frame.size.height = availableHeight
         self.boletoComponent?.updateView()
     }
@@ -189,6 +201,9 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
         if self.firstNameComponent != nil {
             self.firstNameComponent?.setInputAccessoryView(inputAccessoryView: self.toolbar!)
         }
+        if self.legalNameComponent != nil {
+            self.legalNameComponent?.setInputAccessoryView(inputAccessoryView: self.toolbar!)
+        }
     }
 
     func textChangedIn(component: SimpleInputComponent) {
@@ -207,8 +222,14 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
             self.boletoComponent?.setNumber(text: maskComplete)
         } else if component == self.firstNameComponent || component == self.secondNameComponent {
             self.boletoComponent?.setName(text: self.viewModel.getFullName())
+        } else if component == self.legalNameComponent {
+            self.boletoComponent?.setName(text: self.viewModel.legalName)
         }
-
+    }
+    
+    func dropDownOptionChanged(text: String) {
+        self.viewModel.update(identificationType: text)
+        updateBoletoCardVisualState(cleanUp: true)
     }
 
     func updateViewModelWithInput() {
@@ -221,7 +242,29 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
         if let lastName = self.secondNameComponent?.getInputText() {
             self.viewModel.update(lastName: lastName)
         }
+        if let legalName = self.legalNameComponent?.getInputText() {
+            self.viewModel.update(legalName: legalName)
+        }
+        if let identification = self.identificationComponent?.dropDownSelectedOptionText {
+            self.viewModel.update(identificationType: identification)
+        }
+        updateBoletoCardVisualState(cleanUp: false)
     }
+    
+    func updateBoletoCardVisualState(cleanUp: Bool) {
+        if let type = self.viewModel.getBoletoType(), let name = self.viewModel.identificationType.name {
+            self.boletoComponent?.setType(text: name)
+            self.boletoComponent?.boletoType = type
+        }
+        if cleanUp {
+            self.boletoComponent?.setName(text: "")
+            self.boletoComponent?.setNumber(text: "")
+            self.viewModel.update(name: "")
+            self.viewModel.update(lastName: "")
+            self.viewModel.update(legalName: "")
+        }
+    }
+
 
     fileprivate func executeStep(_ currentStep: PayerInfoFlowStep) {
         trackStep(currentStep: currentStep)
@@ -232,12 +275,12 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
              self.presentFirstNameComponent()
         case .SCREEN_LAST_NAME:
              self.presentSecondNameComponent()
+        case .SCREEN_LEGAL_NAME:
+            self.presentLegalNameComponent()
         case .CANCEL:
             self.navigationController?.popViewController(animated: true)
         case .FINISH:
             self.executeCallback()
-        default:
-            return
         }
     }
 
@@ -271,6 +314,11 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
         self.view.bringSubviewToFront(self.secondNameComponent!)
         self.secondNameComponent?.componentBecameFirstResponder()
         self.currentInput = self.secondNameComponent
+    }
+    func presentLegalNameComponent() {
+        self.view.bringSubviewToFront(self.legalNameComponent!)
+        self.legalNameComponent?.componentBecameFirstResponder()
+        self.currentInput = self.legalNameComponent
     }
 
     func executeCallback() {

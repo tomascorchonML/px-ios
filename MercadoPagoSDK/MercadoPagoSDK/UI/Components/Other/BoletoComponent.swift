@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum BoletoType : String {
+    case cpf = "CPF"
+    case cnpj = "CNPJ"
+}
+
 class BoletoComponent: UIView, PXComponent {
     static let IMAGE_WIDTH: CGFloat = 242.0
     static let IMAGE_HEIGHT: CGFloat = 143.0
@@ -16,8 +21,14 @@ class BoletoComponent: UIView, PXComponent {
     var typeName: UILabel!
     var numberTF: UITextField!
     var nameTF: UITextField!
+    var boletoType: BoletoType {
+        didSet {
+            updateBoletoType()
+        }
+    }
 
     override init(frame: CGRect) {
+        self.boletoType = .cpf
         super.init(frame: frame)
         self.setupView()
     }
@@ -66,7 +77,19 @@ class BoletoComponent: UIView, PXComponent {
         self.boletoView.addSubview(self.nameTF)
         self.boletoView.addSubview(self.typeName)
         self.addSubview(self.boletoView)
-
+        
+        updateBoletoType()
+    }
+    
+    func updateBoletoType() {
+        switch self.boletoType {
+        case BoletoType.cpf:
+            self.setNamePlaceholder(text: "SOBRENOME E NOME".localized)
+            break
+        case BoletoType.cnpj:
+            self.setNamePlaceholder(text: "RAZÃO SOCIAL".localized)
+            break
+        }
     }
 
     func setType(text: String) {
@@ -80,6 +103,9 @@ class BoletoComponent: UIView, PXComponent {
     }
     func setName(text: String) {
         self.nameTF.text = text
+    }
+    func setNamePlaceholder(text: String) {
+        self.nameTF.placeholder = text
     }
 
     public func updateView() {

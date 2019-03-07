@@ -19,8 +19,9 @@ open class PXPayer: NSObject, Codable, NSCopying {
     open var email: String = ""
     open var firstName: String?
     open var lastName: String?
+    open var legalName: String?
 
-    public init(id: String?, accessToken: String?, identification: PXIdentification?, type: String?, entityType: String?, email: String, firstName: String?, lastName: String?) {
+    public init(id: String?, accessToken: String?, identification: PXIdentification?, type: String?, entityType: String?, email: String, firstName: String?, lastName: String?, legalName: String? = nil) {
         self.id = id
         self.accessToken = accessToken
         self.identification = identification
@@ -29,6 +30,7 @@ open class PXPayer: NSObject, Codable, NSCopying {
         self.email = email
         self.firstName = firstName
         self.lastName = lastName
+        self.legalName = legalName
     }
 
     public init(email: String) {
@@ -44,9 +46,10 @@ open class PXPayer: NSObject, Codable, NSCopying {
         let entityType: String? = try container.decodeIfPresent(String.self, forKey: .entityType)
         let firstName: String? = try container.decodeIfPresent(String.self, forKey: .firstName)
         let lastName: String? = try container.decodeIfPresent(String.self, forKey: .lastName)
+        let legalName: String? = try container.decodeIfPresent(String.self, forKey: .legalName)
         let identification: PXIdentification? = try container.decodeIfPresent(PXIdentification.self, forKey: .identification)
 
-        self.init(id: id, accessToken: accessToken, identification: identification, type: type, entityType: entityType, email: email, firstName: firstName, lastName: lastName)
+        self.init(id: id, accessToken: accessToken, identification: identification, type: type, entityType: entityType, email: email, firstName: firstName, lastName: lastName , legalName: legalName)
     }
 
     /// :nodoc:
@@ -86,6 +89,10 @@ extension PXPayer {
     open func setLastName(lastName: String) {
         self.lastName = lastName
     }
+    
+    open func setLegalName(lastName: String) {
+        self.legalName = lastName
+    }
 
     internal func setAccessToken(accessToken: String) {
         self.accessToken = accessToken
@@ -124,6 +131,11 @@ extension PXPayer {
     open func getLastName() -> String? {
         return lastName
     }
+    
+    @objc
+    open func getLegalName() -> String? {
+        return legalName
+    }
 
     internal func getAccessToken() -> String? {
         return accessToken
@@ -142,6 +154,7 @@ extension PXPayer {
         case email = "email"
         case firstName = "first_name"
         case lastName = "last_name"
+        case legalName = "legalName"
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -155,6 +168,7 @@ extension PXPayer {
         try container.encodeIfPresent(self.entityType, forKey: .entityType)
         try container.encodeIfPresent(self.firstName, forKey: .firstName)
         try container.encodeIfPresent(self.lastName, forKey: .lastName)
+        try container.encodeIfPresent(self.legalName, forKey: .legalName)
         try container.encodeIfPresent(self.identification, forKey: .identification)
     }
 

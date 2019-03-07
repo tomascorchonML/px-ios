@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  PXSplitPaymentProcessor.swift
 //  MercadoPagoSDK
 //
 //  Created by Eden Torres on 22/01/2019.
@@ -45,4 +45,9 @@ import Foundation
      - parameter checkoutStore: Checkout store reference -> `PXCheckoutStore`
      */
     @objc func supportSplitPaymentMethodPayment(checkoutStore: PXCheckoutStore) -> Bool
+
+    /**
+     Optional method to skip Review and Confirm screen/step in checkout flow.
+     */
+    @objc optional func shouldSkipUserConfirmation() -> Bool
 }

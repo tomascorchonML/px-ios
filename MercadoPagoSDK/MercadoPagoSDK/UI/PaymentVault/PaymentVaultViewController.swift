@@ -110,7 +110,7 @@ internal class PaymentVaultViewController: MercadoPagoUIScrollViewController, UI
 
     @objc func updateCoupon(_ notification: Notification) {
         if (notification.userInfo?["coupon"] as? PXDiscount) != nil {
-            self.viewModel.amountHelper = PXAmountHelper(preference: viewModel.amountHelper.preference, paymentData: viewModel.amountHelper.getPaymentData(), chargeRules: viewModel.amountHelper.chargeRules, consumedDiscount: viewModel.amountHelper.consumedDiscount, paymentConfigurationService: viewModel.amountHelper.paymentConfigurationService, splitAccountMoney: viewModel.amountHelper.splitAccountMoney)
+            self.viewModel.amountHelper = PXAmountHelper(preference: viewModel.amountHelper.preference, paymentData: viewModel.amountHelper.getPaymentData(), chargeRules: viewModel.amountHelper.chargeRules, paymentConfigurationService: viewModel.amountHelper.paymentConfigurationService, splitAccountMoney: viewModel.amountHelper.splitAccountMoney)
             self.collectionSearch.reloadData()
         }
     }
@@ -153,15 +153,17 @@ internal class PaymentVaultViewController: MercadoPagoUIScrollViewController, UI
     }
 
     private func renderFloatingBottomView() {
-        if floatingBottomRowView == nil {
-            floatingBottomRowView = getFloatingTotalRowView()
-            if let floatingRowView = floatingBottomRowView {
-                getCollectionViewPinBottomContraint()?.isActive = false
-                view.addSubview(floatingRowView)
-                PXLayout.matchWidth(ofView: floatingRowView).isActive = true
-                PXLayout.centerHorizontally(view: floatingRowView).isActive = true
-                PXLayout.pinBottom(view: floatingRowView, to: view).isActive = true
-                PXLayout.put(view: floatingRowView, onBottomOf: collectionSearch).isActive = true
+        if viewModel.advancedConfiguration.amountRowEnabled {
+            if floatingBottomRowView == nil {
+                floatingBottomRowView = getFloatingTotalRowView()
+                if let floatingRowView = floatingBottomRowView {
+                    getCollectionViewPinBottomContraint()?.isActive = false
+                    view.addSubview(floatingRowView)
+                    PXLayout.matchWidth(ofView: floatingRowView).isActive = true
+                    PXLayout.centerHorizontally(view: floatingRowView).isActive = true
+                    PXLayout.pinBottom(view: floatingRowView, to: view).isActive = true
+                    PXLayout.put(view: floatingRowView, onBottomOf: collectionSearch).isActive = true
+                }
             }
         }
     }

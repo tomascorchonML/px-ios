@@ -47,11 +47,10 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     var lifecycleProtocol: PXLifeCycleProtocol?
 
-    var consumedDiscount: Bool = false
     // In order to ensure data updated create new instance for every usage
     var amountHelper: PXAmountHelper {
         get {
-            return PXAmountHelper(preference: self.checkoutPreference, paymentData: self.paymentData.copy() as! PXPaymentData, chargeRules: self.chargeRules, consumedDiscount: consumedDiscount, paymentConfigurationService: self.paymentConfigurationService, splitAccountMoney: splitAccountMoney)
+            return PXAmountHelper(preference: self.checkoutPreference, paymentData: self.paymentData.copy() as! PXPaymentData, chargeRules: self.chargeRules, paymentConfigurationService: self.paymentConfigurationService, splitAccountMoney: splitAccountMoney)
         }
     }
 
@@ -99,7 +98,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     let mpESCManager: MercadoPagoESC
 
-    //
+    // Discounts bussines service.
     var paymentConfigurationService = PXPaymentConfigurationServices()
 
     // Plugins payment method.
@@ -171,14 +170,13 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             return
         }
 
-        self.consumedDiscount = discountConfiguration.getDiscountConfiguration().isNotAvailable
-
         guard let campaign = discountConfiguration.getDiscountConfiguration().campaign, shouldApplyDiscount() else {
             clearDiscount()
             return
         }
         let discount = discountConfiguration.getDiscountConfiguration().discount
-        self.paymentData.setDiscount(discount, withCampaign: campaign)
+        let consumedDiscount = discountConfiguration.getDiscountConfiguration().isNotAvailable
+        self.paymentData.setDiscount(discount, withCampaign: campaign, consumedDiscount: consumedDiscount)
     }
 
     func clearDiscount() {
@@ -247,15 +245,15 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             pluginOptions = paymentMethodPluginsToShow
         }
 
-        return PaymentVaultViewModel(amountHelper: self.amountHelper, paymentMethodOptions: self.paymentMethodOptions!, customerPaymentOptions: customerOptions, paymentMethodPlugins: pluginOptions, paymentMethods: search?.paymentMethods ?? [], groupName: groupName, isRoot: rootVC, email: self.checkoutPreference.payer.email, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter)
+        return PaymentVaultViewModel(amountHelper: self.amountHelper, paymentMethodOptions: self.paymentMethodOptions!, customerPaymentOptions: customerOptions, paymentMethodPlugins: pluginOptions, paymentMethods: search?.paymentMethods ?? [], groupName: groupName, isRoot: rootVC, email: self.checkoutPreference.payer.email, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter, advancedConfiguration: advancedConfig)
     }
 
     public func entityTypeViewModel() -> AdditionalStepViewModel {
-        return EntityTypeViewModel(amountHelper: self.amountHelper, token: self.cardToken, paymentMethod: self.paymentData.getPaymentMethod()!, dataSource: self.entityTypes!, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter)
+        return EntityTypeViewModel(amountHelper: self.amountHelper, token: self.cardToken, paymentMethod: self.paymentData.getPaymentMethod()!, dataSource: self.entityTypes!, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter, advancedConfiguration: advancedConfig)
     }
 
     public func financialInstitutionViewModel() -> AdditionalStepViewModel {
-        return FinancialInstitutionViewModel(amountHelper: self.amountHelper, token: self.cardToken, paymentMethod: self.paymentData.getPaymentMethod()!, dataSource: self.financialInstitutions!, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter)
+        return FinancialInstitutionViewModel(amountHelper: self.amountHelper, token: self.cardToken, paymentMethod: self.paymentData.getPaymentMethod()!, dataSource: self.financialInstitutions!, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter, advancedConfiguration: advancedConfig)
     }
 
     public func issuerViewModel() -> AdditionalStepViewModel {
@@ -263,7 +261,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             fatalError("Cannot find payment method")
         }
 
-        return IssuerAdditionalStepViewModel(amountHelper: self.amountHelper, token: self.cardToken, paymentMethod: paymentMethod, dataSource: self.issuers!, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter)
+        return IssuerAdditionalStepViewModel(amountHelper: self.amountHelper, token: self.cardToken, paymentMethod: paymentMethod, dataSource: self.issuers!, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter, advancedConfiguration: advancedConfig)
     }
 
     public func payerCostViewModel() -> AdditionalStepViewModel {
@@ -277,7 +275,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             }
         }
 
-        return PayerCostAdditionalStepViewModel(amountHelper: self.amountHelper, token: cardInformation, paymentMethod: paymentMethod, dataSource: payerCosts!, email: self.checkoutPreference.payer.email, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter)
+        return PayerCostAdditionalStepViewModel(amountHelper: self.amountHelper, token: cardInformation, paymentMethod: paymentMethod, dataSource: payerCosts!, email: self.checkoutPreference.payer.email, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter, advancedConfiguration: advancedConfig)
     }
 
     public func savedCardSecurityCodeViewModel() -> SecurityCodeViewModel {
@@ -444,7 +442,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             return .SCREEN_HOOK_BEFORE_PAYMENT
         }
 
-        if needToCreatePayment() {
+        if needToCreatePayment() || shouldSkipReviewAndConfirm() {
             readyToPay = false
             return .SERVICE_POST_PAYMENT
         }

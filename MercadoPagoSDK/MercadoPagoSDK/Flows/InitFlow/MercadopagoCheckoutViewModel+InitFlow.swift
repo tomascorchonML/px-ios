@@ -19,7 +19,6 @@ extension MercadoPagoCheckoutViewModel {
         initFlowProperties.paymentPlugin = self.paymentPlugin
         initFlowProperties.paymentMethodSearchResult = self.search
         initFlowProperties.chargeRules = self.chargeRules
-        initFlowProperties.consumedDiscount = self.consumedDiscount
         initFlowProperties.serviceAdapter = self.mercadoPagoServicesAdapter
         initFlowProperties.advancedConfig = self.getAdvancedConfiguration()
         initFlowProperties.paymentConfigurationService = self.paymentConfigurationService

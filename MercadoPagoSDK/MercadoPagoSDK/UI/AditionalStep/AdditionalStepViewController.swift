@@ -90,7 +90,7 @@ extension AdditionalStepViewController {
         extendedLayoutIncludesOpaqueBars = true
         titleCellHeight = 44
 
-        if let bottomConstraintEnabled = getTableViewPinBottomContraint()?.isActive, viewModel.showFloatingTotalRow() && bottomConstraintEnabled {
+        if let bottomConstraintEnabled = getTableViewPinBottomContraint()?.isActive, viewModel.showFloatingTotalRow() && bottomConstraintEnabled && viewModel.advancedConfiguration.amountRowEnabled {
             getTableViewPinBottomContraint()?.isActive = false
             renderBottomTotalRow()
         } else {
@@ -132,7 +132,7 @@ extension AdditionalStepViewController {
 }
 
 // MARK: TableView
-extension AdditionalStepViewController: UITableViewDelegate, UITableViewDataSource  {
+extension AdditionalStepViewController: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return self.viewModel.heightForRowAt(indexPath: indexPath)
     }

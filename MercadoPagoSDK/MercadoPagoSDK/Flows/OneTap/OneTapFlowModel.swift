@@ -25,7 +25,6 @@ final internal class OneTapFlowModel: PXFlowModel {
     var paymentResult: PaymentResult?
     var instructionsInfo: PXInstructions?
     var businessResult: PXBusinessResult?
-    var consumedDiscount: Bool = false
     var customerPaymentOptions: [CustomerPaymentMethod]?
     var paymentMethodPlugins: [PXPaymentMethodPlugin]?
     var splitAccountMoney: PXPaymentData?
@@ -39,7 +38,7 @@ final internal class OneTapFlowModel: PXFlowModel {
     // In order to ensure data updated create new instance for every usage
     internal var amountHelper: PXAmountHelper {
         get {
-            return PXAmountHelper(preference: self.checkoutPreference, paymentData: self.paymentData, chargeRules: chargeRules, consumedDiscount: consumedDiscount, paymentConfigurationService: self.paymentConfigurationService, splitAccountMoney: splitAccountMoney)
+            return PXAmountHelper(preference: self.checkoutPreference, paymentData: self.paymentData, chargeRules: chargeRules, paymentConfigurationService: self.paymentConfigurationService, splitAccountMoney: splitAccountMoney)
         }
     }
 
@@ -48,8 +47,7 @@ final internal class OneTapFlowModel: PXFlowModel {
     let mercadoPagoServicesAdapter: MercadoPagoServicesAdapter
     let paymentConfigurationService: PXPaymentConfigurationServices
 
-    init(paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, chargeRules: [PXPaymentTypeChargeRule]?, consumedDiscount: Bool = false, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, advancedConfiguration: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices) {
-        self.consumedDiscount = consumedDiscount
+    init(paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, chargeRules: [PXPaymentTypeChargeRule]?, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, advancedConfiguration: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices) {
         self.paymentData = paymentData.copy() as? PXPaymentData ?? paymentData
         self.checkoutPreference = checkoutPreference
         self.search = search
@@ -127,12 +125,13 @@ internal extension OneTapFlowModel {
                 splitAccountMoney?.transactionAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: splitConfiguration?.secondaryPaymentMethod?.amount)
                 splitAccountMoney?.updatePaymentDataWith(paymentMethod: accountMoneyPM)
 
-            let campaign = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionSelected.getId())?.getDiscountConfiguration().campaign
-                if let discount = splitConfiguration?.primaryPaymentMethod?.discount, let campaign = campaign {
-                    paymentData.setDiscount(discount, withCampaign: campaign)
+                let campaign = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionSelected.getId())?.getDiscountConfiguration().campaign
+                let consumedDiscount = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionSelected.getId())?.getDiscountConfiguration().isNotAvailable
+                if let discount = splitConfiguration?.primaryPaymentMethod?.discount, let campaign = campaign, let consumedDiscount = consumedDiscount {
+                    paymentData.setDiscount(discount, withCampaign: campaign, consumedDiscount: consumedDiscount)
                 }
-                if let discount = splitConfiguration?.secondaryPaymentMethod?.discount, let campaign = campaign {
-                    splitAccountMoney?.setDiscount(discount, withCampaign: campaign)
+                if let discount = splitConfiguration?.secondaryPaymentMethod?.discount, let campaign = campaign, let consumedDiscount = consumedDiscount {
+                    splitAccountMoney?.setDiscount(discount, withCampaign: campaign, consumedDiscount: consumedDiscount)
                 }
             }
         } else {

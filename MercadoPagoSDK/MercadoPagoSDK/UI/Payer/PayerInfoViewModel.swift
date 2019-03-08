@@ -144,7 +144,6 @@ internal class PayerInfoViewModel {
 
     private func validateIdentificationNumber() -> Bool {
         let length = currentMask?.textUnmasked(identificationNumber).count
-        return true
         return identificationType.minLength <= length! &&  length! <= identificationType.maxLength
     }
 

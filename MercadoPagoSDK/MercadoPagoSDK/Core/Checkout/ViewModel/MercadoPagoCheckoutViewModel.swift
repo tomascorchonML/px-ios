@@ -444,7 +444,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             return .SCREEN_HOOK_BEFORE_PAYMENT
         }
 
-        if needToCreatePayment() || shouldSkipReviewAndConfirm() {
+        if needToCreatePayment() {
             readyToPay = false
             return .SERVICE_POST_PAYMENT
         }

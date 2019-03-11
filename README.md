@@ -19,7 +19,7 @@
 Edit your `Podfile` and specify the dependency:
 
 ```ruby
-pod 'MercadoPagoSDK', '~> 4.0'
+pod 'MercadoPagoSDK'
 ```
 
 ## 🌟 Features

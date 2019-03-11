@@ -113,6 +113,7 @@ internal final class PXHeaderRenderer: NSObject {
         let margin: CGFloat = PXLayout.XS_MARGIN
         button.contentEdgeInsets = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
         button.setImage(image, for: .normal)
+        button.accessibilityIdentifier = "result_close_button"
         return button
     }
 

@@ -10,7 +10,7 @@ import Foundation
 
 extension OneTapFlow {
     func showReviewAndConfirmScreenForOneTap() {
-        let reviewVC = PXOneTapViewController(viewModel: model.reviewConfirmViewModel(), timeOutPayButton: model.getTimeoutForOneTapReviewController(), shouldAnimatePayButton: !model.needToShowLoading(), callbackPaymentData: { [weak self] (paymentData: PXPaymentData) in
+        let reviewVC = PXOneTapViewController(viewModel: model.reviewConfirmViewModel(), timeOutPayButton: model.getTimeoutForOneTapReviewController(), callbackPaymentData: { [weak self] (paymentData: PXPaymentData) in
             self?.cancelFlowForNewPaymentSelection()
             return
             }, callbackConfirm: {(paymentData: PXPaymentData, splitAccountMoneyEnabled: Bool) in

@@ -54,7 +54,7 @@ extension OneTapFlow {
                 }
                 let error = MPSDKError.convertFrom(error, requestOrigin: ApiUtil.RequestOrigin.CREATE_TOKEN.rawValue)
 
-                if strongSelf.model.needToShowLoading() {
+                if strongSelf.isShowingLoading() {
                     strongSelf.pxNavigationHandler.showErrorScreen(error: error, callbackCancel: strongSelf.resultHandler?.exitCheckout, errorCallback: { [weak self] () in
                         self?.createSavedCardToken(cardInformation: cardInformation, securityCode: securityCode)
                     })
@@ -89,7 +89,7 @@ extension OneTapFlow {
                     strongSelf.model.mpESCManager.deleteESC(cardId: savedESCCardToken.cardId)
                     strongSelf.executeNextStep()
                 } else {
-                    if strongSelf.model.needToShowLoading() {
+                    if strongSelf.isShowingLoading() {
                         strongSelf.pxNavigationHandler.showErrorScreen(error: error, callbackCancel: strongSelf.resultHandler?.exitCheckout, errorCallback: { [weak self] () in
                             self?.createSavedESCCardToken(savedESCCardToken: savedESCCardToken)
                         })

@@ -25,16 +25,11 @@ open class PXPaymentProcessorNavigationHandler: NSObject {
      - parameter businessResult: Your custom `PXBusinessResult`.
      */
     open func didFinishPayment(businessResult: PXBusinessResult) {
-        self.flow?.model.businessResult = businessResult
-        self.flow?.executeNextStep()
+        flow?.handlePayment(business: businessResult)
     }
 
     /// :nodoc:
     open func didFinishPayment(paymentStatus: PXGenericPayment.RemotePaymentStatus, statusDetails: String = "", paymentId: String? = nil) {
-
-        guard let paymentData = self.flow?.model.amountHelper?.getPaymentData() else {
-            return
-        }
 
         if statusDetails == PXRejectedStatusDetail.INVALID_ESC.rawValue {
             flow?.paymentErrorHandler?.escError()
@@ -60,10 +55,9 @@ open class PXPaymentProcessorNavigationHandler: NSObject {
             }
         }
 
-        let paymentResult = PaymentResult(status: paymentStatusStrDefault, statusDetail: statusDetailsStr, paymentData: paymentData, splitAccountMoney: flow?.model.amountHelper?.splitAccountMoney, payerEmail: nil, paymentId: paymentId, statementDescription: nil)
+        let genericPayment = PXGenericPayment(status: paymentStatusStrDefault, statusDetail: statusDetailsStr, paymentId: paymentId, paymentMethodId: nil, paymentMethodTypeId: nil)
 
-        flow?.model.paymentResult = paymentResult
-        flow?.executeNextStep()
+        flow?.handlePayment(basePayment: genericPayment)
     }
 
     /**
@@ -74,19 +68,14 @@ open class PXPaymentProcessorNavigationHandler: NSObject {
      */
     open func didFinishPayment(status: String, statusDetail: String, paymentId: String? = nil) {
 
-        guard let paymentData = self.flow?.model.amountHelper?.getPaymentData() else {
-            return
-        }
-
         if statusDetail == PXRejectedStatusDetail.INVALID_ESC.rawValue {
             flow?.paymentErrorHandler?.escError()
             return
         }
 
-        let paymentResult = PaymentResult(status: status, statusDetail: statusDetail, paymentData: paymentData, splitAccountMoney: self.flow?.model.amountHelper?.splitAccountMoney, payerEmail: nil, paymentId: paymentId, statementDescription: nil)
+        let genericPayment = PXGenericPayment(status: status, statusDetail: statusDetail, paymentId: paymentId, paymentMethodId: nil, paymentMethodTypeId: nil)
 
-        flow?.model.paymentResult = paymentResult
-        flow?.executeNextStep()
+        flow?.handlePayment(basePayment: genericPayment)
     }
 
     // MARK: Navigation actions.

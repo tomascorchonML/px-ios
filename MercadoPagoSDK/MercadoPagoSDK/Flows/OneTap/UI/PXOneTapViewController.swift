@@ -29,16 +29,14 @@ final class PXOneTapViewController: PXComponentContainerViewController {
     var installmentInfoRow: PXOneTapInstallmentInfoView?
     var installmentsSelectorView: PXOneTapInstallmentsSelectorView?
     var headerView: PXOneTapHeaderView?
-
     var selectedCard: PXCardSliderViewModel?
 
     let timeOutPayButton: TimeInterval
-    let shouldAnimatePayButton: Bool
 
     var cardSliderMarginConstraint: NSLayoutConstraint?
 
     // MARK: Lifecycle/Publics
-    init(viewModel: PXOneTapViewModel, timeOutPayButton: TimeInterval = 15, shouldAnimatePayButton: Bool, callbackPaymentData : @escaping ((PXPaymentData) -> Void), callbackConfirm: @escaping ((PXPaymentData, Bool) -> Void), callbackUpdatePaymentOption: @escaping ((PaymentMethodOption) -> Void), callbackExit: @escaping (() -> Void), finishButtonAnimation: @escaping (() -> Void)) {
+    init(viewModel: PXOneTapViewModel, timeOutPayButton: TimeInterval = 15, callbackPaymentData : @escaping ((PXPaymentData) -> Void), callbackConfirm: @escaping ((PXPaymentData, Bool) -> Void), callbackUpdatePaymentOption: @escaping ((PaymentMethodOption) -> Void), callbackExit: @escaping (() -> Void), finishButtonAnimation: @escaping (() -> Void)) {
         self.viewModel = viewModel
         self.callbackPaymentData = callbackPaymentData
         self.callbackConfirm = callbackConfirm
@@ -46,7 +44,6 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         self.callbackUpdatePaymentOption = callbackUpdatePaymentOption
         self.finishButtonAnimation = finishButtonAnimation
         self.timeOutPayButton = timeOutPayButton
-        self.shouldAnimatePayButton = true
         super.init(adjustInsets: false)
     }
 
@@ -64,9 +61,7 @@ final class PXOneTapViewController: PXComponentContainerViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if shouldAnimatePayButton {
-            PXNotificationManager.UnsuscribeTo.animateButton(loadingButtonComponent)
-        }
+        PXNotificationManager.UnsuscribeTo.animateButton(loadingButtonComponent)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -186,10 +181,8 @@ extension PXOneTapViewController {
         loadingButtonComponent?.animationDelegate = self
         loadingButtonComponent?.layer.cornerRadius = 4
         loadingButtonComponent?.add(for: .touchUpInside, {
-            if self.shouldAnimatePayButton {
-                self.subscribeLoadingButtonToNotifications()
-                self.loadingButtonComponent?.startLoading(timeOut: self.timeOutPayButton)
-            }
+            self.subscribeLoadingButtonToNotifications()
+            self.loadingButtonComponent?.startLoading(timeOut: self.timeOutPayButton)
             self.confirmPayment()
         })
         loadingButtonComponent?.setTitle("Pagar".localized, for: .normal)

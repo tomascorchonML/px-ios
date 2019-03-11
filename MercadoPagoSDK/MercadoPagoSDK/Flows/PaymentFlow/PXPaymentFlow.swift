@@ -85,7 +85,6 @@ internal final class PXPaymentFlow: NSObject, PXFlow {
             self.resultHandler?.finishPaymentFlow(businessResult: businessResult)
             return
         }
-        model.escChanagedRecently = false
     }
 
     func cancelFlow() {}

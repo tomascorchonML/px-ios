@@ -14,7 +14,7 @@ extension OneTapFlow {
             return
         }
         paymentFlow.paymentErrorHandler = self
-        if model.needToShowLoading() {
+        if isShowingLoading() {
             self.pxNavigationHandler.presentLoading()
         }
         paymentFlow.setData(amountHelper: model.amountHelper, checkoutPreference: model.checkoutPreference, resultHandler: self)
@@ -33,7 +33,7 @@ extension OneTapFlow: PXPaymentResultHandlerProtocol {
     func finishPaymentFlow(paymentResult: PaymentResult, instructionsInfo: PXInstructions?) {
         self.model.paymentResult = paymentResult
         self.model.instructionsInfo = instructionsInfo
-        if self.model.needToShowLoading() {
+        if isShowingLoading() {
             self.executeNextStep()
         } else {
             PXAnimatedButton.animateButtonWith(status: paymentResult.status, statusDetail: paymentResult.statusDetail)
@@ -42,7 +42,7 @@ extension OneTapFlow: PXPaymentResultHandlerProtocol {
 
     func finishPaymentFlow(businessResult: PXBusinessResult) {
         self.model.businessResult = businessResult
-        if self.model.needToShowLoading() {
+        if isShowingLoading() {
             self.executeNextStep()
         } else {
             PXAnimatedButton.animateButtonWith(status: businessResult.getBusinessStatus().getDescription())
@@ -56,5 +56,12 @@ extension OneTapFlow: PXPaymentErrorHandlerProtocol {
         model.mpESCManager.deleteESC(cardId: model.paymentData.getToken()?.cardId ?? "")
         model.paymentData.cleanToken()
         executeNextStep()
+    }
+
+    func isShowingLoading() -> Bool {
+        if pxNavigationHandler.isLoadingPresented() {
+            return true
+        }
+        return false
     }
 }

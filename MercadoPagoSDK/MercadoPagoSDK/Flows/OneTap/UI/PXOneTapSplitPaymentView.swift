@@ -12,6 +12,7 @@ class PXOneTapSplitPaymentView: PXComponentView {
     var splitConfiguration: PXSplitConfiguration?
     var splitPaymentSwitch: UISwitch?
     var splitMessageLabel: UILabel?
+    var separatorView: UIView?
     private let switchReduceSize: CGFloat = 0.70
 
     init(splitConfiguration: PXSplitConfiguration?, callback : @escaping ((_ isOn: Bool, _ isUserSelection: Bool) -> Void)) {
@@ -28,11 +29,13 @@ class PXOneTapSplitPaymentView: PXComponentView {
     func hide() {
         splitMessageLabel?.alpha = 0
         splitPaymentSwitch?.alpha = 0
+        separatorView?.isHidden = true
     }
 
     func show() {
         splitMessageLabel?.alpha = 1
         splitPaymentSwitch?.alpha = 1
+        separatorView?.isHidden = false
     }
 
     func update(splitConfiguration: PXSplitConfiguration?) {
@@ -90,6 +93,7 @@ class PXOneTapSplitPaymentView: PXComponentView {
 
         let separatorView = UIView()
         separatorView.translatesAutoresizingMaskIntoConstraints = false
+        self.separatorView = separatorView
         separatorView.backgroundColor = UIColor.black.withAlphaComponent(0.1)
         self.addSubview(separatorView)
         PXLayout.setHeight(owner: separatorView, height: 1).isActive = true

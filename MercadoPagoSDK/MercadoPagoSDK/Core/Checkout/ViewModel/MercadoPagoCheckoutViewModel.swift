@@ -47,11 +47,10 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     var lifecycleProtocol: PXLifeCycleProtocol?
 
-    var consumedDiscount: Bool = false
     // In order to ensure data updated create new instance for every usage
     var amountHelper: PXAmountHelper {
         get {
-            return PXAmountHelper(preference: self.checkoutPreference, paymentData: self.paymentData.copy() as! PXPaymentData, chargeRules: self.chargeRules, consumedDiscount: consumedDiscount, paymentConfigurationService: self.paymentConfigurationService, splitAccountMoney: splitAccountMoney)
+            return PXAmountHelper(preference: self.checkoutPreference, paymentData: self.paymentData.copy() as! PXPaymentData, chargeRules: self.chargeRules, paymentConfigurationService: self.paymentConfigurationService, splitAccountMoney: splitAccountMoney)
         }
     }
 
@@ -171,14 +170,13 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             return
         }
 
-        self.consumedDiscount = discountConfiguration.getDiscountConfiguration().isNotAvailable
-
         guard let campaign = discountConfiguration.getDiscountConfiguration().campaign, shouldApplyDiscount() else {
             clearDiscount()
             return
         }
         let discount = discountConfiguration.getDiscountConfiguration().discount
-        self.paymentData.setDiscount(discount, withCampaign: campaign)
+        let consumedDiscount = discountConfiguration.getDiscountConfiguration().isNotAvailable
+        self.paymentData.setDiscount(discount, withCampaign: campaign, consumedDiscount: consumedDiscount)
     }
 
     func clearDiscount() {

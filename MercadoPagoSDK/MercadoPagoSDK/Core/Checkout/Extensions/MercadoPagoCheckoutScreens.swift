@@ -225,7 +225,7 @@ extension MercadoPagoCheckout {
             return
         }
         let viewModel = PXBusinessResultViewModel(businessResult: businessResult, paymentData: self.viewModel.paymentData, amountHelper: self.viewModel.amountHelper)
-        let congratsViewController = PXResultViewController(viewModel: viewModel) { [weak self] (state: PaymentResult.CongratsState) in
+        let congratsViewController = PXResultViewController(viewModel: viewModel) { [weak self] (_: PaymentResult.CongratsState) in
             self?.finish()
         }
         self.viewModel.pxNavigationHandler.pushViewController(viewController: congratsViewController, animated: false)
@@ -306,7 +306,7 @@ extension MercadoPagoCheckout {
         }
 
         let paymentFlow = viewModel.createPaymentFlow(paymentErrorHandler: self)
-        let onetapFlow = OneTapFlow(navigationController: viewModel.pxNavigationHandler, paymentData: viewModel.paymentData, checkoutPreference: viewModel.checkoutPreference, search: search, paymentOptionSelected: paymentOtionSelected, reviewConfirmConfiguration: viewModel.getAdvancedConfiguration().reviewConfirmConfiguration, chargeRules: viewModel.chargeRules, oneTapResultHandler: self, consumedDiscount: self.viewModel.consumedDiscount, advancedConfiguration: viewModel.getAdvancedConfiguration(), mercadoPagoServicesAdapter: viewModel.mercadoPagoServicesAdapter, paymentConfigurationService: self.viewModel.paymentConfigurationService)
+        let onetapFlow = OneTapFlow(navigationController: viewModel.pxNavigationHandler, paymentData: viewModel.paymentData, checkoutPreference: viewModel.checkoutPreference, search: search, paymentOptionSelected: paymentOtionSelected, reviewConfirmConfiguration: viewModel.getAdvancedConfiguration().reviewConfirmConfiguration, chargeRules: viewModel.chargeRules, oneTapResultHandler: self, advancedConfiguration: viewModel.getAdvancedConfiguration(), mercadoPagoServicesAdapter: viewModel.mercadoPagoServicesAdapter, paymentConfigurationService: self.viewModel.paymentConfigurationService)
         onetapFlow.setCustomerPaymentMethods(viewModel.customPaymentOptions)
         onetapFlow.setPaymentMethodPlugins(viewModel.paymentMethodPlugins)
         onetapFlow.setPaymentFlow(paymentFlow: paymentFlow)

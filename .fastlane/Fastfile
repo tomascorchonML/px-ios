@@ -25,18 +25,6 @@ lane :start_deploy do
     deploy_lib
 end
 
-desc 'Public release test with Bitrise'
-lane :release_public do
-   version = version_get_podspec(path: @podspec_name)
-   if git_tag_exists(tag: version)
-   UI.user_error!("The tag #{version} already exists on the repo. To release a new version of the library bump the version on #{@podspec_name}")
-   end
-   #pod_lib_lint
-   add_git_tag(tag: "#{version}")
-   push_git_tags
-   pod_push
-end
-
 desc 'Deploy to Github And CocoaPods'
 lane :deploy_lib do
     unless CIHelper::is_running_in_ci?

@@ -1,3 +1,7 @@
+# v4.7.6
+🚀Public RC - 4.7.6 🚀
+MercadoPagoSDK - Public Version
+
 # v4.7.5
 🚀Private RC - 4.7.5 🚀
 MercadoPagoSDKV4 - Private Version

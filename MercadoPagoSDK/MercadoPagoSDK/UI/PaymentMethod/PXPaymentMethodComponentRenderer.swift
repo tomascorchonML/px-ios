@@ -113,6 +113,7 @@ class PXPaymentMethodComponentRenderer: NSObject {
             let actionButton = PXSecondaryButton()
             actionButton.translatesAutoresizingMaskIntoConstraints = false
             actionButton.buttonTitle = action.label
+            actionButton.accessibilityIdentifier = "change_payment_method_button"
             actionButton.add(for: .touchUpInside, action.action)
             pmBodyView.actionButton = actionButton
             pmBodyView.addSubview(actionButton)

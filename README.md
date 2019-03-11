@@ -3,7 +3,7 @@
     <a href="https://app.bitrise.io/">
       <img src="https://app.bitrise.io/app/d2d19a45654ed1d8/status.svg?token=9BWGNvo1MwPKFb2wQB2dCg">
     </a>
-    <img src="https://img.shields.io/badge/Swift-4.1-orange.svg" />
+    <img src="https://img.shields.io/badge/Swift-4.2-orange.svg" />
     <a href="https://cocoapods.org/pods/MercadoPagoSDK">
         <img src="https://img.shields.io/cocoapods/v/MercadoPagoSDK.svg" alt="CocoaPods" />
     </a>
@@ -124,7 +124,7 @@ PXTracker.setListener(self)
 
 ### 📋 Supported OS & SDK Versions
 * iOS 9.0+
-* Swift 4
+* Swift 4.2
 * xCode 9.2+
 * @Objc full compatibility
 

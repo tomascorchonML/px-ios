@@ -1,5 +1,8 @@
 ![Screenshot iOS](https://camo.githubusercontent.com/301c6c4170a0fc897702e1931199903ff59e1ca5/68747470733a2f2f692e696d6775722e636f6d2f596c7231436b362e6a7067)
 <p align="center">
+    <a href="https://app.bitrise.io/">
+      <img src="https://app.bitrise.io/app/d2d19a45654ed1d8/status.svg?token=9BWGNvo1MwPKFb2wQB2dCg">
+    </a>
     <a href="https://travis-ci.org/mercadopago/px-ios">
       <img src="https://img.shields.io/travis/mercadopago/px-ios.svg">
     </a>
@@ -10,7 +13,6 @@
     <a href="https://cocoapods.org/pods/MercadoPagoSDK">
         <img src="https://img.shields.io/cocoapods/dt/MercadoPagoSDK.svg?style=flat" alt="CocoaPods downloads" />
     </a>
-   
 </p>
 
 ## 📲 How to Install

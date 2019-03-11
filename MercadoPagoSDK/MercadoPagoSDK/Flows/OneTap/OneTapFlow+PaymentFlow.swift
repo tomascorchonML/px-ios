@@ -20,6 +20,10 @@ extension OneTapFlow {
         paymentFlow.setData(amountHelper: model.amountHelper, checkoutPreference: model.checkoutPreference, resultHandler: self)
         paymentFlow.start()
     }
+
+    func isShowingLoading() -> Bool {
+        return pxNavigationHandler.isLoadingPresented()
+    }
 }
 
 extension OneTapFlow: PXPaymentResultHandlerProtocol {
@@ -56,12 +60,5 @@ extension OneTapFlow: PXPaymentErrorHandlerProtocol {
         model.mpESCManager.deleteESC(cardId: model.paymentData.getToken()?.cardId ?? "")
         model.paymentData.cleanToken()
         executeNextStep()
-    }
-
-    func isShowingLoading() -> Bool {
-        if pxNavigationHandler.isLoadingPresented() {
-            return true
-        }
-        return false
     }
 }

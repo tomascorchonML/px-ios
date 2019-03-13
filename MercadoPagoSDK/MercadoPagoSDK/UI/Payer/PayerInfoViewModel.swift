@@ -144,7 +144,22 @@ internal class PayerInfoViewModel {
 
     private func validateIdentificationNumber() -> Bool {
         let length = currentMask?.textUnmasked(identificationNumber).count
-        return identificationType.minLength <= length! &&  length! <= identificationType.maxLength
+        let hasValidLenght = identificationType.minLength <= length! &&  length! <= identificationType.maxLength
+        let hasValidFormat = self.identificationNumberHasValidFormat()
+        return hasValidFormat && hasValidLenght
+    }
+    
+    private func identificationNumberHasValidFormat() -> Bool {
+        guard let type = getBoletoType() else {
+            return false
+        }
+        
+        switch type {
+        case BoletoType.cpf:
+            return BooleanValidator().validate(cpf: identificationNumber)
+        case BoletoType.cnpj:
+            return BooleanValidator().validate(cnpj: identificationNumber)
+        }
     }
 
     func update(name: String) {
@@ -168,6 +183,8 @@ internal class PayerInfoViewModel {
         for identificationElement in identificationTypes {
             if (identificationElement.name == identificationType) {
                 self.identificationType = identificationElement
+                self.masks = Utils.getMasks(forId: self.identificationType)
+                self.currentMask = masks[0]
             }
         }
     }
@@ -176,12 +193,16 @@ internal class PayerInfoViewModel {
         return BoletoType(rawValue: identificationType.id)
     }
 
-    func getFullName() -> String {
-        if String.isNullOrEmpty(name) && String.isNullOrEmpty(lastName) {
-            return ""
-        } else {
-            return self.name.uppercased() + " " + self.lastName.uppercased()
+    func getDisplayText() -> String {
+        if let type = getBoletoType() {
+            switch type {
+            case .cpf:
+                return self.name.uppercased() + " " + self.lastName.uppercased()
+            case .cnpj:
+                return self.legalName.uppercased()
+            }
         }
+        return ""
     }
 
     func getMaskedNumber(completeEmptySpaces: Bool = false) -> String {

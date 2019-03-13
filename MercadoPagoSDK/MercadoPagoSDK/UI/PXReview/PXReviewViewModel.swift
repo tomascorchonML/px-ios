@@ -279,23 +279,40 @@ extension PXReviewViewModel {
 
     func buildPayerComponent(action: PXAction) -> PXPayerComponent? {
 
-        if let payer = self.amountHelper.getPaymentData().payer {
-            if let payerIdType = payer.identification?.type, let payerIdNumber = payer.identification?.number, let payerName = payer.firstName, let payerLastName = payer.lastName {
-                if let mask = Utils.getMasks(forId: PXIdentificationType(id: payerIdType, name: nil, minLength: 0, maxLength: 0, type: nil)).first {
-
-                    if let numberMasked = mask.textMasked(payerIdNumber)?.description {
+        if let payer = self.amountHelper.getPaymentData().payer,
+            let payerIdType = payer.identification?.type,
+            let payerIdNumber = payer.identification?.number,
+            let payerDisplayText = getDisplayText(for: payer),
+            let mask = Utils.getMasks(forId: PXIdentificationType(id: payerIdType, name: nil, minLength: 0, maxLength: 0, type: nil)).first,
+            let numberMasked = mask.textMasked(payerIdNumber)?.description {
                         let identification = NSAttributedString(string: "\(payerIdType): \(numberMasked)")
-                        let fulltName = NSAttributedString(string: "\(payerName) \(payerLastName)".uppercased())
+                        let fulltName = NSAttributedString(string: payerDisplayText)
 
                         let payerIcon = ResourceManager.shared.getImage("MPSDK_review_iconoPayer")
                         let props = PXPayerProps(payerIcon: payerIcon, identityfication: identification, fulltName: fulltName, action: action, backgroundColor: ThemeManager.shared.detailedBackgroundColor(), nameLabelColor: ThemeManager.shared.boldLabelTintColor(), identificationLabelColor: ThemeManager.shared.labelTintColor(), separatorColor: ThemeManager.shared.lightTintColor())
                         return PXPayerComponent(props: props)
-                    }
-                }
-            }
         }
 
         return nil
+    }
+    
+    private func getDisplayText(for payer: PXPayer) -> String? {
+        var displayText: String? = nil
+        if let typeRaw = payer.identification?.type, let type = BoletoType(rawValue: typeRaw) {
+            switch type {
+            case .cpf:
+                if let name = payer.firstName, let lastName = payer.lastName {
+                    displayText = name.uppercased() + " " + lastName.uppercased()
+                }
+                break
+            case .cnpj:
+                if let legalName = payer.legalName {
+                    displayText = legalName.uppercased()
+                }
+                break
+            }
+        }
+        return displayText
     }
 }
 

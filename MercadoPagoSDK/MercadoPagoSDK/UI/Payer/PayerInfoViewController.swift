@@ -220,16 +220,17 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
             textField.text! = self.viewModel.getMaskedNumber()
             let maskComplete = viewModel.getMaskedNumber(completeEmptySpaces: true)
             self.boletoComponent?.setNumber(text: maskComplete)
-        } else if component == self.firstNameComponent || component == self.secondNameComponent {
-            self.boletoComponent?.setName(text: self.viewModel.getFullName())
-        } else if component == self.legalNameComponent {
-            self.boletoComponent?.setName(text: self.viewModel.legalName)
+        } else if component == self.firstNameComponent ||
+                component == self.secondNameComponent ||
+                component == self.legalNameComponent {
+            self.boletoComponent?.setName(text: self.viewModel.getDisplayText())
         }
     }
     
     func dropDownOptionChanged(text: String) {
         self.viewModel.update(identificationType: text)
         updateBoletoCardVisualState(cleanUp: true)
+        presentIdentificationComponent()
     }
 
     func updateViewModelWithInput() {
@@ -259,9 +260,11 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
         if cleanUp {
             self.boletoComponent?.setName(text: "")
             self.boletoComponent?.setNumber(text: "")
+            self.viewModel.update(identificationNumber: "")
             self.viewModel.update(name: "")
             self.viewModel.update(lastName: "")
             self.viewModel.update(legalName: "")
+            self.boletoComponent?.setNumberPlaceHolder(text: self.viewModel.getMaskedNumber(completeEmptySpaces: true))
         }
     }
 

@@ -1,3 +1,13 @@
+# v4.8.0
+🚀Private RC - 4.8.0 🚀
+MercadoPagoSDKV4 - Private Version
+- Sould out
+- Discount for payment method for account money
+- Fix loading payment processor
+- Fix ESC with payment processor
+- Fix one tap animation button with no approved payments
+- Add identifiers for ETES
+
 # v4.7.6
 🚀Public RC - 4.7.6 🚀
 MercadoPagoSDK - Public Version

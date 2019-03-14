@@ -343,7 +343,14 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
     public func updateCheckoutModel(identificationTypes: [PXIdentificationType]) {
         self.identificationTypes = identificationTypes
     }
-
+    
+    public func cardFlowSupportedIdentificationTypes() -> [PXIdentificationType] {
+        guard let identificationTypes = self.identificationTypes else {
+            return []
+        }
+        return identificationTypes.filter {$0.id == BoletoType.cpf.rawValue}
+    }
+    
     public func updateCheckoutModel(identification: PXIdentification) {
         self.paymentData.cleanToken()
         self.paymentData.cleanIssuer()

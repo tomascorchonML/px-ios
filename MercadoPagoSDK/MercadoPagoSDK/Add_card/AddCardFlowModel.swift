@@ -76,5 +76,13 @@ class AddCardFlowModel: NSObject, PXFlowModel {
         self.selectedPaymentMethod = nil
         self.tokenizedCard = nil
     }
+    
+    func supportedIdentificationTypes() -> [PXIdentificationType]? {
+        guard let identificationTypes = identificationTypes else {
+            return nil
+        }
+        let supportedIdentificationTypes = identificationTypes.filter {$0.id == BoletoType.cpf.rawValue}
+        return supportedIdentificationTypes
+    }
 
 }

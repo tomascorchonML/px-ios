@@ -136,7 +136,8 @@ public class AddCardFlow: NSObject, PXFlow {
     }
 
     private func openIdentificationTypesScreen() {
-        guard let identificationTypes = self.model.identificationTypes else {
+        guard let identificationTypes = self.model.supportedIdentificationTypes() else {
+            self.showErrorScreen()
             return
         }
         let identificationViewController = IdentificationViewController(identificationTypes: identificationTypes, paymentMethod: model.selectedPaymentMethod, callback: { [weak self] (identification) in

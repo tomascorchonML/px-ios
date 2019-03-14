@@ -58,4 +58,8 @@ internal class SiteManager {
     func getSiteId() -> String {
         return siteId
     }
+    
+    func getSite() -> PXSites? {
+        return PXSites(rawValue: getSiteId())
+    }
 }

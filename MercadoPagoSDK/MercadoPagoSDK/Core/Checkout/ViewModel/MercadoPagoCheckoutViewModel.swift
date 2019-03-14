@@ -345,10 +345,10 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
     }
     
     public func cardFlowSupportedIdentificationTypes() -> [PXIdentificationType] {
-        guard let identificationTypes = self.identificationTypes else {
-            return []
+        if let identificationTypes = self.identificationTypes, let site = SiteManager.shared.getSite(), site == .MLB {
+            return identificationTypes.filter {$0.id == BoletoType.cpf.rawValue}
         }
-        return identificationTypes.filter {$0.id == BoletoType.cpf.rawValue}
+        return []
     }
     
     public func updateCheckoutModel(identification: PXIdentification) {

@@ -76,7 +76,8 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
         let screenWidth = UIScreen.main.bounds.width
         let availableHeight = self.getAvailableHeight()
         let boletoComponentFrame = CGRect(x: 0, y: 0, width: screenWidth, height: availableHeight)
-        self.boletoComponent = BoletoComponent(frame: boletoComponentFrame)
+        let boletoType = self.viewModel.boletoType() ?? .cpf
+        self.boletoComponent = BoletoComponent(frame: boletoComponentFrame, boletoType: boletoType)
         let type = self.viewModel.identificationType.name
         self.boletoComponent?.setType(text: type!)
         self.boletoComponent?.setNumberPlaceHolder(text: self.viewModel.getMaskedNumber(completeEmptySpaces: true))

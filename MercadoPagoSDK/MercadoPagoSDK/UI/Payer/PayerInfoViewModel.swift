@@ -44,7 +44,7 @@ internal class PayerInfoViewModel {
         }
         self.identificationType = identificationTypes[0]
         self.masks = Utils.getMasks(forId: self.identificationType)
-        self.currentMask = masks[0]
+        self.currentMask = masks.first
     }
 
     func filterSupported(identificationTypes: [PXIdentificationType]) -> [PXIdentificationType] {

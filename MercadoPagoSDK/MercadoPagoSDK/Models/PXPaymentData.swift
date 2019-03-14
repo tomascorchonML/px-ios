@@ -17,10 +17,11 @@ import UIKit
     internal var payerCost: PXPayerCost?
     internal var token: PXToken?
     internal var payer: PXPayer?
-    internal var transactionAmount: Double?
+    internal var transactionAmount: NSDecimalNumber?
     internal var transactionDetails: PXTransactionDetails?
     internal private(set) var discount: PXDiscount?
     internal private(set) var campaign: PXCampaign?
+    internal private(set) var consumedDiscount: Bool?
     private let paymentTypesWithoutInstallments = [PXPaymentTypes.PREPAID_CARD.rawValue]
 
     /// :nodoc:
@@ -34,6 +35,7 @@ import UIKit
         copyObj.transactionDetails = transactionDetails
         copyObj.discount = discount
         copyObj.campaign = campaign
+        copyObj.consumedDiscount = consumedDiscount
         copyObj.payer = payer
         return copyObj
     }
@@ -156,32 +158,32 @@ extension PXPaymentData {
     }
 
     /**
-     getTransactionAmount
+     getRawAmount
      */
-    public func getTransactionAmount() -> Double? {
-        guard let paymentMethod = paymentMethod else {
-            return nil
-        }
-        if paymentMethod.isCard &&
-            !paymentTypesWithoutInstallments.contains(paymentMethod.paymentTypeId) {
-            return payerCost?.totalAmount
-        }
+    public func getRawAmount() -> NSDecimalNumber? {
         return transactionAmount
     }
 
     internal func getTransactionAmountWithDiscount() -> Double? {
-        if let transactionAmount = transactionAmount, let discount = discount {
-            return transactionAmount - discount.couponAmount
+        if let transactionAmount = transactionAmount {
+            let transactionAmountDouble = transactionAmount.doubleValue
+
+            if let discount = discount {
+                return transactionAmountDouble - discount.couponAmount
+            } else {
+                return transactionAmountDouble
+            }
         }
-        return transactionAmount
+        return nil
     }
 }
 
 // MARK: Setters
 extension PXPaymentData {
-    internal func setDiscount(_ discount: PXDiscount, withCampaign campaign: PXCampaign) {
+    internal func setDiscount(_ discount: PXDiscount?, withCampaign campaign: PXCampaign, consumedDiscount: Bool) {
         self.discount = discount
         self.campaign = campaign
+        self.consumedDiscount = consumedDiscount
     }
 
     internal func updatePaymentDataWith(paymentMethod: PXPaymentMethod?) {
@@ -264,5 +266,6 @@ extension PXPaymentData {
     internal func clearDiscount() {
         self.discount = nil
         self.campaign = nil
+        self.consumedDiscount = nil
     }
 }

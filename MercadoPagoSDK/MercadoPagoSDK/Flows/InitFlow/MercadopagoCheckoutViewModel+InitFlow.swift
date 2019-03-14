@@ -19,16 +19,15 @@ extension MercadoPagoCheckoutViewModel {
         initFlowProperties.paymentPlugin = self.paymentPlugin
         initFlowProperties.paymentMethodSearchResult = self.search
         initFlowProperties.chargeRules = self.chargeRules
-        initFlowProperties.consumedDiscount = self.consumedDiscount
         initFlowProperties.serviceAdapter = self.mercadoPagoServicesAdapter
         initFlowProperties.advancedConfig = self.getAdvancedConfiguration()
         initFlowProperties.paymentConfigurationService = self.paymentConfigurationService
 
         // Create init flow.
         initFlow = InitFlow(flowProperties: initFlowProperties, finishCallback: { [weak self] (checkoutPreference, paymentMethodSearchResponse)  in
+            self?.checkoutPreference = checkoutPreference
             self?.updateCheckoutModel(paymentMethodSearch: paymentMethodSearchResponse)
             PXTrackingStore.sharedInstance.addData(forKey: PXTrackingStore.cardIdsESC, value: self?.getCardsIdsWithESC() ?? [])
-            self?.checkoutPreference = checkoutPreference
 
             let selectedDiscountConfigurartion = paymentMethodSearchResponse.selectedDiscountConfiguration
             self?.attemptToApplyDiscount(selectedDiscountConfigurartion)

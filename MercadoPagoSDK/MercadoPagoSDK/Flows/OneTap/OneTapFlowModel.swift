@@ -25,7 +25,6 @@ final internal class OneTapFlowModel: PXFlowModel {
     var paymentResult: PaymentResult?
     var instructionsInfo: PXInstructions?
     var businessResult: PXBusinessResult?
-    var consumedDiscount: Bool = false
     var customerPaymentOptions: [CustomerPaymentMethod]?
     var paymentMethodPlugins: [PXPaymentMethodPlugin]?
     var splitAccountMoney: PXPaymentData?
@@ -39,7 +38,7 @@ final internal class OneTapFlowModel: PXFlowModel {
     // In order to ensure data updated create new instance for every usage
     internal var amountHelper: PXAmountHelper {
         get {
-            return PXAmountHelper(preference: self.checkoutPreference, paymentData: self.paymentData, chargeRules: chargeRules, consumedDiscount: consumedDiscount, paymentConfigurationService: self.paymentConfigurationService, splitAccountMoney: splitAccountMoney)
+            return PXAmountHelper(preference: self.checkoutPreference, paymentData: self.paymentData, chargeRules: chargeRules, paymentConfigurationService: self.paymentConfigurationService, splitAccountMoney: splitAccountMoney)
         }
     }
 
@@ -48,8 +47,7 @@ final internal class OneTapFlowModel: PXFlowModel {
     let mercadoPagoServicesAdapter: MercadoPagoServicesAdapter
     let paymentConfigurationService: PXPaymentConfigurationServices
 
-    init(paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, chargeRules: [PXPaymentTypeChargeRule]?, consumedDiscount: Bool = false, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, advancedConfiguration: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices) {
-        self.consumedDiscount = consumedDiscount
+    init(paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, chargeRules: [PXPaymentTypeChargeRule]?, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, advancedConfiguration: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices) {
         self.paymentData = paymentData.copy() as? PXPaymentData ?? paymentData
         self.checkoutPreference = checkoutPreference
         self.search = search
@@ -116,7 +114,7 @@ internal extension OneTapFlowModel {
             let splitConfiguration = amountHelper.paymentConfigurationService.getSplitConfigurationForPaymentMethod(paymentOptionSelected.getId())
 
             // Set total amount to pay with card without discount
-            paymentData.transactionAmount = splitConfiguration?.primaryPaymentMethod?.amount
+            paymentData.transactionAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: splitConfiguration?.primaryPaymentMethod?.amount)
 
             let accountMoneyPMs = search.paymentMethods.filter { (paymentMethod) -> Bool in
                 return paymentMethod.id == splitConfiguration?.secondaryPaymentMethod?.id
@@ -124,15 +122,16 @@ internal extension OneTapFlowModel {
             if let accountMoneyPM = accountMoneyPMs.first {
                 splitAccountMoney = PXPaymentData()
                 // Set total amount to pay with account money without discount
-                splitAccountMoney?.transactionAmount = splitConfiguration?.secondaryPaymentMethod?.amount
+                splitAccountMoney?.transactionAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: splitConfiguration?.secondaryPaymentMethod?.amount)
                 splitAccountMoney?.updatePaymentDataWith(paymentMethod: accountMoneyPM)
 
-            let campaign = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionSelected.getId())?.getDiscountConfiguration().campaign
-                if let discount = splitConfiguration?.primaryPaymentMethod?.discount, let campaign = campaign {
-                    paymentData.setDiscount(discount, withCampaign: campaign)
+                let campaign = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionSelected.getId())?.getDiscountConfiguration().campaign
+                let consumedDiscount = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionSelected.getId())?.getDiscountConfiguration().isNotAvailable
+                if let discount = splitConfiguration?.primaryPaymentMethod?.discount, let campaign = campaign, let consumedDiscount = consumedDiscount {
+                    paymentData.setDiscount(discount, withCampaign: campaign, consumedDiscount: consumedDiscount)
                 }
-                if let discount = splitConfiguration?.secondaryPaymentMethod?.discount, let campaign = campaign {
-                    splitAccountMoney?.setDiscount(discount, withCampaign: campaign)
+                if let discount = splitConfiguration?.secondaryPaymentMethod?.discount, let campaign = campaign, let consumedDiscount = consumedDiscount {
+                    splitAccountMoney?.setDiscount(discount, withCampaign: campaign, consumedDiscount: consumedDiscount)
                 }
             }
         } else {
@@ -150,19 +149,6 @@ internal extension OneTapFlowModel {
         if paymentOptionSelected.isCard() {
             self.paymentData.updatePaymentDataWith(payerCost: payerCost)
             self.paymentData.cleanToken()
-        }
-    }
-
-    func saveEsc() {
-        guard let token = paymentData.token else {
-            return
-        }
-        if !token.cardId.isEmpty {
-            if let esc = token.esc {
-                mpESCManager.saveESC(cardId: token.cardId, esc: esc)
-            } else {
-                mpESCManager.deleteESC(cardId: token.cardId)
-            }
         }
     }
 }

@@ -13,17 +13,21 @@ internal struct PXAmountHelper {
     internal let preference: PXCheckoutPreference
     private let paymentData: PXPaymentData
     internal let chargeRules: [PXPaymentTypeChargeRule]?
-    internal let consumedDiscount: Bool
     internal let paymentConfigurationService: PXPaymentConfigurationServices
     internal var splitAccountMoney: PXPaymentData?
 
-    init (preference: PXCheckoutPreference, paymentData: PXPaymentData, chargeRules: [PXPaymentTypeChargeRule]?, consumedDiscount: Bool, paymentConfigurationService: PXPaymentConfigurationServices, splitAccountMoney: PXPaymentData?) {
+    init (preference: PXCheckoutPreference, paymentData: PXPaymentData, chargeRules: [PXPaymentTypeChargeRule]?, paymentConfigurationService: PXPaymentConfigurationServices, splitAccountMoney: PXPaymentData?) {
         self.preference = preference
         self.paymentData = paymentData
         self.chargeRules = chargeRules
-        self.consumedDiscount = consumedDiscount
         self.paymentConfigurationService = paymentConfigurationService
         self.splitAccountMoney = splitAccountMoney
+    }
+
+    internal var consumedDiscount: Bool {
+        get {
+            return paymentData.consumedDiscount ?? false
+        }
     }
 
     var discount: PXDiscount? {
@@ -63,7 +67,14 @@ internal struct PXAmountHelper {
         }
     }
 
-    var amountToPayWithoutPayerCost: Double {
+    func getAmountToPayWithoutPayerCost(_ paymentMethodId: String?) -> Double {
+        guard let paymentMethodId = paymentMethodId, let amountFromPaymentMethod = paymentConfigurationService.getAmountToPayWithoutPayerCostForPaymentMethod(paymentMethodId) else {
+            return amountToPayWithoutPayerCost
+        }
+        return amountFromPaymentMethod
+    }
+
+    private var amountToPayWithoutPayerCost: Double {
         get {
             if let couponAmount = paymentData.discount?.couponAmount {
                 return preferenceAmount - couponAmount + chargeRuleAmount
@@ -109,8 +120,18 @@ internal struct PXAmountHelper {
 
         // Set total card amount with charges without discount
         if paymentData.transactionAmount == nil || paymentData.transactionAmount == 0 {
-            self.paymentData.transactionAmount = preferenceAmountWithCharges
+            self.paymentData.transactionAmount = NSDecimalNumber(floatLiteral: preferenceAmountWithCharges)
         }
         return paymentData
+    }
+}
+
+internal extension PXAmountHelper {
+    static func getRoundedAmountAsNsDecimalNumber(amount: Double?) -> NSDecimalNumber {
+        guard let targetAmount = amount else { return 0 }
+        let decimalPlaces: Double = Double(SiteManager.shared.getCurrency().getDecimalPlacesOrDefault())
+        let amountRounded: Double = Double(round(pow(10, decimalPlaces) * Double(targetAmount)) / pow(10, decimalPlaces))
+        let amountString = String(format: "%\(decimalPlaces/10)f", amountRounded)
+        return NSDecimalNumber(string: amountString)
     }
 }

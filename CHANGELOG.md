@@ -1,3 +1,58 @@
+# v4.8.0
+🚀Private RC - 4.8.0 🚀
+MercadoPagoSDKV4 - Private Version
+- Sould out
+- Discount for payment method for account money
+- Fix loading payment processor
+- Fix ESC with payment processor
+- Fix one tap animation button with no approved payments
+- Add identifiers for ETES
+
+# v4.7.6
+🚀Public RC - 4.7.6 🚀
+MercadoPagoSDK - Public Version
+
+# v4.7.5
+🚀Private RC - 4.7.5 🚀
+MercadoPagoSDKV4 - Private Version
+- Fix split payments fail flow.
+- Fix payment flow after not saved ESC.
+
+
+# v4.7.4
+🚀Private RC - 4.7.4 🚀
+MercadoPagoSDKV4 - Private Version
+- Fix double rounding error
+- Fix ESC
+
+# v4.7.3
+🚀Private RC - 4.7.3 🚀
+MercadoPagoSDKV4 - Private Version
+- Fix deserializing discount id as int instead of int64
+- Fix sold out discounts legal terms
+- Fix CFT with one installment in one tap
+- Fix double rounding error
+
+# v4.7.2
+🚀Private RC - 4.7.2 🚀 
+MercadoPagoSDKV4 - Private Version
+- Split Payments Fix Switch size.
+
+# v4.7.1
+🚀Private RC - 4.7.1 🚀
+MercadoPagoSDKV4 - Private Version
+- Split Payments UI Switch (Minor Fix)
+
+# v4.7.0
+🚀Private RC - 4.7.0 🚀
+MercadoPagoSDKV4 - Private Version
+- Split Payment Method
+- CPF & CNPJ validator
+- Cross button in Congrats with tracking
+- Fix default installments bug
+- Fix bug with checkout preference
+- Fix additional step total row bug
+
 # v4.6.5
 🚀Private RC - 4.6.5 🚀
 MercadoPagoSDKV4 - Private Version

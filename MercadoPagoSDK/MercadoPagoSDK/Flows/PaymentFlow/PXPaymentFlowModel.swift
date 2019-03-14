@@ -149,6 +149,9 @@ internal extension PXPaymentFlowModel {
                 if let isCard = PXPaymentTypes(rawValue: errorPaymentType)?.isCard(), isCard {
                     escManager.deleteESC(cardId: token.cardId)
                 }
+            } else if let esc = token.esc {
+                // Check if ESC if re-saved or first time saved
+                escManager.saveESC(cardId: token.cardId, esc: esc)
             }
         }
     }

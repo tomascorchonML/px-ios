@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PXPaymentConfigurationServices {
+internal class PXPaymentConfigurationServices {
 
     private var configurations: Set<PXPaymentMethodConfiguration> = []
     private var defaultDiscountConfiguration: PXDiscountConfiguration?
@@ -58,6 +58,19 @@ class PXPaymentConfigurationServices {
                 } else {
                     return paymentOptionConfiguration.amountConfiguration?.selectedPayerCost
                 }
+            }
+        }
+        return nil
+    }
+
+    // Amount to pay without payer cost for Payment Method
+    func getAmountToPayWithoutPayerCostForPaymentMethod(_ id: String?) -> Double? {
+        guard let id = id else {
+            return nil
+        }
+        if let configuration = configurations.first(where: {$0.paymentOptionID == id}) {
+            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: {$0.id == configuration.selectedAmountConfiguration}) {
+                return paymentOptionConfiguration.amountConfiguration?.amount
             }
         }
         return nil

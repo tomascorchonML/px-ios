@@ -45,7 +45,7 @@ open class PXCardDisplayInfoDto: NSObject, Codable {
         case color
         case font_color
         case issuer_image
-        case pm_image
+        case pm_image = "payment_method_image"
         case font_type
     }
 

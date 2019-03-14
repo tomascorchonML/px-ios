@@ -223,7 +223,7 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
         } else if component == self.firstNameComponent ||
                 component == self.secondNameComponent ||
                 component == self.legalNameComponent {
-            self.boletoComponent?.setName(text: self.viewModel.getDisplayText())
+            self.boletoComponent?.setName(text: self.viewModel.displayText())
         }
     }
     
@@ -253,7 +253,7 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
     }
     
     func updateBoletoCardVisualState(cleanUp: Bool) {
-        if let type = self.viewModel.getBoletoType(), let name = self.viewModel.identificationType.name {
+        if let type = self.viewModel.boletoType(), let name = self.viewModel.identificationType.name {
             self.boletoComponent?.setType(text: name)
             self.boletoComponent?.boletoType = type
         }

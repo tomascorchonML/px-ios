@@ -282,7 +282,7 @@ extension PXReviewViewModel {
         if let payer = self.amountHelper.getPaymentData().payer,
             let payerIdType = payer.identification?.type,
             let payerIdNumber = payer.identification?.number,
-            let payerDisplayText = getDisplayText(for: payer),
+            let payerDisplayText = displayText(for: payer),
             let mask = Utils.getMasks(forId: PXIdentificationType(id: payerIdType, name: nil, minLength: 0, maxLength: 0, type: nil)).first,
             let numberMasked = mask.textMasked(payerIdNumber)?.description {
                         let identification = NSAttributedString(string: "\(payerIdType): \(numberMasked)")
@@ -296,7 +296,7 @@ extension PXReviewViewModel {
         return nil
     }
     
-    private func getDisplayText(for payer: PXPayer) -> String? {
+    private func displayText(for payer: PXPayer) -> String? {
         var displayText: String? = nil
         if let typeRaw = payer.identification?.type, let type = BoletoType(rawValue: typeRaw) {
             switch type {

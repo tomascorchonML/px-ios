@@ -61,7 +61,7 @@ internal class PayerInfoViewModel {
     }
 
      func getNextStep() -> PayerInfoFlowStep {
-        guard let type = getBoletoType() else {
+        guard let type = boletoType() else {
             return .FINISH
         }
         
@@ -150,7 +150,7 @@ internal class PayerInfoViewModel {
     }
     
     private func identificationNumberHasValidFormat() -> Bool {
-        guard let type = getBoletoType() else {
+        guard let type = boletoType() else {
             return false
         }
         
@@ -189,12 +189,12 @@ internal class PayerInfoViewModel {
         }
     }
     
-    func getBoletoType() -> BoletoType? {
+    func boletoType() -> BoletoType? {
         return BoletoType(rawValue: identificationType.id)
     }
 
-    func getDisplayText() -> String {
-        if let type = getBoletoType() {
+    func displayText() -> String {
+        if let type = boletoType() {
             switch type {
             case .cpf:
                 return self.name.uppercased() + " " + self.lastName.uppercased()
@@ -220,7 +220,7 @@ internal class PayerInfoViewModel {
     func getFinalPayer() -> PXPayer {
         let identification = PXIdentification(identificationType: identificationType, identificationNumber: identificationNumber)
         self.payer.identification = identification
-        if let type = getBoletoType() {
+        if let type = boletoType() {
             switch type {
             case .cpf:
                 self.payer.firstName = name

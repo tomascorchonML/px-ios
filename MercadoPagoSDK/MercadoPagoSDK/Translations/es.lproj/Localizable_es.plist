@@ -177,7 +177,7 @@ O si prefieres, puedes elegir otro medio de pago.</string>
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>Razão Social</string>
+		<string>Razón Social</string>
 	</dict>
 	<key>payer_info_surname</key>
 	<dict>

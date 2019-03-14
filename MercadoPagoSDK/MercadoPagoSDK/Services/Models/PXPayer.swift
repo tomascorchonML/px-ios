@@ -154,7 +154,7 @@ extension PXPayer {
         case email = "email"
         case firstName = "first_name"
         case lastName = "last_name"
-        case legalName = "legalName"
+        case legalName = "legal_name"
     }
 
     public func encode(to encoder: Encoder) throws {

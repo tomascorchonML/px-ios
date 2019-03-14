@@ -795,7 +795,12 @@ extension MercadoPagoCheckoutViewModel {
 
     func isPayerSetted() -> Bool {
         if let payerData = self.paymentData.getPayer(), let payerIdentification = payerData.identification {
-            return payerData.firstName != nil && payerData.lastName != nil && payerIdentification.type != nil && payerIdentification.number != nil
+            let cpfCase = payerData.firstName != nil && payerData.lastName != nil
+            let cnpjCase = payerData.legalName != nil
+            let validDetail = cpfCase || cnpjCase
+            let validIdentification = payerIdentification.type != nil && payerIdentification.number != nil
+            let validPayer = validDetail && validIdentification
+            return validPayer
         }
 
         return false

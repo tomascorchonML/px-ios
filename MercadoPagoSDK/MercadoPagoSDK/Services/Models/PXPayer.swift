@@ -168,7 +168,8 @@ extension PXPayer {
         try container.encodeIfPresent(self.entityType, forKey: .entityType)
         try container.encodeIfPresent(self.firstName, forKey: .firstName)
         try container.encodeIfPresent(self.lastName, forKey: .lastName)
-        try container.encodeIfPresent(self.legalName, forKey: .legalName)
+        //legal name is expected to be sent as "first_name"
+        try container.encodeIfPresent(self.legalName, forKey: .firstName)
         try container.encodeIfPresent(self.identification, forKey: .identification)
     }
 

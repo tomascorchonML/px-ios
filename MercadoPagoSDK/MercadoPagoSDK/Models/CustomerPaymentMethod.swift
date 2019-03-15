@@ -10,33 +10,34 @@ import UIKit
 
 @objcMembers internal class CustomerPaymentMethod: NSObject, PXCardInformation, PaymentMethodOption {
 
-    var customerPaymentMethodId: String!
-    var customerPaymentMethodDescription: String!
-    var paymentMethodId: String!
-    var paymentMethodTypeId: String!
-    var firstSixDigits: String!
+    var id: String
+    var customerPaymentMethodDescription: String
+    var paymentMethodId: String
+    var paymentMethodTypeId: String
 
     var securityCode: PXSecurityCode?
     var paymentMethod: PXPaymentMethod?
-    var card: PXCard?
 
-    public override init() {
-        super.init()
-    }
+    var issuer: PXIssuer?
+    var firstSixDigits: String
+    var lastFourDigits: String
 
-    init(cPaymentMethodId: String, paymentMethodId: String, paymentMethodTypeId: String, description: String) {
-        self.customerPaymentMethodId = cPaymentMethodId
+    init(id: String, paymentMethodId: String, paymentMethodTypeId: String, description: String, issuer: PXIssuer?, firstSixDigits: String, lastFourDigits: String) {
         self.paymentMethodId = paymentMethodId
         self.paymentMethodTypeId = paymentMethodTypeId
         self.customerPaymentMethodDescription = description
+        self.issuer = issuer
+        self.firstSixDigits = firstSixDigits
+        self.lastFourDigits = lastFourDigits
+        self.id = id
     }
 
     func getIssuer() -> PXIssuer? {
-        return card?.issuer
+        return issuer
     }
 
     func getFirstSixDigits() -> String {
-        return card?.getCardBin() ?? ""
+        return firstSixDigits
     }
 
     func isSecurityCodeRequired() -> Bool {
@@ -44,7 +45,7 @@ import UIKit
     }
 
     func getCardId() -> String {
-        return self.customerPaymentMethodId
+        return self.id
     }
 
     func getCardSecurityCode() -> PXSecurityCode? {
@@ -68,11 +69,11 @@ import UIKit
     }
 
     func getCardBin() -> String? {
-        return card?.getCardBin()
+        return firstSixDigits
     }
 
-    func getCardLastForDigits() -> String? {
-        return card?.getCardLastForDigits()
+    func getCardLastForDigits() -> String {
+        return lastFourDigits
     }
 
     func setupPaymentMethod(_ paymentMethod: PXPaymentMethod) {
@@ -80,7 +81,7 @@ import UIKit
     }
 
     func setupPaymentMethodSettings(_ settings: [PXSetting]) {
-        self.securityCode = settings[0].securityCode
+        self.securityCode = settings.first?.securityCode
     }
 
     func isIssuerRequired() -> Bool {
@@ -112,7 +113,7 @@ import UIKit
     }
 
     func getId() -> String {
-        return self.customerPaymentMethodId
+        return self.id
     }
 
     func isCustomerPaymentMethod() -> Bool {

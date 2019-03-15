@@ -136,7 +136,7 @@ extension OneTapFlow {
         guard let customerPaymentMethods = model.customerPaymentOptions else {
             return nil
         }
-        let customOptionsFound = customerPaymentMethods.filter { return $0.card?.id == forId }
+        let customOptionsFound = customerPaymentMethods.filter { return $0.id == forId }
         return customOptionsFound.first
     }
 }

@@ -18,8 +18,11 @@ open class PXCustomOptionSearchItem: NSObject, Codable {
     open var selectedAmountConfiguration: PXAmountConfiguration?
     open var amountConfigurations: [String: PXAmountConfiguration]?
     open var comment: String?
+    open var issuer: PXIssuer?
+    open var firstSixDigits: String
+    open var lastFourDigits: String
 
-    public init(id: String, description: String?, paymentMethodId: String?, paymentTypeId: String?, discountInfo: String?, defaultAmountConfiguration: String?, amountConfigurations: [String: PXAmountConfiguration]?, comment: String?) {
+    public init(id: String, description: String?, paymentMethodId: String?, paymentTypeId: String?, discountInfo: String?, defaultAmountConfiguration: String?, amountConfigurations: [String: PXAmountConfiguration]?, comment: String?, issuer: PXIssuer?, firstSixDigits: String, lastFourDigits: String) {
         self.id = id
         self._description = description
         self.paymentMethodId = paymentMethodId
@@ -28,6 +31,9 @@ open class PXCustomOptionSearchItem: NSObject, Codable {
         self.defaultAmountConfiguration = defaultAmountConfiguration
         self.amountConfigurations = amountConfigurations
         self.comment = comment
+        self.issuer = issuer
+        self.firstSixDigits = firstSixDigits
+        self.lastFourDigits = lastFourDigits
 
         if let defaultAmountConfiguration = defaultAmountConfiguration, let selectedPayerCostConfiguration = amountConfigurations?[defaultAmountConfiguration] {
             self.selectedAmountConfiguration = selectedPayerCostConfiguration
@@ -43,6 +49,9 @@ open class PXCustomOptionSearchItem: NSObject, Codable {
         case defaultAmountConfiguration = "default_amount_configuration"
         case amountConfigurations = "amount_configurations"
         case comment = "comment"
+        case firstSixDigits = "first_six_digits"
+        case lastFourDigits = "last_four_digits"
+        case issuer
     }
 
     required public convenience init(from decoder: Decoder) throws {
@@ -55,8 +64,11 @@ open class PXCustomOptionSearchItem: NSObject, Codable {
         let discountInfo: String? = try container.decodeIfPresent(String.self, forKey: .discountInfo)
         let defaultAmountConfiguration: String? = try container.decodeIfPresent(String.self, forKey: .defaultAmountConfiguration)
         let amountConfigurations: [String: PXAmountConfiguration]? = try container.decodeIfPresent([String: PXAmountConfiguration].self, forKey: .amountConfigurations)
+        let issuer: PXIssuer? = try container.decodeIfPresent(PXIssuer.self, forKey: .issuer)
+        let lastFourDigits: String = try container.decodeIfPresent(String.self, forKey: .lastFourDigits) ?? ""
+        let firstSixDigits: String = try container.decodeIfPresent(String.self, forKey: .firstSixDigits) ?? ""
 
-        self.init(id: id, description: description, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId, discountInfo: discountInfo, defaultAmountConfiguration: defaultAmountConfiguration, amountConfigurations: amountConfigurations, comment: comment)
+        self.init(id: id, description: description, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId, discountInfo: discountInfo, defaultAmountConfiguration: defaultAmountConfiguration, amountConfigurations: amountConfigurations, comment: comment, issuer: issuer, firstSixDigits: firstSixDigits, lastFourDigits: lastFourDigits)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -69,6 +81,9 @@ open class PXCustomOptionSearchItem: NSObject, Codable {
         try container.encodeIfPresent(self.defaultAmountConfiguration, forKey: .defaultAmountConfiguration)
         try container.encodeIfPresent(self.amountConfigurations, forKey: .amountConfigurations)
         try container.encodeIfPresent(self.comment, forKey: .comment)
+        try container.encodeIfPresent(self.issuer, forKey: .issuer)
+        try container.encodeIfPresent(self.firstSixDigits, forKey: .firstSixDigits)
+        try container.encodeIfPresent(self.lastFourDigits, forKey: .lastFourDigits)
     }
 
     open func toJSONString() throws -> String? {

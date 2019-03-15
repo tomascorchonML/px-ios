@@ -302,7 +302,7 @@ extension PXReviewViewModel {
             switch type {
             case .cpf:
                 if let name = payer.firstName, let lastName = payer.lastName {
-                    displayText = name.uppercased() + " " + lastName.uppercased()
+                    displayText = "\(name.uppercased()) \(lastName.uppercased())"
                 }
                 break
             case .cnpj:

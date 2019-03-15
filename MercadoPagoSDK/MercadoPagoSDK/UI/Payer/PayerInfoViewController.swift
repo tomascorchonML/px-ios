@@ -23,15 +23,15 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
     let PREVIOUS_INPUT_TEXT = "card_form_previous_button"
 
     var currentInput: UIView!
-    var toolbar: PXToolbar?
+    lazy var toolbar: PXToolbar = self.createToolbar()
     var errorLabel: MPLabel?
 
     // View Components
-    var identificationComponent: CompositeInputComponent?
-    var secondNameComponent: SimpleInputComponent?
-    var firstNameComponent: SimpleInputComponent?
-    var legalNameComponent: SimpleInputComponent?
-    var boletoComponent: BoletoComponent?
+    var identificationComponent: CompositeInputComponent!
+    var secondNameComponent: SimpleInputComponent!
+    var firstNameComponent: SimpleInputComponent!
+    var legalNameComponent: SimpleInputComponent!
+    var boletoComponent: BoletoComponent!
 
     var viewModel: PayerInfoViewModel!
     var callback : ((_ payer: PXPayer) -> Void)!
@@ -136,7 +136,7 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
         errorLabel!.text = message
         errorLabel!.textAlignment = .center
         errorLabel!.font = errorLabel!.font.withSize(12)
-        self.toolbar?.addSubview(errorLabel!)
+        self.toolbar.addSubview(errorLabel!)
         trackError(errorMessage: message, currentStep: viewModel.currentStep)
     }
 
@@ -172,39 +172,39 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
 
     func setupToolbarButtons() {
 
-        if self.toolbar == nil {
-            let frame =  getToolbarFrame()
-
-            let toolbar = PXToolbar(frame: frame)
-
-            toolbar.barStyle = UIBarStyle.default
-            toolbar.isUserInteractionEnabled = true
-
-            let buttonNext = UIBarButtonItem(title: CONTINUE_INPUT_TEXT.localized_beta, style: .plain, target: self, action: #selector(PayerInfoViewController.rightArrowKeyTapped))
-            let buttonPrev = UIBarButtonItem(title: PREVIOUS_INPUT_TEXT.localized_beta, style: .plain, target: self, action: #selector(PayerInfoViewController.leftArrowKeyTapped))
-
-            buttonNext.setTitlePositionAdjustment(UIOffset(horizontal: UIScreen.main.bounds.size.width / 8, vertical: 0), for: UIBarMetrics.default)
-            buttonPrev.setTitlePositionAdjustment(UIOffset(horizontal: -UIScreen.main.bounds.size.width / 8, vertical: 0), for: UIBarMetrics.default)
-
-            let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-
-            toolbar.items = [flexibleSpace, buttonPrev, flexibleSpace, buttonNext, flexibleSpace]
-
-            self.toolbar = toolbar
-        }
-
         if self.identificationComponent != nil {
-            self.identificationComponent?.setInputAccessoryView(inputAccessoryView: self.toolbar!)
+            self.identificationComponent?.setInputAccessoryView(inputAccessoryView: self.toolbar)
         }
         if self.secondNameComponent != nil {
-            self.secondNameComponent?.setInputAccessoryView(inputAccessoryView: self.toolbar!)
+            self.secondNameComponent?.setInputAccessoryView(inputAccessoryView: self.toolbar)
         }
         if self.firstNameComponent != nil {
-            self.firstNameComponent?.setInputAccessoryView(inputAccessoryView: self.toolbar!)
+            self.firstNameComponent?.setInputAccessoryView(inputAccessoryView: self.toolbar)
         }
         if self.legalNameComponent != nil {
-            self.legalNameComponent?.setInputAccessoryView(inputAccessoryView: self.toolbar!)
+            self.legalNameComponent?.setInputAccessoryView(inputAccessoryView: self.toolbar)
         }
+    }
+    
+    func createToolbar() -> PXToolbar {
+        let frame =  getToolbarFrame()
+        
+        let toolbar = PXToolbar(frame: frame)
+        
+        toolbar.barStyle = UIBarStyle.default
+        toolbar.isUserInteractionEnabled = true
+        
+        let buttonNext = UIBarButtonItem(title: CONTINUE_INPUT_TEXT.localized_beta, style: .plain, target: self, action: #selector(PayerInfoViewController.rightArrowKeyTapped))
+        let buttonPrev = UIBarButtonItem(title: PREVIOUS_INPUT_TEXT.localized_beta, style: .plain, target: self, action: #selector(PayerInfoViewController.leftArrowKeyTapped))
+        
+        buttonNext.setTitlePositionAdjustment(UIOffset(horizontal: UIScreen.main.bounds.size.width / 8, vertical: 0), for: UIBarMetrics.default)
+        buttonPrev.setTitlePositionAdjustment(UIOffset(horizontal: -UIScreen.main.bounds.size.width / 8, vertical: 0), for: UIBarMetrics.default)
+        
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        toolbar.items = [flexibleSpace, buttonPrev, flexibleSpace, buttonNext, flexibleSpace]
+        
+        return toolbar
     }
 
     func textChangedIn(component: SimpleInputComponent) {
@@ -305,22 +305,22 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
     }
 
     func presentIdentificationComponent() {
-        self.view.bringSubviewToFront(self.identificationComponent!)
+        self.view.bringSubviewToFront(self.identificationComponent)
         self.identificationComponent?.componentBecameFirstResponder()
         self.currentInput = self.identificationComponent
     }
     func presentFirstNameComponent() {
-        self.view.bringSubviewToFront(self.firstNameComponent!)
+        self.view.bringSubviewToFront(self.firstNameComponent)
         self.firstNameComponent?.componentBecameFirstResponder()
         self.currentInput = self.firstNameComponent
     }
     func presentSecondNameComponent() {
-        self.view.bringSubviewToFront(self.secondNameComponent!)
+        self.view.bringSubviewToFront(self.secondNameComponent)
         self.secondNameComponent?.componentBecameFirstResponder()
         self.currentInput = self.secondNameComponent
     }
     func presentLegalNameComponent() {
-        self.view.bringSubviewToFront(self.legalNameComponent!)
+        self.view.bringSubviewToFront(self.legalNameComponent)
         self.legalNameComponent?.componentBecameFirstResponder()
         self.currentInput = self.legalNameComponent
     }

@@ -78,12 +78,6 @@ class AddCardFlowModel: NSObject, PXFlowModel {
     }
     
     func supportedIdentificationTypes() -> [PXIdentificationType]? {
-        guard let identificationTypes = self.identificationTypes else {
-            return []
-        }
-        if let site = SiteManager.shared.getSite(), site == .MLB {
-            return identificationTypes.filter {$0.id == BoletoType.cpf.rawValue}
-        }
-        return identificationTypes
+        return IdentificationTypeValidator().filterSupported(identificationTypes: self.identificationTypes)
     }
 }

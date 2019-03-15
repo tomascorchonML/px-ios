@@ -63,7 +63,12 @@ extension MercadoPagoCheckout {
     }
 
     func showIdentificationScreen() {
-        let identificationStep = IdentificationViewController (identificationTypes: self.viewModel.cardFlowSupportedIdentificationTypes(), paymentMethod: viewModel.paymentData.paymentMethod, callback: { [weak self] (identification : PXIdentification) in
+        guard let identificationTypes = self.viewModel.cardFlowSupportedIdentificationTypes() else {
+            showErrorScreen()
+            return
+        }
+        
+        let identificationStep = IdentificationViewController(identificationTypes: identificationTypes, paymentMethod: viewModel.paymentData.paymentMethod, callback: { [weak self] (identification : PXIdentification) in
             guard let strongSelf = self else {
                 return
             }

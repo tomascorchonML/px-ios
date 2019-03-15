@@ -42,14 +42,13 @@ internal class PayerInfoViewModel {
         if identificationTypes.isEmpty {
             fatalError("No valid identification types for PayerInfo View Controller")
         }
-        self.identificationType = identificationTypes[0]
+        self.identificationType = identificationTypes.first
         self.masks = Utils.getMasks(forId: self.identificationType)
         self.currentMask = masks.first
     }
 
     func filterSupported(identificationTypes: [PXIdentificationType]) -> [PXIdentificationType] {
-        let supportedIdentificationTypes = identificationTypes.filter {$0.id == BoletoType.cpf.rawValue || $0.id == BoletoType.cnpj.rawValue}
-        return supportedIdentificationTypes
+        return identificationTypes
     }
 
     func getDropdownOptions() -> [String] {
@@ -143,8 +142,12 @@ internal class PayerInfoViewModel {
     }
 
     private func validateIdentificationNumber() -> Bool {
-        let length = currentMask?.textUnmasked(identificationNumber).count
-        let hasValidLenght = identificationType.minLength <= length! &&  length! <= identificationType.maxLength
+        guard let currentMask = currentMask else {
+            return false
+        }
+        
+        let length = currentMask.textUnmasked(identificationNumber).count
+        let hasValidLenght = identificationType.minLength <= length &&  length <= identificationType.maxLength
         let hasValidFormat = self.identificationNumberHasValidFormat()
         return hasValidFormat && hasValidLenght
     }
@@ -155,10 +158,10 @@ internal class PayerInfoViewModel {
         }
         
         switch type {
-        case BoletoType.cpf:
-            return BooleanValidator().validate(cpf: identificationNumber)
-        case BoletoType.cnpj:
-            return BooleanValidator().validate(cnpj: identificationNumber)
+            case BoletoType.cpf:
+                return IdentificationTypeValidator().validate(cpf: identificationNumber)
+            case BoletoType.cnpj:
+                return IdentificationTypeValidator().validate(cnpj: identificationNumber)
         }
     }
 
@@ -184,7 +187,7 @@ internal class PayerInfoViewModel {
             if (identificationElement.name == identificationType) {
                 self.identificationType = identificationElement
                 self.masks = Utils.getMasks(forId: self.identificationType)
-                self.currentMask = masks[0]
+                self.currentMask = masks.first
             }
         }
     }
@@ -193,13 +196,13 @@ internal class PayerInfoViewModel {
         return BoletoType(rawValue: identificationType.id)
     }
 
-    func displayText() -> String {
+    func displayText() -> String? {
         if let type = boletoType() {
             switch type {
-            case .cpf:
-                return self.name.uppercased() + " " + self.lastName.uppercased()
-            case .cnpj:
-                return self.legalName.uppercased()
+                case .cpf:
+                    return "\(name.uppercased()) \(lastName.uppercased())"
+                case .cnpj:
+                    return legalName.uppercased()
             }
         }
         return ""
@@ -222,13 +225,13 @@ internal class PayerInfoViewModel {
         self.payer.identification = identification
         if let type = boletoType() {
             switch type {
-            case .cpf:
-                self.payer.firstName = name
-                self.payer.lastName = lastName
-                break
-            case .cnpj:
-                self.payer.legalName = legalName
-                break
+                case .cpf:
+                    self.payer.firstName = name
+                    self.payer.lastName = lastName
+                    break
+                case .cnpj:
+                    self.payer.legalName = legalName
+                    break
             }
         }
         return payer

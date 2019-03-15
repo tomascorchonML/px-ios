@@ -27,7 +27,7 @@ class BoletoComponent: UIView, PXComponent {
         }
     }
 
-    override init(frame: CGRect, boletoType: BoletoType) {
+    init(frame: CGRect, boletoType: BoletoType) {
         self.boletoType = boletoType
         super.init(frame: frame)
         self.setupView()

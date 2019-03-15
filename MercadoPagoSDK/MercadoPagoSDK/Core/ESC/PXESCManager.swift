@@ -13,7 +13,7 @@ import Foundation
 #endif
 
 @objcMembers
-internal class MercadoPagoESCImplementation: NSObject, MercadoPagoESC {
+internal class PXESCManager: NSObject, MercadoPagoESC {
 
     private var isESCEnabled: Bool = false
 
@@ -29,11 +29,11 @@ internal class MercadoPagoESCImplementation: NSObject, MercadoPagoESC {
          #endif
     }
 
-    func getESC(cardId: String) -> String? {
+    func getESC(cardId: String, firstSixDigits: String, lastFourDigits: String) -> String? {
         if hasESCEnable() {
             #if PX_PRIVATE_POD
-                let esc = ESCManager.getESC(cardId: cardId)
-                return String.isNullOrEmpty(esc) ? nil : esc
+            let esc = MLESCManager.getESC(cardId: cardId, firstSixDigits: firstSixDigits, lastFourDigits: lastFourDigits)
+            return esc
             #endif
         }
         return nil
@@ -43,7 +43,17 @@ internal class MercadoPagoESCImplementation: NSObject, MercadoPagoESC {
     func saveESC(cardId: String, esc: String) -> Bool {
         if hasESCEnable() {
             #if PX_PRIVATE_POD
-               return ESCManager.saveESC(cardId: cardId, esc: esc)
+               return MLESCManager.saveESC(cardId: cardId, esc: esc)
+            #endif
+        }
+        return false
+    }
+
+    @discardableResult
+    func saveESC(firstSixDigits: String, lastFourDigits: String, esc: String) -> Bool {
+        if hasESCEnable() {
+            #if PX_PRIVATE_POD
+            return MLESCManager.saveESC(esc: esc, firstSixDigits: firstSixDigits, lastFourDigits: lastFourDigits)
             #endif
         }
         return false
@@ -52,7 +62,15 @@ internal class MercadoPagoESCImplementation: NSObject, MercadoPagoESC {
     func deleteESC(cardId: String) {
         if hasESCEnable() {
             #if PX_PRIVATE_POD
-                ESCManager.deleteESC(cardId: cardId)
+                MLESCManager.deleteESC(cardId: cardId)
+            #endif
+        }
+    }
+
+    func deleteESC(firstSixDigits: String, lastFourDigits: String) {
+        if hasESCEnable() {
+            #if PX_PRIVATE_POD
+            MLESCManager.deleteESC(firstSixDigits: firstSixDigits, lastFourDigits: lastFourDigits)
             #endif
         }
     }
@@ -60,7 +78,7 @@ internal class MercadoPagoESCImplementation: NSObject, MercadoPagoESC {
     func deleteAllESC() {
         if hasESCEnable() {
             #if PX_PRIVATE_POD
-                ESCManager.deleteAllESC()
+                MLESCManager.deleteAllESC()
             #endif
         }
     }
@@ -68,7 +86,7 @@ internal class MercadoPagoESCImplementation: NSObject, MercadoPagoESC {
     func getSavedCardIds() -> [String] {
         if hasESCEnable() {
             #if PX_PRIVATE_POD
-               return ESCManager.getSavedCardIds()
+               return MLESCManager.getSavedCardIds()
             #endif
         }
         return []

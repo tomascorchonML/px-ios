@@ -53,8 +53,8 @@ extension PXToken: PXCardInformationForm {
         return firstSixDigits
     }
 
-    public func getCardLastForDigits() -> String? {
-        return lastFourDigits
+    public func getCardLastForDigits() -> String {
+        return lastFourDigits ?? ""
     }
 
     public func isIssuerRequired() -> Bool {

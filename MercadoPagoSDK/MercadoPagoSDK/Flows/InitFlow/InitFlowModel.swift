@@ -47,7 +47,7 @@ final class InitFlowModel: NSObject, PXFlowModel {
         self.properties = flowProperties
         self.loadPreferenceStatus = !String.isNullOrEmpty(flowProperties.checkoutPreference.id)
         self.directDiscountSearchStatus = flowProperties.paymentData.isComplete()
-        self.mpESCManager = MercadoPagoESCImplementation(enabled: flowProperties.advancedConfig.escEnabled)
+        self.mpESCManager = PXESCManager(enabled: flowProperties.advancedConfig.escEnabled)
         super.init()
     }
 

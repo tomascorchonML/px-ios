@@ -8,7 +8,7 @@
 import Foundation
 /// :nodoc:
 extension PXCardToken: PXCardInformationForm {
-    func getCardLastForDigits() -> String? {
+    func getCardLastForDigits() -> String {
         let index = cardNumber?.count
         return String(cardNumber![cardNumber!.index(cardNumber!.startIndex, offsetBy: index!-4)...cardNumber!.index(cardNumber!.startIndex, offsetBy: index! - 1)])
     }

@@ -55,7 +55,7 @@ final internal class OneTapFlowModel: PXFlowModel {
         self.advancedConfiguration = advancedConfiguration
         self.chargeRules = chargeRules
         self.mercadoPagoServicesAdapter = mercadoPagoServicesAdapter
-        self.mpESCManager = MercadoPagoESCImplementation(enabled: advancedConfiguration.escEnabled)
+        self.mpESCManager = PXESCManager(enabled: advancedConfiguration.escEnabled)
         self.paymentConfigurationService = paymentConfigurationService
 
         // Payer cost pre selection.
@@ -205,7 +205,7 @@ internal extension OneTapFlowModel {
 
     func hasSavedESC() -> Bool {
         if let card = paymentOptionSelected as? PXCardInformation {
-            return mpESCManager.getESC(cardId: card.getCardId()) == nil ? false : true
+            return mpESCManager.getESC(cardId: card.getCardId(), firstSixDigits: card.getFirstSixDigits(), lastFourDigits: card.getCardLastForDigits()) == nil ? false : true
         }
         return false
     }

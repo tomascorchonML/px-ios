@@ -180,7 +180,7 @@ public class AddCardFlow: NSObject, PXFlow {
             self?.navigationHandler.dismissLoading()
             self?.model.associateCardResult = json
             if let esc = token.esc {
-                let escManager = MercadoPagoESCImplementation(enabled: false)
+                let escManager = PXESCManager(enabled: false)
                 _ = escManager.saveESC(cardId: token.cardId, esc: esc)
             }
             self?.executeNextStep()

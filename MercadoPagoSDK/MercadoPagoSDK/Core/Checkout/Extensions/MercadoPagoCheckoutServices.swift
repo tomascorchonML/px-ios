@@ -56,7 +56,7 @@ extension MercadoPagoCheckout {
         } else if self.viewModel.mpESCManager.hasESCEnable() {
             var savedESCCardToken: PXSavedESCCardToken
 
-            let esc = self.viewModel.mpESCManager.getESC(cardId: cardInfo.getCardId())
+            let esc = self.viewModel.mpESCManager.getESC(cardId: cardInfo.getCardId(), firstSixDigits: cardInfo.getFirstSixDigits(), lastFourDigits: cardInfo.getCardLastForDigits())
 
             if !String.isNullOrEmpty(esc) {
                 savedESCCardToken = PXSavedESCCardToken(cardId: cardInfo.getCardId(), esc: esc, requireESC: viewModel.getAdvancedConfiguration().escEnabled)

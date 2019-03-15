@@ -57,8 +57,8 @@ extension PXCard: PXCardInformation {
         return self.firstSixDigits
     }
 
-    internal func getCardLastForDigits() -> String? {
-        return self.lastFourDigits
+    internal func getCardLastForDigits() -> String {
+        return self.lastFourDigits ?? ""
     }
 
     internal func setupPaymentMethodSettings(_ settings: [PXSetting]) {

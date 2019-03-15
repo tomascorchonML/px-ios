@@ -15,7 +15,7 @@ extension OneTapFlow {
         if self.model.mpESCManager.hasESCEnable() {
             var savedESCCardToken: PXSavedESCCardToken
 
-            let esc = self.model.mpESCManager.getESC(cardId: cardInfo.getCardId())
+            let esc = self.model.mpESCManager.getESC(cardId: cardInfo.getCardId(), firstSixDigits: cardInfo.getFirstSixDigits(), lastFourDigits: cardInfo.getCardLastForDigits())
 
             if !String.isNullOrEmpty(esc) {
                 savedESCCardToken = PXSavedESCCardToken(cardId: cardInfo.getCardId(), esc: esc, requireESC: advancedConfig.escEnabled)

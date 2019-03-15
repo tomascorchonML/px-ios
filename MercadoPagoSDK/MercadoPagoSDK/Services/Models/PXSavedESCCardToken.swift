@@ -9,7 +9,6 @@
 import Foundation
 /// :nodoc:
 open class PXSavedESCCardToken: PXSavedCardToken {
-    open var requireESC: Bool = false
     open var esc: String?
 
     init (cardId: String, securityCode: String?, requireESC: Bool) {
@@ -46,8 +45,8 @@ open class PXSavedESCCardToken: PXSavedCardToken {
         try container.encodeIfPresent(self.cardId, forKey: .cardId)
         try container.encodeIfPresent(self.securityCode, forKey: .securityCode)
         try container.encodeIfPresent(self.device, forKey: .device)
+        try container.encodeIfPresent(self.esc, forKey: .esc)
         try container.encodeIfPresent(self.requireESC, forKey: .requireEsc)
-        try container.encode(self.esc, forKey: .esc)
     }
 
     open override func toJSONString() throws -> String? {

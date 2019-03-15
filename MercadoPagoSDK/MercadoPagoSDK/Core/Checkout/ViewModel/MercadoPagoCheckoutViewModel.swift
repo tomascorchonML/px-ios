@@ -125,9 +125,9 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
         if let advConfig = advancedConfig {
             self.advancedConfig = advConfig
-            self.mpESCManager = MercadoPagoESCImplementation(enabled: advConfig.escEnabled)
+            self.mpESCManager = PXESCManager(enabled: advConfig.escEnabled)
         } else {
-            self.mpESCManager = MercadoPagoESCImplementation(enabled: false)
+            self.mpESCManager = PXESCManager(enabled: false)
         }
 
         mercadoPagoServicesAdapter = MercadoPagoServicesAdapter(publicKey: publicKey, privateKey: privateKey)
@@ -220,7 +220,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         var cardIdsWithESC: [String] = []
         if let customPaymentOptions = customPaymentOptions {
             for customCard in customPaymentOptions {
-                if mpESCManager.getESC(cardId: customCard.getCardId()) != nil {
+                if mpESCManager.getESC(cardId: customCard.getCardId(), firstSixDigits: customCard.getFirstSixDigits(), lastFourDigits: customCard.getCardLastForDigits()) != nil {
                     cardIdsWithESC.append(customCard.getCardId())
                 }
             }
@@ -313,6 +313,8 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         self.cleanIdentificationTypesSearch()
         self.paymentData.updatePaymentDataWith(paymentMethod: paymentMethods[0])
         self.cardToken = cardToken
+        // Sets if esc is enabled to card token
+        self.cardToken?.setRequireESC(escEnabled: advancedConfig.escEnabled)
     }
 
     //CREDIT_DEBIT
@@ -556,12 +558,12 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
         for pxCustomOptionSearchItem in search.customOptionSearchItems {
             let customerPaymentMethod =  pxCustomOptionSearchItem.getCustomerPaymentMethod()
-            if let paymentMethodSearchCards = paymentMethodSearch.cards {
-                var filteredCustomerCard = paymentMethodSearchCards.filter({return $0.id == customerPaymentMethod.customerPaymentMethodId})
-                if !Array.isNullOrEmpty(filteredCustomerCard) {
-                    customerPaymentMethod.card = filteredCustomerCard[0]
-                }
-            }
+//            if let paymentMethodSearchCards = paymentMethodSearch.cards {
+//                var filteredCustomerCard = paymentMethodSearchCards.filter({return $0.id == customerPaymentMethod.customerPaymentMethodId})
+//                if !Array.isNullOrEmpty(filteredCustomerCard) {
+//                    customerPaymentMethod.card = filteredCustomerCard[0]
+//                }
+//            }
             customPaymentOptions = Array.safeAppend(customPaymentOptions, customerPaymentMethod)
         }
 
@@ -588,6 +590,12 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
                 mpESCManager.saveESC(cardId: token.cardId, esc: esc)
             } else {
                 mpESCManager.deleteESC(cardId: token.cardId)
+            }
+        } else {
+            if let esc = token.esc {
+                mpESCManager.saveESC(firstSixDigits: token.firstSixDigits, lastFourDigits: token.lastFourDigits, esc: esc)
+            } else {
+                mpESCManager.deleteESC(firstSixDigits: token.firstSixDigits, lastFourDigits: token.lastFourDigits)
             }
         }
         self.paymentData.updatePaymentDataWith(token: token)

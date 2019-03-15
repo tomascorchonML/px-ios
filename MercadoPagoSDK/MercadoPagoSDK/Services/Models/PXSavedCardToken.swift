@@ -17,12 +17,14 @@ open class PXSavedCardToken: PXCardToken {
         self.cardId = cardId
         super.init()
         self.securityCode = securityCode
+        self.requireESC = false
     }
 
     internal init(cardId: String) {
         self.cardId = cardId
         super.init()
         self.device = PXDevice()
+        self.requireESC = false
     }
 
     internal init(card: PXCardInformation, securityCode: String?, securityCodeRequired: Bool) {
@@ -31,6 +33,7 @@ open class PXSavedCardToken: PXCardToken {
         self.securityCode = securityCode
         self.securityCodeRequired = securityCodeRequired
         self.device = PXDevice()
+        self.requireESC = false
     }
 
     public enum PXSavedCardTokenKeys: String, CodingKey {

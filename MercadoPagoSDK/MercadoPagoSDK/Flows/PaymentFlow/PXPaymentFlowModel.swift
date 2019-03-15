@@ -24,7 +24,7 @@ internal final class PXPaymentFlowModel: NSObject {
     init(paymentPlugin: PXSplitPaymentProcessor?, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, escEnabled: Bool) {
         self.paymentPlugin = paymentPlugin
         self.mercadoPagoServicesAdapter = mercadoPagoServicesAdapter
-        self.escManager = MercadoPagoESCImplementation(enabled: escEnabled)
+        self.escManager = PXESCManager(enabled: escEnabled)
     }
 
     enum Steps: String {
@@ -139,8 +139,8 @@ internal extension PXPaymentFlowModel {
         }
         let isApprovedPayment: Bool = status == PXPaymentStatus.APPROVED.rawValue
 
-        if token.hasCardId() {
-            if !isApprovedPayment {
+        if !isApprovedPayment {
+            if token.hasCardId() {
                 guard let errorPaymentType = errorPaymentType else {
                     escManager.deleteESC(cardId: token.cardId)
                     return
@@ -149,9 +149,23 @@ internal extension PXPaymentFlowModel {
                 if let isCard = PXPaymentTypes(rawValue: errorPaymentType)?.isCard(), isCard {
                     escManager.deleteESC(cardId: token.cardId)
                 }
-            } else if let esc = token.esc {
-                // Check if ESC if re-saved or first time saved
+            } else {
+                // Case if it's a new card
+                guard let errorPaymentType = errorPaymentType else {
+                    escManager.deleteESC(firstSixDigits: token.firstSixDigits, lastFourDigits: token.lastFourDigits)
+                    return
+                }
+                // If it has error Payment Type, check if the error was from a card
+                if let isCard = PXPaymentTypes(rawValue: errorPaymentType)?.isCard(), isCard {
+                    escManager.deleteESC(firstSixDigits: token.firstSixDigits, lastFourDigits: token.lastFourDigits)
+                }
+            }
+        } else if let esc = token.esc {
+            // If payment was approved
+            if token.hasCardId() {
                 escManager.saveESC(cardId: token.cardId, esc: esc)
+            } else {
+                escManager.saveESC(firstSixDigits: token.firstSixDigits, lastFourDigits: token.lastFourDigits, esc: esc)
             }
         }
     }

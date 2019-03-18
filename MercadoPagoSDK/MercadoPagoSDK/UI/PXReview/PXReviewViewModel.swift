@@ -295,9 +295,9 @@ extension PXReviewViewModel {
 
         return nil
     }
-    
+
     private func displayText(for payer: PXPayer) -> String? {
-        var displayText: String? = nil
+        var displayText: String?
         if let typeRaw = payer.identification?.type, let type = BoletoType(rawValue: typeRaw) {
             switch type {
             case .cpf:

@@ -76,7 +76,7 @@ class AddCardFlowModel: NSObject, PXFlowModel {
         self.selectedPaymentMethod = nil
         self.tokenizedCard = nil
     }
-    
+
     func supportedIdentificationTypes() -> [PXIdentificationType]? {
         return IdentificationTypeValidator().filterSupported(identificationTypes: self.identificationTypes)
     }

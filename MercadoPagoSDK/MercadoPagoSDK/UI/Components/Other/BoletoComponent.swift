@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum BoletoType : String {
+enum BoletoType: String {
     case cpf = "CPF"
     case cnpj = "CNPJ"
 }
@@ -77,10 +77,10 @@ class BoletoComponent: UIView, PXComponent {
         self.boletoView.addSubview(self.nameTF)
         self.boletoView.addSubview(self.typeName)
         self.addSubview(self.boletoView)
-        
+
         updateBoletoType()
     }
-    
+
     func updateBoletoType() {
         switch self.boletoType {
         case BoletoType.cpf:

@@ -26,7 +26,7 @@ internal class PayerInfoViewModel {
     var lastName: String = ""
     var legalName: String = ""
     var identificationNumber: String = ""
-    
+
     let payer: PXPayer!
     let amountHelper: PXAmountHelper
 
@@ -63,7 +63,7 @@ internal class PayerInfoViewModel {
         guard let type = boletoType() else {
             return .FINISH
         }
-        
+
         switch type {
         case BoletoType.cpf:
             return getCPFNextStep()
@@ -71,7 +71,7 @@ internal class PayerInfoViewModel {
             return getCNPJNextStep()
         }
     }
-    
+
     func getCPFNextStep() -> PayerInfoFlowStep {
         switch currentStep {
         case .SCREEN_IDENTIFICATION:
@@ -85,7 +85,7 @@ internal class PayerInfoViewModel {
         }
         return currentStep
     }
-    
+
     func getCNPJNextStep() -> PayerInfoFlowStep {
         switch currentStep {
         case .SCREEN_IDENTIFICATION:
@@ -136,7 +136,7 @@ internal class PayerInfoViewModel {
     private func validateLastName() -> Bool {
         return !String.isNullOrEmpty(lastName)
     }
-    
+
     private func validateLegalName() -> Bool {
         return !String.isNullOrEmpty(legalName)
     }
@@ -145,18 +145,18 @@ internal class PayerInfoViewModel {
         guard let currentMask = currentMask else {
             return false
         }
-        
+
         let length = currentMask.textUnmasked(identificationNumber).count
         let hasValidLenght = identificationType.minLength <= length &&  length <= identificationType.maxLength
         let hasValidFormat = self.identificationNumberHasValidFormat()
         return hasValidFormat && hasValidLenght
     }
-    
+
     private func identificationNumberHasValidFormat() -> Bool {
         guard let type = boletoType() else {
             return false
         }
-        
+
         switch type {
             case BoletoType.cpf:
                 return IdentificationTypeValidator().validate(cpf: identificationNumber)
@@ -172,7 +172,7 @@ internal class PayerInfoViewModel {
     func update(lastName: String) {
         self.lastName = lastName
     }
-    
+
     func update(legalName: String) {
         self.legalName = legalName
     }
@@ -181,7 +181,7 @@ internal class PayerInfoViewModel {
         let maskedText = currentMask?.textMasked(identificationNumber, remasked: true)
         self.identificationNumber = (currentMask?.textUnmasked(maskedText))!
     }
-    
+
     func update(identificationType: String) {
         for identificationElement in identificationTypes {
             if (identificationElement.name == identificationType) {
@@ -191,7 +191,7 @@ internal class PayerInfoViewModel {
             }
         }
     }
-    
+
     func boletoType() -> BoletoType? {
         return BoletoType(rawValue: identificationType.id)
     }

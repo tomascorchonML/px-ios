@@ -185,25 +185,25 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
             self.legalNameComponent?.setInputAccessoryView(inputAccessoryView: self.toolbar)
         }
     }
-    
+
     func createToolbar() -> PXToolbar {
         let frame =  getToolbarFrame()
-        
+
         let toolbar = PXToolbar(frame: frame)
-        
+
         toolbar.barStyle = UIBarStyle.default
         toolbar.isUserInteractionEnabled = true
-        
+
         let buttonNext = UIBarButtonItem(title: CONTINUE_INPUT_TEXT.localized_beta, style: .plain, target: self, action: #selector(PayerInfoViewController.rightArrowKeyTapped))
         let buttonPrev = UIBarButtonItem(title: PREVIOUS_INPUT_TEXT.localized_beta, style: .plain, target: self, action: #selector(PayerInfoViewController.leftArrowKeyTapped))
-        
+
         buttonNext.setTitlePositionAdjustment(UIOffset(horizontal: UIScreen.main.bounds.size.width / 8, vertical: 0), for: UIBarMetrics.default)
         buttonPrev.setTitlePositionAdjustment(UIOffset(horizontal: -UIScreen.main.bounds.size.width / 8, vertical: 0), for: UIBarMetrics.default)
-        
+
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        
+
         toolbar.items = [flexibleSpace, buttonPrev, flexibleSpace, buttonNext, flexibleSpace]
-        
+
         return toolbar
     }
 
@@ -227,7 +227,7 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
             self.boletoComponent?.setName(text: self.viewModel.displayText())
         }
     }
-    
+
     func dropDownOptionChanged(text: String) {
         self.viewModel.update(identificationType: text)
         updateBoletoCardVisualState(cleanUp: true)
@@ -252,7 +252,7 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
         }
         updateBoletoCardVisualState(cleanUp: false)
     }
-    
+
     func updateBoletoCardVisualState(cleanUp: Bool) {
         if let type = self.viewModel.boletoType(), let name = self.viewModel.identificationType.name {
             self.boletoComponent?.setType(text: name)
@@ -268,7 +268,6 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
             self.boletoComponent?.setNumberPlaceHolder(text: self.viewModel.getMaskedNumber(completeEmptySpaces: true))
         }
     }
-
 
     fileprivate func executeStep(_ currentStep: PayerInfoFlowStep) {
         trackStep(currentStep: currentStep)

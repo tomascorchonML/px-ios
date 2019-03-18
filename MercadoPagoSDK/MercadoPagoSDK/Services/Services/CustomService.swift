@@ -38,7 +38,7 @@ internal class CustomService: MercadoPagoService {
             } catch {
                 failure?(PXError(domain: "mercadopago.sdk.PaymentMethodSearchService.getPaymentMethods", code: ErrorTypes.API_UNKNOWN_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "No se ha podido obtener los customers"]))
             }
-        }, failure: { (error) in
+        }, failure: { (_) in
             failure?(PXError(domain: "mercadopago.sdk.customServer.getCustomer", code: ErrorTypes.NO_INTERNET_ERROR, userInfo: ["message": "Response cannot be decoded"]))
         })
     }
@@ -62,9 +62,6 @@ internal class CustomService: MercadoPagoService {
                     } else {
                         if paymentDic.allKeys.count > 0 {
                             let payment = try PXPayment.fromJSON(data: data)
-                            if !payment.isCardPaymentType() {
-                                MPXTracker.trackPaymentOff(paymentId: payment.id.stringValue)
-                            }
                             success(payment)
                         } else {
                             failure?(PXError(domain: "mercadopago.sdk.customServer.createPayment", code: ErrorTypes.API_UNKNOWN_ERROR, userInfo: ["message": "PAYMENT_ERROR"]))
@@ -76,7 +73,7 @@ internal class CustomService: MercadoPagoService {
             } catch {
                 failure?(PXError(domain: "mercadopago.sdk.PaymentMethodSearchService.getPaymentMethods", code: ErrorTypes.API_UNKNOWN_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "No se ha podido crear el pago"]))
             }
-        }, failure: { (error) -> Void in
+        }, failure: { (_) -> Void in
             if let failure = failure {
                 failure(PXError(domain: "mercadopago.sdk.CustomService.createPayment", code: ErrorTypes.NO_INTERNET_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "Verifique su conexión a internet e intente nuevamente"]))
             }
@@ -106,7 +103,7 @@ internal class CustomService: MercadoPagoService {
 
                 }} catch {
                     failure?(PXError(domain: "mercadopago.sdk.PaymentMethodSearchService.getPaymentMethods", code: ErrorTypes.API_UNKNOWN_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "No se ha podido crear la preferencia"]))
-            }}, failure: { (error) in
+            }}, failure: { (_) in
                 failure?(PXError(domain: "mercadopago.sdk.customServer.createCheckoutPreference", code: ErrorTypes.NO_INTERNET_ERROR, userInfo: ["message": "Response cannot be decoded"]))
         })
     }

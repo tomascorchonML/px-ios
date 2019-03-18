@@ -57,7 +57,7 @@ class WebViewController: MercadoPagoUIViewController, UIWebViewDelegate {
 
     func addNavigationBar() {
         let navBar: UINavigationBar = UINavigationBar(frame: CGRect(x: 0, y: PXLayout.getSafeAreaTopInset(), width: PXLayout.getScreenWidth(), height: PXLayout.NAV_BAR_HEIGHT))
-        self.view.addSubview(navBar);
+        self.view.addSubview(navBar)
 
         navBar.isTranslucent = true
         navBar.barTintColor = ThemeManager.shared.whiteColor()
@@ -65,14 +65,14 @@ class WebViewController: MercadoPagoUIViewController, UIWebViewDelegate {
         navBar.backgroundColor = ThemeManager.shared.getMainColor()
         navBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 
-        let textAttributes = [NSAttributedString.Key.foregroundColor:ThemeManager.shared.navigationBar().tintColor]
+        let textAttributes = [NSAttributedString.Key.foregroundColor: ThemeManager.shared.navigationBar().tintColor]
         navBar.titleTextAttributes = textAttributes
 
-        let navItem = UINavigationItem(title: navBarTitle);
+        let navItem = UINavigationItem(title: navBarTitle)
         let closeImage = ResourceManager.shared.getImage("modal_close_button")?.ml_tintedImage(with: ThemeManager.shared.navigationBar().getTintColor())
         let closeButton = UIBarButtonItem(image: closeImage, style: .plain, target: self, action: #selector(close))
-        navItem.leftBarButtonItem = closeButton;
-        navBar.setItems([navItem], animated: false);
+        navItem.leftBarButtonItem = closeButton
+        navBar.setItems([navItem], animated: false)
         PXLayout.put(view: webView, onBottomOf: navBar).isActive = true
     }
 

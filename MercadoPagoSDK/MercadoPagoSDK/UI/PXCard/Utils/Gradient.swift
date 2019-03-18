@@ -29,8 +29,8 @@ internal extension Gradient {
 
         context.drawLinearGradient(gradient,
                                    start: CGPoint.zero,
-                                   end: CGPoint(x:0, y:size.height),
-                                   options: .drawsBeforeStartLocation);
+                                   end: CGPoint(x: 0, y: size.height),
+                                   options: .drawsBeforeStartLocation)
 
         guard let gradientImage = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
 

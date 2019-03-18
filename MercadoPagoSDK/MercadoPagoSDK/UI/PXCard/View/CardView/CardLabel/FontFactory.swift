@@ -28,7 +28,7 @@ class FontFactory {
 struct Default: Font {
     var color: UIColor
     var shadow: Bool
-    var gradient: Gradient    
+    var gradient: Gradient
 
     init(_ color: UIColor) {
         self.color = color

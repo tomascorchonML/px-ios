@@ -1,6 +1,6 @@
 import UIKit
 
-@IBDesignable class CircleView : UIView {
+@IBDesignable class CircleView: UIView {
 
     let shapeLayer = CAShapeLayer()
 

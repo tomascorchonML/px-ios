@@ -14,8 +14,8 @@ class TemplateCard: NSObject, CardUI {
     var bankImage: UIImage?
     var cardPattern = [4, 4, 4, 4]
     var cardFontColor: UIColor = .white
-    var cardLogoImage: UIImage? = nil
-    var cardBackgroundColor: UIColor = UIColor(red:0.23, green:0.31, blue:0.39, alpha:1.0)
+    var cardLogoImage: UIImage?
+    var cardBackgroundColor: UIColor = UIColor(red: 0.23, green: 0.31, blue: 0.39, alpha: 1.0)
     var securityCodeLocation: Location = .back
     var defaultUI = true
     var securityCodePattern = 3

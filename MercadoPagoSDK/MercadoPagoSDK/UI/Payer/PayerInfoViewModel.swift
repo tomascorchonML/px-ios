@@ -158,9 +158,9 @@ internal class PayerInfoViewModel {
         }
 
         switch type {
-            case BoletoType.cpf:
+        case BoletoType.cpf:
                 return IdentificationTypeValidator().validate(cpf: identificationNumber)
-            case BoletoType.cnpj:
+        case BoletoType.cnpj:
                 return IdentificationTypeValidator().validate(cnpj: identificationNumber)
         }
     }
@@ -184,7 +184,7 @@ internal class PayerInfoViewModel {
 
     func update(identificationType: String) {
         for identificationElement in identificationTypes {
-            if (identificationElement.name == identificationType) {
+            if identificationElement.name == identificationType {
                 self.identificationType = identificationElement
                 self.masks = Utils.getMasks(forId: self.identificationType)
                 self.currentMask = masks.first
@@ -199,9 +199,9 @@ internal class PayerInfoViewModel {
     func displayText() -> String? {
         if let type = boletoType() {
             switch type {
-                case .cpf:
+            case .cpf:
                     return "\(name.uppercased()) \(lastName.uppercased())"
-                case .cnpj:
+            case .cnpj:
                     return legalName.uppercased()
             }
         }
@@ -225,13 +225,11 @@ internal class PayerInfoViewModel {
         self.payer.identification = identification
         if let type = boletoType() {
             switch type {
-                case .cpf:
+            case .cpf:
                     self.payer.firstName = name
                     self.payer.lastName = lastName
-                    break
-                case .cnpj:
+            case .cnpj:
                     self.payer.legalName = legalName
-                    break
             }
         }
         return payer

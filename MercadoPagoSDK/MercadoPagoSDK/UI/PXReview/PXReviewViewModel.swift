@@ -301,15 +301,13 @@ extension PXReviewViewModel {
         if let typeRaw = payer.identification?.type, let type = BoletoType(rawValue: typeRaw) {
             switch type {
             case .cpf:
-                if let name = payer.firstName, let lastName = payer.lastName {
-                    displayText = "\(name.uppercased()) \(lastName.uppercased())"
-                }
-                break
+                    if let name = payer.firstName, let lastName = payer.lastName {
+                        displayText = "\(name.uppercased()) \(lastName.uppercased())"
+                    }
             case .cnpj:
-                if let legalName = payer.legalName {
-                    displayText = legalName.uppercased()
-                }
-                break
+                    if let legalName = payer.legalName {
+                        displayText = legalName.uppercased()
+                    }
             }
         }
         return displayText

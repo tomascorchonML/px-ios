@@ -85,10 +85,8 @@ class BoletoComponent: UIView, PXComponent {
         switch self.boletoType {
         case BoletoType.cpf:
             self.setNamePlaceholder(text: "SOBRENOME E NOME".localized_beta)
-            break
         case BoletoType.cnpj:
             self.setNamePlaceholder(text: "RAZÃO SOCIAL".localized_beta)
-            break
         }
     }
 

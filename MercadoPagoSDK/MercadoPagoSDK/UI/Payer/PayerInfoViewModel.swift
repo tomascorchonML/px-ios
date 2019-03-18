@@ -205,7 +205,7 @@ internal class PayerInfoViewModel {
                     return legalName.uppercased()
             }
         }
-        return ""
+        return nil
     }
 
     func getMaskedNumber(completeEmptySpaces: Bool = false) -> String {

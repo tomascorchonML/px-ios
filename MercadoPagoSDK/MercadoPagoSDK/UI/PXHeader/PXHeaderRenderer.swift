@@ -68,7 +68,7 @@ internal final class PXHeaderRenderer: NSObject {
             PXLayout.pinTop(view: button, to: headerView, withMargin: PXLayout.ZERO_MARGIN).isActive = true
             PXLayout.pinLeft(view: button, to: headerView, withMargin: PXLayout.XXXS_MARGIN).isActive = true
         }
-        
+
         //Status Label
         headerView.statusLabel = buildStatusLabel(with: header.props.labelText, in: headerView, onBottomOf: headerView.circleImage!)
         PXLayout.centerHorizontally(view: headerView.statusLabel!, to: headerView.statusLabel!.superview!).isActive = true
@@ -105,7 +105,7 @@ internal final class PXHeaderRenderer: NSObject {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }
-    
+
     func buildCloseButton() -> UIButton {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false

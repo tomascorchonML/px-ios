@@ -14,7 +14,7 @@ class AccountMoneyCard: NSObject, CardUI {
     var cardPattern = [0]
     var cardFontColor: UIColor = UIColor(red: 105/255, green: 105/255, blue: 105/255, alpha: 1)
     var cardLogoImage: UIImage?
-    var cardBackgroundColor: UIColor = UIColor(red:0.00, green:0.64, blue:0.85, alpha:1.0)
+    var cardBackgroundColor: UIColor = UIColor(red: 0.00, green: 0.64, blue: 0.85, alpha: 1.0)
     var securityCodeLocation: Location = .back
     var defaultUI = false
     var securityCodePattern = 3

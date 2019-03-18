@@ -56,7 +56,7 @@ extension PXOneTapInstallmentsSelectorView {
         tableView.reloadData()
     }
 
-    func expand(animator: PXAnimator, completion: @escaping () -> ()) {
+    func expand(animator: PXAnimator, completion: @escaping () -> Void) {
         self.layoutIfNeeded()
         self.tableViewTopSeparator.alpha = 1
         self.tableView.alpha = 0
@@ -64,13 +64,13 @@ extension PXOneTapInstallmentsSelectorView {
         animator.animate()
     }
 
-    func collapse(animator: PXAnimator, completion: @escaping () -> ()) {
+    func collapse(animator: PXAnimator, completion: @escaping () -> Void) {
         self.layoutIfNeeded()
         animateTableViewHeight(tableViewHeight: 0, tableViewAlpha: 0, hideTopSeparator: true, completion: completion)
         animator.animate()
     }
 
-    func animateTableViewHeight(tableViewHeight: CGFloat, tableViewAlpha: CGFloat, hideTopSeparator: Bool = false, completion: @escaping () -> ()) {
+    func animateTableViewHeight(tableViewHeight: CGFloat, tableViewAlpha: CGFloat, hideTopSeparator: Bool = false, completion: @escaping () -> Void) {
         self.superview?.layoutIfNeeded()
 
         tableView.isUserInteractionEnabled = false

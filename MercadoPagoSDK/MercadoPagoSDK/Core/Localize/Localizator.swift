@@ -124,7 +124,7 @@ extension Localizator {
 
     func getCustomTrans(_ targetKey: String) -> String? {
         if let cVerbs = customTrans {
-            for (key,value) in cVerbs {
+            for (key, value) in cVerbs {
                 if key.rawValue == targetKey {
                     return value
                 }

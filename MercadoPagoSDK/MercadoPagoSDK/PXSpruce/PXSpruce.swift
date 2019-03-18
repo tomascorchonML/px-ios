@@ -48,7 +48,7 @@ internal struct PXSpruce {
 
 internal protocol View {
     /// The view that should be animating
-    weak var view: UIView? { get }
+    var view: UIView? { get }
     /// The adjusted for reference point.
     var referencePoint: CGPoint { get set }
 }

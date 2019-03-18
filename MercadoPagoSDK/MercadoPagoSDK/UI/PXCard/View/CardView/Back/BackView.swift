@@ -1,10 +1,10 @@
 import UIKit
 
-class BackView: CardView {    
-    
+class BackView: CardView {
+
     override func setupUI(_ cardUI: CardUI) {
         super.setupUI(cardUI)
-        securityCode.setup(model?.securityCode, Default(UIColor.gray))     
+        securityCode.setup(model?.securityCode, Default(UIColor.gray))
     }
 
     deinit {

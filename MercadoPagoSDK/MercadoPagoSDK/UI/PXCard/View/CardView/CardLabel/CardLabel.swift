@@ -20,12 +20,12 @@ class CardLabel: UILabel {
     }
 
     func totalPad() -> Int {
-        return Int(frame.width / font.size(" ").width)        
+        return Int(frame.width / font.size(" ").width)
     }
 
     override func observeValue(forKeyPath keyPath: String?,
                                of object: Any?,
-                               change: [NSKeyValueChangeKey : Any]?,
+                               change: [NSKeyValueChangeKey: Any]?,
                                context: UnsafeMutableRawPointer?) {
 
         guard let change = change, let new = change[.newKey] else { return }

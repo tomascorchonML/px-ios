@@ -99,7 +99,6 @@ public class AddCardFlow: NSObject, PXFlow {
 
     private func getIdentificationTypes() {
         self.mercadoPagoServicesAdapter.getIdentificationTypes(callback: { [weak self] identificationTypes in
-            self?.navigationHandler.dismissLoading()
             self?.model.identificationTypes = identificationTypes
             self?.executeNextStep()
         }, failure: { [weak self] error in
@@ -107,11 +106,11 @@ public class AddCardFlow: NSObject, PXFlow {
             if error.code == ErrorTypes.NO_INTERNET_ERROR {
                 let sdkError = MPSDKError.convertFrom(error, requestOrigin: ApiUtil.RequestOrigin.GET_IDENTIFICATION_TYPES.rawValue)
                 self?.navigationHandler.showErrorScreen(error: sdkError, callbackCancel: {
+                    self?.navigationHandler.dismissLoading()
                     self?.finish()
                 }, errorCallback: nil)
             } else {
                 if let status = error.userInfo["status"] as? Int, status == 404 {
-                    self?.navigationHandler.dismissLoading()
                     self?.model.identificationTypes = []
                     self?.model.lastStepFailed = false
                     self?.executeNextStep()

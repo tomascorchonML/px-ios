@@ -30,7 +30,8 @@ open class PXPayer: NSObject, Codable, NSCopying {
         self.email = email
         self.firstName = firstName
         self.lastName = lastName
-        self.legalName = legalName
+        //hack for money in first integration, if no legal name has been set, first name is used as such
+        self.legalName = legalName ?? firstName
     }
 
     public init(email: String) {

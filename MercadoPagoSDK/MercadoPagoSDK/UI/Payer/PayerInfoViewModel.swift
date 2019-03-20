@@ -230,6 +230,8 @@ internal class PayerInfoViewModel {
                     self.payer.lastName = lastName
             case .cnpj:
                     self.payer.legalName = legalName
+                    //hack for money in first integration, sends legal name as first name
+                    self.payer.firstName = legalName
             }
         }
         return payer

@@ -76,10 +76,10 @@ open class PXIdentificationType: NSObject, Codable {
     
     internal func validate(identification:String) -> Bool {
         if id == "CPF" {
-            return BooleanValidator().validate(cpf: identification)
+            return IdentificationTypeValidator().validate(cpf: identification)
         }
         if id == "CNPJ" {
-            return BooleanValidator().validate(cpf: identification)
+            return IdentificationTypeValidator().validate(cpf: identification)
         }
         return true
     }

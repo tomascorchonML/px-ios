@@ -9,6 +9,7 @@
 import UIKit
 protocol InputComponentListener: NSObjectProtocol {
     func textChangedIn(component: SimpleInputComponent)
+    func dropDownOptionChanged(text: String)
 }
 
 class SimpleInputComponent: UIView, PXComponent {
@@ -182,6 +183,7 @@ class CompositeInputComponent: SimpleInputComponent, UIPickerViewDataSource, UIP
         self.optionSelected = row
         dropDownTextField.text = dropDownSelectedOptionText
         self.inputTextField.text = ""
+        self.delegate?.dropDownOptionChanged(text: dropDownSelectedOptionText)
     }
     @objc open func donePicker() {
         dropDownTextField.resignFirstResponder()

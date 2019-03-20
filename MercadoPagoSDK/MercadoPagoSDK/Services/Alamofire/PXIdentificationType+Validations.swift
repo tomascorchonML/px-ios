@@ -86,7 +86,7 @@ internal struct StatusValidator: Validator {
     }
 }
 
-internal struct BooleanValidator: Validator {
+internal struct IdentificationTypeValidator: Validator {
     
     public init() { }
     
@@ -95,6 +95,16 @@ internal struct BooleanValidator: Validator {
         let validationStatus = statusValidator.validate(string, kind: kind, options: options)
         
         return validationStatus == .valid
+    }
+    
+    public func filterSupported(identificationTypes: [PXIdentificationType]?) -> [PXIdentificationType]? {
+        guard let identificationTypes = identificationTypes else {
+            return nil
+        }
+        if let site = SiteManager.shared.getSite(), site == .MLB {
+            return identificationTypes.filter {$0.id == BoletoType.cpf.rawValue}
+        }
+        return identificationTypes
     }
 }
 

@@ -20,12 +20,22 @@ class PXPayerComponentRenderer: NSObject {
     let NAME_LABEL_SIZE: CGFloat = PXLayout.M_FONT
     let IDENTIFICATION_LABEL_SIZE: CGFloat = PXLayout.XS_FONT
 
+    var payerView = PXPayerView()
+
     func render(component: PXPayerComponent) -> PXPayerView {
-        let payerView = PXPayerView()
+        payerView = PXPayerView()
         payerView.backgroundColor = component.props.backgroundColor
         payerView.translatesAutoresizingMaskIntoConstraints = false
         payerView.accessibilityIdentifier = "review_change_payer_data_row"
+        addPayerIcon(component: component)
+        addFullName(component: component)
+        addIdentification(component: component)
+        addActionButton(component: component)
+        addSeparator(component: component)
+        return payerView
+    }
 
+    func addPayerIcon(component: PXPayerComponent) {
         let payerIcon = component.getPayerIconComponent()
         payerView.payerIcon = payerIcon.render()
         payerView.payerIcon!.layer.cornerRadius = IMAGE_WIDTH/2
@@ -36,8 +46,9 @@ class PXPayerComponentRenderer: NSObject {
         PXLayout.setHeight(owner: payerView.payerIcon!, height: IMAGE_HEIGHT).isActive = true
         PXLayout.setWidth(owner: payerView.payerIcon!, width: IMAGE_WIDTH).isActive = true
         PXLayout.pinTop(view: payerView.payerIcon!, withMargin: PXLayout.L_MARGIN).isActive = true
+    }
 
-        // Full Name
+    func addFullName(component: PXPayerComponent) {
         let fullName = UILabel()
         fullName.translatesAutoresizingMaskIntoConstraints = false
         payerView.fullNameLabel = fullName
@@ -50,8 +61,9 @@ class PXPayerComponentRenderer: NSObject {
         payerView.putOnBottomOfLastView(view: fullName, withMargin: PXLayout.S_MARGIN)?.isActive = true
         PXLayout.pinLeft(view: fullName, withMargin: PXLayout.S_MARGIN).isActive = true
         PXLayout.pinRight(view: fullName, withMargin: PXLayout.S_MARGIN).isActive = true
+    }
 
-        // Identification
+    func addIdentification(component: PXPayerComponent) {
         let identification = UILabel()
         identification.translatesAutoresizingMaskIntoConstraints = false
         payerView.identificationLabel = identification
@@ -64,8 +76,9 @@ class PXPayerComponentRenderer: NSObject {
         payerView.putOnBottomOfLastView(view: identification, withMargin: PXLayout.S_MARGIN)?.isActive = true
         PXLayout.pinLeft(view: identification, withMargin: PXLayout.S_MARGIN).isActive = true
         PXLayout.pinRight(view: identification, withMargin: PXLayout.S_MARGIN).isActive = true
+    }
 
-        // Action
+    func addActionButton(component: PXPayerComponent) {
         let actionButton = PXSecondaryButton()
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.buttonTitle = component.props.action.label
@@ -76,8 +89,9 @@ class PXPayerComponentRenderer: NSObject {
         PXLayout.pinLeft(view: actionButton, withMargin: PXLayout.XXS_MARGIN).isActive = true
         PXLayout.pinRight(view: actionButton, withMargin: PXLayout.XXS_MARGIN).isActive = true
         actionButton.accessibilityIdentifier = "review_change_payer_action"
+    }
 
-        // Separator
+    func addSeparator(component: PXPayerComponent) {
         let separator = UIView()
         separator.translatesAutoresizingMaskIntoConstraints = false
         separator.backgroundColor = component.props.separatorColor
@@ -87,9 +101,6 @@ class PXPayerComponentRenderer: NSObject {
         PXLayout.setHeight(owner: payerView.separator!, height: 1).isActive = true
         PXLayout.pinLeft(view: separator, withMargin: PXLayout.ZERO_MARGIN).isActive = true
         PXLayout.pinRight(view: separator, withMargin: PXLayout.ZERO_MARGIN).isActive = true
-
         payerView.pinLastSubviewToBottom(withMargin: PXLayout.ZERO_MARGIN)?.isActive = true
-
-        return payerView
     }
 }

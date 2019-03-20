@@ -24,6 +24,11 @@ public class AddCardFlow: NSObject, PXFlow {
 
     private lazy var mercadoPagoServicesAdapter = MercadoPagoServicesAdapter(publicKey: "APP_USR-5bd14fdd-3807-446f-babd-095788d5ed4d", privateKey: self.accessToken)
 
+    public convenience init(accessToken: String, locale: String, navigationController: UINavigationController, shouldSkipCongrats: Bool) {
+        self.init(accessToken: accessToken, locale: locale, navigationController: navigationController)
+        model.skipCongrats = shouldSkipCongrats
+    }
+    
     public init(accessToken: String, locale: String, navigationController: UINavigationController) {
         self.accessToken = accessToken
         self.navigationHandler = PXNavigationHandler(navigationController: navigationController)

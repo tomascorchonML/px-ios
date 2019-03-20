@@ -17,6 +17,7 @@ class AddCardFlowModel: NSObject, PXFlowModel {
     var tokenizedCard: PXToken?
     var associateCardResult: [String: Any]?
     var lastStepFailed = false
+    var skipCongrats = false
 
     enum Steps: Int {
         case start
@@ -59,7 +60,7 @@ class AddCardFlowModel: NSObject, PXFlowModel {
         case .createToken:
             currentStep = .associateTokenWithUser
         case .associateTokenWithUser:
-            currentStep = .showCongrats
+            currentStep = skipCongrats ? .finish : .showCongrats
         case .showCongrats:
             currentStep = .finish
         default:

@@ -64,6 +64,8 @@ extension MercadoPagoCheckout {
 
     func showIdentificationScreen() {
         guard let identificationTypes = self.viewModel.cardFlowSupportedIdentificationTypes() else {
+            let error = MPSDKError(message: "Hubo un error".localized, errorDetail: "", retry: false)
+            MercadoPagoCheckoutViewModel.error = error
             showErrorScreen()
             return
         }

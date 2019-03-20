@@ -200,6 +200,20 @@ Se preferir, você pode escolher outro meio de pagamento.</string>
 		<key>value</key>
 		<string>Tipo</string>
 	</dict>
+	<key>payer_info_placeholder_cpf</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>SOBRENOME E NOME</string>
+	</dict>
+	<key>payer_info_placeholder_cnpj</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>RAZÃO SOCIAL</string>
+	</dict>
 	<key>review_change_payment_method_action</key>
 	<dict>
 		<key>comment</key>

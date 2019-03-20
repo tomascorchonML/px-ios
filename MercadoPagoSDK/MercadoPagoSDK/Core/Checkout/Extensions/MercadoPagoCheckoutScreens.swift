@@ -38,9 +38,6 @@ extension MercadoPagoCheckout {
             } else {
                 strongSelf.viewModel.applyDefaultDiscountOrClear()
             }
-            if let defaultPC = strongSelf.viewModel.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(paymentOptionSelected.getId()) {
-                strongSelf.viewModel.updateCheckoutModel(payerCost: defaultPC)
-            }
 
             strongSelf.viewModel.rootVC = false
             strongSelf.executeNextStep()

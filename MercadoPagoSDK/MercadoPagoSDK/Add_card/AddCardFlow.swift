@@ -106,7 +106,6 @@ public class AddCardFlow: NSObject, PXFlow {
             if error.code == ErrorTypes.NO_INTERNET_ERROR {
                 let sdkError = MPSDKError.convertFrom(error, requestOrigin: ApiUtil.RequestOrigin.GET_IDENTIFICATION_TYPES.rawValue)
                 self?.navigationHandler.showErrorScreen(error: sdkError, callbackCancel: {
-                    self?.navigationHandler.dismissLoading()
                     self?.finish()
                 }, errorCallback: nil)
             } else {

@@ -127,7 +127,7 @@ internal class PXNavigationHandler: NSObject {
     }
 
     func backToFirstPaymentVaultViewController() {
-        let mercadoPagoPaymentVaultViewController = self.navigationController.viewControllers.filter {$0.isKind(of: MercadoPagoUIViewController.self) && $0.isKind(of: PaymentVaultViewController.self)}
+        let mercadoPagoPaymentVaultViewController = self.navigationController.viewControllers.filter { $0.isKind(of: MercadoPagoUIViewController.self) && $0.isKind(of: PaymentVaultViewController.self) }
         if !mercadoPagoPaymentVaultViewController.isEmpty {
             self.navigationController.popToViewController(mercadoPagoPaymentVaultViewController[0], animated: true)
         } else {
@@ -143,14 +143,14 @@ internal class PXNavigationHandler: NSObject {
     }
 
     func cleanCompletedCheckoutsFromNavigationStack() {
-        let  pxResultViewControllers = self.navigationController.viewControllers.filter {$0.isKind(of: PXResultViewController.self)}
+        let  pxResultViewControllers = self.navigationController.viewControllers.filter { $0.isKind(of: PXResultViewController.self) }
         if let lastResultViewController = pxResultViewControllers.last {
             let index = self.navigationController.viewControllers.index(of: lastResultViewController)
-            var  validViewControllers = self.navigationController.viewControllers.filter {(!$0.isKind(of: MercadoPagoUIViewController.self)) || self.navigationController.viewControllers.index(of: $0)! > index! || $0 == self.navigationController.viewControllers.last }
+            var  validViewControllers = self.navigationController.viewControllers.filter { (!$0.isKind(of: MercadoPagoUIViewController.self)) || self.navigationController.viewControllers.index(of: $0)! > index! || $0 == self.navigationController.viewControllers.last }
 
             // Delete dynamic views intances
 
-            validViewControllers = validViewControllers.filter {!dynamicViews.contains($0)}
+            validViewControllers = validViewControllers.filter { !dynamicViews.contains($0) }
 
             self.navigationController.viewControllers = validViewControllers
         }
@@ -160,10 +160,17 @@ internal class PXNavigationHandler: NSObject {
         dynamicViews.append(viewController)
     }
 
+    func isShowingDynamicViewController() -> Bool {
+        if let visibleViewController = navigationController.visibleViewController {
+            return dynamicViews.contains(visibleViewController)
+        }
+        return false
+    }
+
 }
 
 internal extension PXNavigationHandler {
     static func getDefault() -> PXNavigationHandler {
-        return PXNavigationHandler.init(navigationController: UINavigationController())
+        return PXNavigationHandler(navigationController: UINavigationController())
     }
 }

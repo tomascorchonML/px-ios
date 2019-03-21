@@ -22,7 +22,7 @@ extension OneTapFlow {
     }
 
     func isShowingLoading() -> Bool {
-        return pxNavigationHandler.isLoadingPresented()
+        return pxNavigationHandler.isLoadingPresented() || pxNavigationHandler.isShowingDynamicViewController()
     }
 }
 

@@ -130,10 +130,8 @@ internal class PXBodyComponent: PXComponentizable {
 
         let title = getErrorTitle()
         let message = getErrorMessage(status: status, statusDetail: statusDetail, paymentMethodName: paymentMethodName)
-        let secondaryTitle = getErrorSecondaryTitle(status: status, statusDetail: statusDetail)
-        let action = getErrorAction(status: status, statusDetail: statusDetail, paymentMethodName: paymentMethodName)
 
-        let errorProps = PXErrorProps(title: title.toAttributedString(), message: message?.toAttributedString(), secondaryTitle: secondaryTitle?.toAttributedString(), action: action)
+        let errorProps = PXErrorProps(title: title.toAttributedString(), message: message?.toAttributedString(), secondaryTitle: nil, action: nil)
         let errorComponent = PXErrorComponent(props: errorProps)
         return errorComponent
     }
@@ -179,26 +177,6 @@ internal class PXBodyComponent: PXComponentizable {
             }
         }
         return nil
-    }
-
-    internal func getErrorAction(status: String, statusDetail: String, paymentMethodName: String?) -> PXAction? {
-        if isCallForAuthorize(status: status, statusDetail: statusDetail) {
-            let actionText = PXResourceProvider.getActionTextForErrorBodyForREJECTED_CALL_FOR_AUTHORIZE(paymentMethodName)
-            let action = PXAction(label: actionText, action: self.props.callback)
-            return action
-        }
-        return nil
-    }
-
-    func getErrorSecondaryTitle(status: String, statusDetail: String) -> String? {
-        if isCallForAuthorize(status: status, statusDetail: statusDetail) {
-            return PXResourceProvider.getSecondaryTitleForErrorBodyForREJECTED_CALL_FOR_AUTHORIZE()
-        }
-        return nil
-    }
-
-    func isCallForAuthorize(status: String, statusDetail: String) -> Bool {
-        return status == PXPayment.Status.REJECTED && statusDetail == PXPayment.StatusDetails.REJECTED_CALL_FOR_AUTHORIZE
     }
 
     func isPendingWithBody() -> Bool {

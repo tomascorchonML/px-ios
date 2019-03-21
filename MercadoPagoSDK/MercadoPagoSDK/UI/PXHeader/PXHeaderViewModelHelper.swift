@@ -100,14 +100,11 @@ internal extension PXResultViewModel {
             return "".toAttributedString()
         }
 
-        if statusDetail == PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue {
-            return getTitleForCallForAuth(paymentMethod)
-        }
-
         let title = statusDetail + "_title"
 
         if title.existsLocalized() {
-            return getTitleForRejected(paymentMethod, title)
+            let extractedExpr: NSAttributedString = getTitleForRejected(paymentMethod, title)
+            return extractedExpr
         } else {
             return getDefaultRejectedTitle()
         }
@@ -140,23 +137,6 @@ internal extension PXResultViewModel {
         } else {
             let attributedTitle = NSMutableAttributedString(string: (instructionsInfo.instructions[0].title), attributes: [NSAttributedString.Key.font: Utils.getFont(size: 26)])
             return attributedTitle
-        }
-    }
-
-    func getTitleForCallForAuth(_ paymentMethod: PXPaymentMethod) -> NSAttributedString {
-        if let paymentMethodName = paymentMethod.name {
-            let currency = SiteManager.shared.getCurrency()
-            let currencySymbol = currency.getCurrencySymbolOrDefault()
-            let thousandSeparator = currency.getThousandsSeparatorOrDefault()
-            let decimalSeparator = currency.getDecimalSeparatorOrDefault()
-            let amountStr = Utils.getAttributedAmount(amountHelper.amountToPay, thousandSeparator: thousandSeparator, decimalSeparator: decimalSeparator, currencySymbol: currencySymbol, color: UIColor.px_white(), fontSize: PXHeaderRenderer.TITLE_FONT_SIZE, centsFontSize: PXHeaderRenderer.TITLE_FONT_SIZE/2, smallSymbol: true)
-            let string = "Debes autorizar ante %1$s el pago de ".localized.replacingOccurrences(of: "%1$s", with: "\(paymentMethodName)")
-            let result: NSMutableAttributedString = NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.font: Utils.getFont(size: PXHeaderRenderer.TITLE_FONT_SIZE)])
-            result.append(amountStr)
-            result.append(NSMutableAttributedString(string: " a Mercado Pago".localized, attributes: [NSAttributedString.Key.font: Utils.getFont(size: PXHeaderRenderer.TITLE_FONT_SIZE)]))
-            return result
-        } else {
-            return "".toAttributedString()
         }
     }
 

@@ -123,6 +123,13 @@ Se preferir, você pode escolher outro meio de pagamento.</string>
 		<key>value</key>
 		<string>Não conseguiu autorizá-lo?</string>
 	</dict>
+	<key>cc_rejected_call_for_authorize_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Tu tarjeta no autorizó el pago</string>
+	</dict>
 	<key>discount_coupon_detail_default_concept</key>
 	<dict>
 		<key>comment</key>

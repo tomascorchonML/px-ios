@@ -39,7 +39,6 @@ jobs:
           key: gem-cache-{{ checksum "Gemfile.lock" }}-v2
           paths:
               - vendor/bundle
-
 # Define the full workflow.
 workflows:
   version: 2

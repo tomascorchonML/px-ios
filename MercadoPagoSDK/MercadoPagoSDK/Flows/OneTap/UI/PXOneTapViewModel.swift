@@ -61,7 +61,6 @@ extension PXOneTapViewModel {
                     }
 
                     let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(targetCardData.cardId)
-
                     let defaultEnabledSplitPayment: Bool = amountConfiguration?.splitConfiguration?.splitEnabled ?? false
 
                     var payerCost: [PXPayerCost] = [PXPayerCost]()
@@ -72,6 +71,10 @@ extension PXOneTapViewModel {
                     var targetIssuerId: String = ""
                     if let issuerId = targetNode.oneTapCard?.cardUI?.issuerId {
                         targetIssuerId = issuerId
+                    }
+
+                    if let issuerImageName = targetNode.oneTapCard?.cardUI?.issuerImage {
+                        templateCard.bankImage = ResourceManager.shared.getIssuerCardImage(issuerImageName: issuerImageName)
                     }
 
                     var showArrow: Bool = true

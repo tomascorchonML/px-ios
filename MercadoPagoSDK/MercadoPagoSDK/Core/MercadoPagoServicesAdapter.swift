@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable function_parameter_count
 internal class MercadoPagoServicesAdapter {
 
     let mercadoPagoServices: MercadoPagoServices!

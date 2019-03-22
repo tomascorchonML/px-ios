@@ -85,8 +85,8 @@ internal class IdentificationViewController: MercadoPagoUIViewController, UIText
         numberTextField.keyboardType = UIKeyboardType.numberPad
         numberTextField.addTarget(self, action: #selector(IdentificationViewController.editingChanged(_:)), for: UIControl.Event.editingChanged)
         self.setupInputAccessoryView()
-        identificationType =  self.identificationTypes[0]
-        textField.text = self.identificationTypes[0].name
+        identificationType = self.identificationTypes.first
+        textField.text = self.identificationTypes.first?.name
         self.numberTextField.text = ""
         self.remask()
     }

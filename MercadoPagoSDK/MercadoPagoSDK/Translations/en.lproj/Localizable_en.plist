@@ -165,6 +165,13 @@ Or if you prefer, you can choose another payment method.</string>
 		<key>value</key>
 		<string>Previous</string>
 	</dict>
+	<key>payer_info_legal</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Business Name</string>
+	</dict>
 	<key>payer_info_name</key>
 	<dict>
 		<key>comment</key>
@@ -192,6 +199,20 @@ Or if you prefer, you can choose another payment method.</string>
 		<string></string>
 		<key>value</key>
 		<string>Type</string>
+	</dict>
+	<key>payer_info_placeholder_cpf</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>NAME AND SURNAME</string>
+	</dict>
+	<key>payer_info_placeholder_cnpj</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>BUSINESS NAME</string>
 	</dict>
 	<key>review_change_payment_method_action</key>
 	<dict>

@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum BoletoType: String {
+    case cpf = "CPF"
+    case cnpj = "CNPJ"
+}
+
 class BoletoComponent: UIView, PXComponent {
     static let IMAGE_WIDTH: CGFloat = 242.0
     static let IMAGE_HEIGHT: CGFloat = 143.0
@@ -16,8 +21,14 @@ class BoletoComponent: UIView, PXComponent {
     var typeName: UILabel!
     var numberTF: UITextField!
     var nameTF: UITextField!
+    var boletoType: BoletoType {
+        didSet {
+            updateBoletoType()
+        }
+    }
 
-    override init(frame: CGRect) {
+    init(frame: CGRect, boletoType: BoletoType) {
+        self.boletoType = boletoType
         super.init(frame: frame)
         self.setupView()
     }
@@ -58,7 +69,7 @@ class BoletoComponent: UIView, PXComponent {
         self.nameTF.textAlignment = .left
         self.nameTF.font = Utils.getFont(size: 13.0)
         self.nameTF.textColor = UIColor.px_grayDark()
-        self.nameTF.placeholder = "SOBRENOME E NOME".localized
+        self.nameTF.placeholder = "payer_info_placeholder_cpf".localized_beta
         self.nameTF.isEnabled = false
 
         self.boletoView.addSubview(titleLabel)
@@ -67,19 +78,32 @@ class BoletoComponent: UIView, PXComponent {
         self.boletoView.addSubview(self.typeName)
         self.addSubview(self.boletoView)
 
+        updateBoletoType()
     }
 
-    func setType(text: String) {
+    func updateBoletoType() {
+        switch self.boletoType {
+        case BoletoType.cpf:
+            self.setNamePlaceholder(text: "payer_info_placeholder_cpf".localized_beta)
+        case BoletoType.cnpj:
+            self.setNamePlaceholder(text: "payer_info_placeholder_cnpj".localized_beta)
+        }
+    }
+
+    func setType(text: String?) {
         self.typeName.text = text
     }
-    func setNumber(text: String) {
+    func setNumber(text: String?) {
         self.numberTF.text = text
     }
-    func setNumberPlaceHolder(text: String) {
+    func setNumberPlaceHolder(text: String?) {
         self.numberTF.placeholder = text
     }
-    func setName(text: String) {
+    func setName(text: String?) {
         self.nameTF.text = text
+    }
+    func setNamePlaceholder(text: String?) {
+        self.nameTF.placeholder = text
     }
 
     public func updateView() {

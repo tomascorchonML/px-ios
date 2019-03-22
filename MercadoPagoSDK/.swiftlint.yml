@@ -2,6 +2,7 @@ excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Pods/
   - MercadoPagoSDKTests/ #Sacar proyecto de tests por ahora
   - MercadoPagoSDK/Services/
+  - MercadoPagoSDK/UI/PXCardSlider
 opt_in_rules:
 
 # Reglas custom de MELI
@@ -55,6 +56,8 @@ force_cast: warning
 
 # Terminar de definir esto
 identifier_name:
+    min_length:
+      warning: 2
     max_length:
       warning: 55
       error: 60

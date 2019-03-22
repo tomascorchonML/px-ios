@@ -9,13 +9,13 @@ import UIKit
 
 final class PXOneTapInstallmentsSelectorCell: UITableViewCell {
 
-    var data: PXOneTapInstallmentsSelectorData? = nil
+    var data: PXOneTapInstallmentsSelectorData?
 
     func updateData(_ data: PXOneTapInstallmentsSelectorData) {
         self.data = data
         self.selectionStyle = .default
         let selectedView = UIView()
-        selectedView.backgroundColor = #colorLiteral(red:0.96, green:0.96, blue:0.96, alpha:1.0)
+        selectedView.backgroundColor = #colorLiteral(red: 0.96, green: 0.96, blue: 0.96, alpha: 1.0)
         self.selectedBackgroundView = selectedView
 
         let titleLabel = UILabel()

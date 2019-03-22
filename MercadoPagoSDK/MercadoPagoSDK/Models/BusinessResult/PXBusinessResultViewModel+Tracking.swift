@@ -47,7 +47,7 @@ extension PXBusinessResultViewModel {
         }
         return screenPath
     }
-    
+
     func getFooterSecondaryActionTrackingPath() -> String {
         let paymentStatus = businessResult.paymentStatus
         var screenPath = ""

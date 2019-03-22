@@ -254,3 +254,11 @@ extension ResourceManager {
         return getImage(imageName)
     }
 }
+
+// MARK: Issuers
+// TODO: Change by OnDemand resources. - Q2 2019
+extension ResourceManager {
+    func getIssuerCardImage(issuerImageName: String) -> UIImage? {
+        return ResourceManager.shared.getImage(issuerImageName)
+    }
+}

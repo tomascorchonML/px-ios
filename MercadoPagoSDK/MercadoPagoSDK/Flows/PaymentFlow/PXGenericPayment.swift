@@ -72,7 +72,7 @@ open class PXGenericPayment: NSObject, PXBasePayment {
      - parameter paymentId: Id of payment.
      */
     @available(*, deprecated: 4.7.0, message: "Use init with payment method id")
-    @objc public init(status: String, statusDetail: String, paymentId: String? = nil) {
+    public init(status: String, statusDetail: String, paymentId: String? = nil) {
         self.status = status
         self.statusDetail = statusDetail
         self.paymentId = paymentId
@@ -102,7 +102,7 @@ open class PXGenericPayment: NSObject, PXBasePayment {
      - parameter paymentMethodId: Payment Method id.
      - parameter paymentMethodTypeId: Payment Type Id.
      */
-    @objc public init(status: String, statusDetail: String, paymentId: String? = nil, paymentMethodId: String?, paymentMethodTypeId: String?) {
+    public init(status: String, statusDetail: String, paymentId: String? = nil, paymentMethodId: String?, paymentMethodTypeId: String?) {
         self.status = status
         self.statusDetail = statusDetail
         self.paymentId = paymentId

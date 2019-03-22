@@ -38,9 +38,6 @@ extension MercadoPagoCheckout {
             } else {
                 strongSelf.viewModel.applyDefaultDiscountOrClear()
             }
-            if let defaultPC = strongSelf.viewModel.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(paymentOptionSelected.getId()) {
-                strongSelf.viewModel.updateCheckoutModel(payerCost: defaultPC)
-            }
 
             strongSelf.viewModel.rootVC = false
             strongSelf.executeNextStep()
@@ -63,7 +60,14 @@ extension MercadoPagoCheckout {
     }
 
     func showIdentificationScreen() {
-        let identificationStep = IdentificationViewController (identificationTypes: self.viewModel.identificationTypes!, paymentMethod: viewModel.paymentData.paymentMethod, callback: { [weak self] (identification : PXIdentification) in
+        guard let identificationTypes = self.viewModel.cardFlowSupportedIdentificationTypes() else {
+            let error = MPSDKError(message: "Hubo un error".localized, errorDetail: "", retry: false)
+            MercadoPagoCheckoutViewModel.error = error
+            showErrorScreen()
+            return
+        }
+
+        let identificationStep = IdentificationViewController(identificationTypes: identificationTypes, paymentMethod: viewModel.paymentData.paymentMethod, callback: { [weak self] (identification : PXIdentification) in
             guard let strongSelf = self else {
                 return
             }

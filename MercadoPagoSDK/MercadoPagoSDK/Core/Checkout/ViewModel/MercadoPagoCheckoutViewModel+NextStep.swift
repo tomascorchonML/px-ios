@@ -266,10 +266,8 @@ extension MercadoPagoCheckoutViewModel {
         if self.businessResult != nil {
             return true
         }
-        if let paymentResult = self.paymentResult {
-            if  paymentResult.isInvalidESC() {
-                return false
-            }
+        if let paymentResult = self.paymentResult,  paymentResult.isInvalidESC() {
+            return false
         }
         if self.payment != nil || self.paymentResult != nil {
             self.setIsCheckoutComplete(isCheckoutComplete: true)

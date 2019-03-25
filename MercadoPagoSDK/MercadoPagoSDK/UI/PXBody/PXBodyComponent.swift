@@ -10,15 +10,13 @@ import UIKit
 
 internal class PXBodyComponent: PXComponentizable {
 
-    let rejectedStatusDetailsWithBody = [PXPayment.StatusDetails.REJECTED_OTHER_REASON,
-                                         PXPayment.StatusDetails.REJECTED_BY_BANK,
-                                         PXPayment.StatusDetails.REJECTED_INSUFFICIENT_DATA,
+    let rejectedStatusDetailsWithBody = [PXPayment.StatusDetails.REJECTED_CALL_FOR_AUTHORIZE,
+                                         PXPayment.StatusDetails.REJECTED_CARD_DISABLED,
+                                         PXPayment.StatusDetails.REJECTED_INVALID_INSTALLMENTS,
                                          PXPayment.StatusDetails.REJECTED_DUPLICATED_PAYMENT,
                                          PXPayment.StatusDetails.REJECTED_MAX_ATTEMPTS,
                                          PXPayment.StatusDetails.REJECTED_HIGH_RISK,
-                                         PXPayment.StatusDetails.REJECTED_CALL_FOR_AUTHORIZE,
-                                         PXPayment.StatusDetails.REJECTED_CARD_DISABLED,
-                                         PXPayment.StatusDetails.REJECTED_INSUFFICIENT_AMOUNT,
+                                         PXPayment.StatusDetails.REJECTED_CARD_HIGH_RISK,
                                          PXPayment.StatusDetails.REJECTED_BY_REGULATIONS]
 
     let pendingStatusDetailsWithBody = [PXPayment.StatusDetails.PENDING_CONTINGENCY, PXPayment.StatusDetails.PENDING_REVIEW_MANUAL]
@@ -128,7 +126,7 @@ internal class PXBodyComponent: PXComponentizable {
         let statusDetail = props.paymentResult.statusDetail
         let paymentMethodName = props.paymentResult.paymentData?.paymentMethod?.name
 
-        let title = getErrorTitle()
+        let title = getErrorTitle(status: status, statusDetail: statusDetail)
         let message = getErrorMessage(status: status, statusDetail: statusDetail, paymentMethodName: paymentMethodName)
 
         let errorProps = PXErrorProps(title: title.toAttributedString(), message: message?.toAttributedString(), secondaryTitle: nil, action: nil)
@@ -136,7 +134,11 @@ internal class PXBodyComponent: PXComponentizable {
         return errorComponent
     }
 
-    func getErrorTitle() -> String {
+    func getErrorTitle(status: String, statusDetail: String) -> String {
+        if status == PXPayment.Status.REJECTED &&
+            statusDetail == PXPayment.StatusDetails.REJECTED_CALL_FOR_AUTHORIZE {
+            return PXResourceProvider.getTitleForCallForAuth()
+        }
         return PXResourceProvider.getTitleForErrorBody()
     }
 
@@ -170,8 +172,12 @@ internal class PXBodyComponent: PXComponentizable {
                 return PXResourceProvider.getDescriptionForErrorBodyForREJECTED_MAX_ATTEMPTS()
             case PXPayment.StatusDetails.REJECTED_HIGH_RISK:
                 return PXResourceProvider.getDescriptionForErrorBodyForREJECTED_HIGH_RISK()
+            case PXPayment.StatusDetails.REJECTED_CARD_HIGH_RISK:
+                return PXResourceProvider.getDescriptionForErrorBodyForREJECTED_CARD_HIGH_RISK()
             case PXPayment.StatusDetails.REJECTED_BY_REGULATIONS:
                 return PXResourceProvider.getDescriptionForErrorBodyForREJECTED_BY_REGULATIONS()
+            case PXPayment.StatusDetails.REJECTED_INVALID_INSTALLMENTS:
+                return PXResourceProvider.getDescriptionForErrorBodyForREJECTED_INVALID_INSTALLMENTS()
             default:
                 return nil
             }

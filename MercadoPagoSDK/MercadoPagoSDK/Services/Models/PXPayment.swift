@@ -403,6 +403,7 @@ extension PXPayment {
         public static let REJECTED_BAD_FILLED_CARD_NUMBER = "cc_rejected_bad_filled_card_number"
         public static let REJECTED_BAD_FILLED_SECURITY_CODE = "cc_rejected_bad_filled_security_code"
         public static let REJECTED_BAD_FILLED_DATE = "cc_rejected_bad_filled_date"
+        public static let REJECTED_CARD_HIGH_RISK = "cc_rejected_high_risk"
         public static let REJECTED_HIGH_RISK = "rejected_high_risk"
         public static let REJECTED_INSUFFICIENT_AMOUNT = "cc_rejected_insufficient_amount"
         public static let REJECTED_MAX_ATTEMPTS = "cc_rejected_max_attempts"
@@ -411,5 +412,8 @@ extension PXPayment {
         public static let REJECTED_INSUFFICIENT_DATA = "rejected_insufficient_data"
         public static let REJECTED_BY_BANK = "rejected_by_bank"
         public static let REJECTED_BY_REGULATIONS = "rejected_by_regulations"
+        public static let REJECTED_INVALID_INSTALLMENTS = "cc_rejected_invalid_installments"
+        public static let REJECTED_BLACKLIST = "cc_rejected_blacklist"
+        public static let REJECTED_FRAUD = "cc_rejected_fraud"
     }
 }

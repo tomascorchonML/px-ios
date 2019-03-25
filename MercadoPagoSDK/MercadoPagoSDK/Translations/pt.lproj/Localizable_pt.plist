@@ -100,7 +100,14 @@ Se preferir, você pode escolher outro meio de pagamento.</string>
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>Você possui dados pendentes para atualizar. Para pagar com dinheiro em conta, você deve preencher os dados faltantes.</string>
+		<string>Para pagar con dinero en cuenta debes completar los datos faltantes.</string>
+	</dict>
+	<key>error_body_description_cc_rejected_invalid_installments</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Elige otra cantidad de cuotas o usa otro medio de pago.</string>
 	</dict>
 	<key>error_body_action_text_</key>
 	<dict>

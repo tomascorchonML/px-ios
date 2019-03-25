@@ -79,6 +79,10 @@ internal class PaymentResult {
         return self.statusDetail == PXRejectedStatusDetail.DUPLICATED_PAYMENT.rawValue
     }
 
+    func isFraudPayment() -> Bool {
+        return self.statusDetail == PXRejectedStatusDetail.REJECTED_FRAUD.rawValue
+    }
+
     func isCardDisabled() -> Bool {
         return self.statusDetail == PXRejectedStatusDetail.CARD_DISABLE.rawValue
     }
@@ -91,7 +95,10 @@ internal class PaymentResult {
     }
 
     func hasSecondaryButton() -> Bool {
-        return self.isCallForAuth() || self.isBadFilled() || self.isInvalidInstallments()
+        return self.isCallForAuth() ||
+            self.isBadFilled() ||
+            self.isInvalidInstallments() ||
+            self.isCardDisabled()
     }
 
     func isApproved() -> Bool {

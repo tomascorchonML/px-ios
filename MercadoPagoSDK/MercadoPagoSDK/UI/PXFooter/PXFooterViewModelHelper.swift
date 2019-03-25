@@ -54,10 +54,12 @@ internal extension PXResultViewModel {
             return PXFooterResultConstants.C4AUTH_BUTTON_TEXT.localized_beta
         } else if self.paymentResult.isBadFilled() {
             return PXFooterResultConstants.BAD_FILLED_BUTTON_TEXT.localized_beta
-        } else if self.paymentResult.isInvalidInstallments() {
-            return PXFooterResultConstants.INVALID_INSTALLMENTS_BUTTON_TEXT.localized_beta
         } else if self.paymentResult.isDuplicatedPayment() {
+            return PXFooterResultConstants.DUPLICATED_PAYMENT_BUTTON_TEXT.localized_beta
+        } else if self.paymentResult.isCardDisabled() {
             return PXFooterResultConstants.CARD_DISABLE_BUTTON_TEXT.localized_beta
+        } else if self.paymentResult.isFraudPayment() {
+            return PXFooterResultConstants.FRAUD_BUTTON_TEXT.localized_beta
         } else {
             return PXFooterResultConstants.GENERIC_ERROR_BUTTON_TEXT.localized_beta
         }
@@ -85,20 +87,30 @@ internal extension PXResultViewModel {
         if paymentResult.isAccepted() {
              callback(PaymentResult.CongratsState.cancel_EXIT)
         } else if paymentResult.isError() {
-             callback(PaymentResult.CongratsState.cancel_SELECT_OTHER)
         } else if paymentResult.isWarning() {
-            if self.paymentResult.statusDetail == PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue || self.paymentResult.statusDetail == PXRejectedStatusDetail.INSUFFICIENT_AMOUNT.rawValue {
-                callback(PaymentResult.CongratsState.cancel_SELECT_OTHER)
-            } else {
+            switch self.paymentResult.statusDetail {
+            case PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue:
+                callback(PaymentResult.CongratsState.call_FOR_AUTH)
+            case PXRejectedStatusDetail.CARD_DISABLE.rawValue:
                 callback(PaymentResult.CongratsState.cancel_RETRY)
+            default:
+                callback(PaymentResult.CongratsState.cancel_SELECT_OTHER)
             }
         }
     }
 
     private func pressLink() {
+        guard let callback = self.callback else {return}
         if paymentResult.isAccepted() {
-            if let callback = self.callback {
                 callback(PaymentResult.CongratsState.cancel_EXIT)
+        } else {
+            switch self.paymentResult.statusDetail {
+            case PXRejectedStatusDetail.REJECTED_FRAUD.rawValue:
+                callback(PaymentResult.CongratsState.cancel_EXIT)
+            case PXRejectedStatusDetail.DUPLICATED_PAYMENT.rawValue:
+                callback(PaymentResult.CongratsState.cancel_EXIT)
+            default:
+                callback(PaymentResult.CongratsState.cancel_SELECT_OTHER)
             }
         }
     }

@@ -99,7 +99,7 @@
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>Tienes datos pendientes para actualizar. Para pagar con dinero en cuenta debes completar los datos faltantes.</string>
+		<string>Para pagar con dinero en cuenta debes completar los datos faltantes.</string>
 	</dict>
 	<key>error_body_description_cc_rejected_invalid_installments</key>
 	<dict>
@@ -156,13 +156,6 @@
 		<string></string>
 		<key>value</key>
 		<string>Ya autoricé el pago</string>
-	</dict>
-	<key>cc_rejected_invalid_installments_button</key>
-	<dict>
-		<key>comment</key>
-		<string></string>
-		<key>value</key>
-		<string>Cambiar cuotas</string>
 	</dict>
 	<key>cc_rejected_generic_button</key>
 	<dict>
@@ -254,6 +247,13 @@
 		<string></string>
 		<key>value</key>
 		<string>No puedes usar tu dinero en Mercado Pago para este pago</string>
+	</dict>
+	<key>rejected_by_regulations_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>No pudimos procesar tu pago</string>
 	</dict>
 	<key>cc_rejected_invalid_installments_title</key>
 	<dict>

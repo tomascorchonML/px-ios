@@ -73,8 +73,6 @@ class PXOneTapHeaderMerchantView: PXComponentView {
         containerView.addSubview(titleLabel)
 
         addSubviewToBottom(containerView)
-        PXLayout.pinBottom(view: containerView).isActive = true
-        PXLayout.centerHorizontally(view: containerView).isActive = true
 
         if layout.getLayoutType() == .onlyTitle {
             layout.makeConstraints(containerView, imageContainerView, titleLabel)

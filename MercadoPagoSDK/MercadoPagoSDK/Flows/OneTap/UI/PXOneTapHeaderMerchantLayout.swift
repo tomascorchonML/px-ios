@@ -8,7 +8,7 @@
 import Foundation
 
 struct PXOneTapHeaderMerchantLayout {
-    enum LayoutType: String {
+    enum LayoutType {
         case onlyTitle
         case titleSubtitle
     }
@@ -25,7 +25,10 @@ struct PXOneTapHeaderMerchantLayout {
 // MARK: Factory make factory.
 extension PXOneTapHeaderMerchantLayout {
     mutating func makeConstraints(_ containerView: UIView, _ imageContainerView: UIView, _ titleLabel: UILabel) {
-        let horizontalConstraints = [PXLayout.pinTop(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
+        horizontalLayoutConstraints.removeAll()
+        let horizontalConstraints = [PXLayout.pinBottom(view: containerView),
+                                     PXLayout.pinLeft(view: containerView, withMargin: PXLayout.XL_MARGIN),
+                                     PXLayout.pinTop(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
                                      PXLayout.pinBottom(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
                                      PXLayout.pinLeft(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
                                      PXLayout.pinRight(view: titleLabel, withMargin: PXLayout.XXS_MARGIN),
@@ -33,7 +36,10 @@ extension PXOneTapHeaderMerchantLayout {
                                      PXLayout.centerVertically(view: imageContainerView, to: titleLabel)]
         horizontalLayoutConstraints.append(contentsOf: horizontalConstraints)
 
-        let verticalConstraints = [PXLayout.centerHorizontally(view: imageContainerView),
+        verticalLayoutConstraints.removeAll()
+        let verticalConstraints = [PXLayout.pinBottom(view: containerView),
+                                   PXLayout.centerHorizontally(view: containerView),
+                                   PXLayout.centerHorizontally(view: imageContainerView),
                                    PXLayout.pinTop(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
                                    PXLayout.centerHorizontally(view: titleLabel),
                                    PXLayout.put(view: titleLabel, onBottomOf: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
@@ -43,7 +49,10 @@ extension PXOneTapHeaderMerchantLayout {
     }
 
     mutating func makeConstraints(_ containerView: UIView, _ imageContainerView: UIView, _ titleLabel: UILabel, _ subTitleLabel: UILabel) {
-        let horizontalConstraints = [PXLayout.pinTop(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
+        horizontalLayoutConstraints.removeAll()
+        let horizontalConstraints = [PXLayout.pinBottom(view: containerView),
+                                     PXLayout.pinLeft(view: containerView, withMargin: PXLayout.XL_MARGIN),
+                                     PXLayout.pinTop(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
                                      PXLayout.pinBottom(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
                                      PXLayout.pinLeft(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
                                      PXLayout.pinRight(view: titleLabel, withMargin: PXLayout.XXS_MARGIN),
@@ -54,7 +63,10 @@ extension PXOneTapHeaderMerchantLayout {
         ]
         horizontalLayoutConstraints.append(contentsOf: horizontalConstraints)
 
-        let verticalConstraints = [PXLayout.centerHorizontally(view: imageContainerView),
+        verticalLayoutConstraints.removeAll()
+        let verticalConstraints = [PXLayout.pinBottom(view: containerView),
+                                   PXLayout.centerHorizontally(view: containerView),
+                                   PXLayout.centerHorizontally(view: imageContainerView),
                                    PXLayout.pinTop(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
                                    PXLayout.centerHorizontally(view: titleLabel),
                                    PXLayout.put(view: titleLabel, onBottomOf: imageContainerView, withMargin: PXLayout.XXS_MARGIN),

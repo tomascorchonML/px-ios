@@ -197,7 +197,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     public func getPaymentMethodsForSelection() -> [PXPaymentMethod] {
         let filteredPaymentMethods = search?.paymentMethods.filter {
-            return $0.conformsPaymentPreferences(self.getPaymentPreferences()) && $0.paymentTypeId ==  self.paymentOptionSelected?.getId()
+            return $0.conformsPaymentPreferences(self.getPaymentPreferences()) && $0.paymentTypeId == self.paymentOptionSelected?.getId()
         }
         guard let paymentMethods = filteredPaymentMethods else {
             return []
@@ -212,7 +212,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     func getPluginPaymentMethodToShow() -> [PXPaymentMethodPlugin] {
         populateCheckoutStore()
-        return paymentMethodPlugins.filter {$0.mustShowPaymentMethodPlugin(PXCheckoutStore.sharedInstance) == true}
+        return paymentMethodPlugins.filter { $0.mustShowPaymentMethodPlugin(PXCheckoutStore.sharedInstance) == true }
     }
 
     // Returns list with all cards ids with esc
@@ -235,7 +235,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         }
 
         populateCheckoutStore()
-        let paymentMethodPluginsToShow = paymentMethodPlugins.filter {$0.mustShowPaymentMethodPlugin(PXCheckoutStore.sharedInstance) == true}
+        let paymentMethodPluginsToShow = paymentMethodPlugins.filter { $0.mustShowPaymentMethodPlugin(PXCheckoutStore.sharedInstance) == true }
 
         var customerOptions: [PXCardInformation]?
         var pluginOptions: [PXPaymentMethodPlugin] = []
@@ -395,7 +395,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         }
 
         if newPaymentOptionSelected.hasChildren() {
-            self.paymentMethodOptions =  newPaymentOptionSelected.getChildren()
+            self.paymentMethodOptions = newPaymentOptionSelected.getChildren()
         }
 
         if self.paymentOptionSelected!.isCustomerPaymentMethod() {
@@ -561,13 +561,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         customPaymentOptions?.removeAll()
 
         for pxCustomOptionSearchItem in search.customOptionSearchItems {
-            let customerPaymentMethod =  pxCustomOptionSearchItem.getCustomerPaymentMethod()
-//            if let paymentMethodSearchCards = paymentMethodSearch.cards {
-//                var filteredCustomerCard = paymentMethodSearchCards.filter({return $0.id == customerPaymentMethod.customerPaymentMethodId})
-//                if !Array.isNullOrEmpty(filteredCustomerCard) {
-//                    customerPaymentMethod.card = filteredCustomerCard[0]
-//                }
-//            }
+            let customerPaymentMethod = pxCustomOptionSearchItem.getCustomerPaymentMethod()
             customPaymentOptions = Array.safeAppend(customPaymentOptions, customerPaymentMethod)
         }
 
@@ -809,7 +803,7 @@ extension MercadoPagoCheckoutViewModel {
         if let payerData = self.paymentData.getPayer(),
             let payerIdentification = payerData.identification,
             let type = payerIdentification.type,
-            let boletoType = BoletoType(rawValue: type)  {
+            let boletoType = BoletoType(rawValue: type) {
             //cpf type requires first name and last name to be a valid payer
             let cpfCase = payerData.firstName != nil && payerData.lastName != nil && boletoType == .cpf
             //cnpj type requires legal name to be a valid payer

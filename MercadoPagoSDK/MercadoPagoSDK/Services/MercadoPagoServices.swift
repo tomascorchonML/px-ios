@@ -24,11 +24,6 @@ internal class MercadoPagoServices: NSObject {
         self.payerAccessToken = payerAccessToken
         self.procesingMode = procesingMode
         super.init()
-        initMercadPagoPXTracking()
-    }
-
-    func initMercadPagoPXTracking() {
-        MPXTracker.sharedInstance.setPublicKey(merchantPublicKey)
     }
 
     func getCheckoutPreference(checkoutPreferenceId: String, callback : @escaping (PXCheckoutPreference) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
@@ -181,7 +176,7 @@ internal class MercadoPagoServices: NSObject {
                     }
                 } else {
                     var issuers : [PXIssuer] = [PXIssuer]()
-                    issuers =  try PXIssuer.fromJSON(data: data)
+                    issuers = try PXIssuer.fromJSON(data: data)
                     callback(issuers)
                 }
             } catch {

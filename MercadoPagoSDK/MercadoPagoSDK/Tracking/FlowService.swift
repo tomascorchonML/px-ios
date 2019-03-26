@@ -10,7 +10,7 @@ import Foundation
 
 final internal class FlowService {
 
-    static let FLOW_ID_KEY: String = "flow_id"
+    static let FLOW_ID_KEY: String = "session_id"
     private var flowId: String
 
     init(_ currentFlowId: String = FlowService.getUUID()) {

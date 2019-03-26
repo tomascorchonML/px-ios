@@ -11,7 +11,6 @@ import Foundation
 extension MercadoPagoCheckout {
 
     internal func startTracking() {
-        MPXTracker.sharedInstance.setPublicKey(viewModel.publicKey)
         MPXTracker.sharedInstance.startNewFlow()
 
         // Track init event

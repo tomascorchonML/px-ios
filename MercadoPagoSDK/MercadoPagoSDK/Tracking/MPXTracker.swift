@@ -24,21 +24,6 @@ import UIKit
 
 // MARK: Getters/setters.
 internal extension MPXTracker {
-    internal func setPublicKey(_ public_key: String) {
-        self.public_key = public_key.trimSpaces()
-    }
-
-    internal func getPublicKey() -> String {
-        return self.public_key
-    }
-
-    internal func getSdkVersion() -> String {
-        return sdkVersion
-    }
-
-    internal func getPlatformType() -> String {
-        return "/mobile/ios"
-    }
 
     internal func setTrack(listener: PXTrackerListener) {
         trackListener = listener
@@ -81,6 +66,7 @@ internal extension MPXTracker {
             if let flowName = flowName {
                 metadata["flow"] = flowName
             }
+            metadata[FlowService.FLOW_ID_KEY] = flowService.getFlowId()
             trackListenerInterfase.trackScreen(screenName: screenName, extraParams: metadata)
         }
     }
@@ -95,16 +81,19 @@ internal extension MPXTracker {
                 if let flowName = flowName {
                     metadata["flow"] = flowName
                 }
+                metadata[FlowService.FLOW_ID_KEY] = flowService.getFlowId()
             } else {
                 if let extraInfo = metadata["extra_info"] as? [String: Any] {
                     var frictionExtraInfo: [String: Any] = extraInfo
                     frictionExtraInfo["flow_detail"] = flowDetails
                     frictionExtraInfo["flow"] = flowName
+                    frictionExtraInfo[FlowService.FLOW_ID_KEY] = flowService.getFlowId()
                     metadata["extra_info"] = frictionExtraInfo
                 } else {
                     var frictionExtraInfo: [String: Any] = [:]
                     frictionExtraInfo["flow_detail"] = flowDetails
                     frictionExtraInfo["flow"] = flowName
+                    frictionExtraInfo[FlowService.FLOW_ID_KEY] = flowService.getFlowId()
                     metadata["extra_info"] = frictionExtraInfo
                 }
             }

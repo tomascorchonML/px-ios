@@ -141,7 +141,7 @@
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>Ya autoricé el pago</string>
+		<string>Ya activé la tarjeta</string>
 	</dict>
 	<key>cc_rejected_bad_filled_button</key>
 	<dict>

@@ -104,7 +104,6 @@ public class AddCardFlow: NSObject, PXFlow {
 
     private func getIdentificationTypes() {
         self.mercadoPagoServicesAdapter.getIdentificationTypes(callback: { [weak self] identificationTypes in
-            self?.navigationHandler.dismissLoading()
             self?.model.identificationTypes = identificationTypes
             self?.executeNextStep()
         }, failure: { [weak self] error in
@@ -116,7 +115,6 @@ public class AddCardFlow: NSObject, PXFlow {
                 }, errorCallback: nil)
             } else {
                 if let status = error.userInfo["status"] as? Int, status == 404 {
-                    self?.navigationHandler.dismissLoading()
                     self?.model.identificationTypes = []
                     self?.model.lastStepFailed = false
                     self?.executeNextStep()

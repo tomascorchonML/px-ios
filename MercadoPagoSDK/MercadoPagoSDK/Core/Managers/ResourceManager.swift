@@ -190,9 +190,7 @@ extension ResourceManager {
         if let statusDetail = statusDetail {
             //Payment Result Logic
             let paymentResult = PaymentResult(status: status, statusDetail: statusDetail, paymentData: PXPaymentData(), splitAccountMoney: nil, payerEmail: nil, paymentId: nil, statementDescription: nil)
-            if paymentResult.isApproved() ||
-                paymentResult.isInProcess() ||
-                paymentResult.isWaitingForPayment() {
+            if paymentResult.isApproved() {
                 return ThemeManager.shared.successColor()
             }
             if paymentResult.isContingency() || paymentResult.isReviewManual() || paymentResult.isWarning() {

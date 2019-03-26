@@ -26,7 +26,9 @@ internal class PaymentResult {
                                 PXRejectedStatusDetail.REJECTED_INVALID_INSTALLMENTS.rawValue,
                                 PXRejectedStatusDetail.BAD_FILLED_DATE.rawValue,
                                 PXRejectedStatusDetail.BAD_FILLED_SECURITY_CODE.rawValue,
-                                PXRejectedStatusDetail.BAD_FILLED_OTHER.rawValue]
+                                PXRejectedStatusDetail.BAD_FILLED_OTHER.rawValue,
+                                PXPendingStatusDetail.CONTINGENCY.rawValue,
+                                PXPendingStatusDetail.REVIEW_MANUAL.rawValue]
 
     let badFilledStatusDetails = [PXRejectedStatusDetail.BAD_FILLED_CARD_NUMBER.rawValue,
                                   PXRejectedStatusDetail.BAD_FILLED_DATE.rawValue,
@@ -88,10 +90,7 @@ internal class PaymentResult {
     }
 
     func isBadFilled() -> Bool {
-        if badFilledStatusDetails.contains(statusDetail) {
-            return true
-        }
-        return false
+        return badFilledStatusDetails.contains(statusDetail)
     }
 
     func hasSecondaryButton() -> Bool {

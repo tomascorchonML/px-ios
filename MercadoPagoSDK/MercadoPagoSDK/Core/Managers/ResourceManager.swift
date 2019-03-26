@@ -210,7 +210,7 @@ extension ResourceManager {
                 return ThemeManager.shared.warningColor()
             }
         }
-        return .pxWhite
+        return ThemeManager.shared.rejectedColor()
     }
 
     func getBadgeImageWith(status: String, statusDetail: String? = nil, clearBackground: Bool = false) -> UIImage? {

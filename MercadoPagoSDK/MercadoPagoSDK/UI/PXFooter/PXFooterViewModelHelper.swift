@@ -87,6 +87,7 @@ internal extension PXResultViewModel {
         if paymentResult.isAccepted() {
              callback(PaymentResult.CongratsState.cancel_EXIT)
         } else if paymentResult.isError() {
+            callback(PaymentResult.CongratsState.cancel_SELECT_OTHER)
         } else if paymentResult.isWarning() {
             switch self.paymentResult.statusDetail {
             case PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue:

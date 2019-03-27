@@ -124,10 +124,14 @@ internal class PXBodyComponent: PXComponentizable {
     func getBodyErrorComponent() -> PXErrorComponent {
         let status = props.paymentResult.status
         let statusDetail = props.paymentResult.statusDetail
+        let amount = props.paymentResult.paymentData?.payerCost?.totalAmount ?? props.amountHelper.amountToPay
         let paymentMethodName = props.paymentResult.paymentData?.paymentMethod?.name
 
         let title = getErrorTitle(status: status, statusDetail: statusDetail)
-        let message = getErrorMessage(status: status, statusDetail: statusDetail, paymentMethodName: paymentMethodName)
+        let message = getErrorMessage(status: status,
+                                      statusDetail: statusDetail,
+                                      amount:  amount,
+                                      paymentMethodName: paymentMethodName)
 
         let errorProps = PXErrorProps(title: title.toAttributedString(), message: message?.toAttributedString(), secondaryTitle: nil, action: nil)
         let errorComponent = PXErrorComponent(props: errorProps)
@@ -142,7 +146,7 @@ internal class PXBodyComponent: PXComponentizable {
         return PXResourceProvider.getTitleForErrorBody()
     }
 
-    func getErrorMessage(status: String, statusDetail: String, paymentMethodName: String?) -> String? {
+    func getErrorMessage(status: String, statusDetail: String, amount: Double, paymentMethodName: String?) -> String? {
         if status == PXPayment.Status.PENDING || status == PXPayment.Status.IN_PROCESS {
             switch statusDetail {
             case PXPayment.StatusDetails.PENDING_CONTINGENCY:
@@ -155,7 +159,7 @@ internal class PXBodyComponent: PXComponentizable {
         } else if status == PXPayment.Status.REJECTED {
             switch statusDetail {
             case PXPayment.StatusDetails.REJECTED_CALL_FOR_AUTHORIZE:
-                return PXResourceProvider.getDescriptionForErrorBodyForREJECTED_CALL_FOR_AUTHORIZE()
+                return PXResourceProvider.getDescriptionForErrorBodyForREJECTED_CALL_FOR_AUTHORIZE(amount)
             case PXPayment.StatusDetails.REJECTED_CARD_DISABLED:
                 return PXResourceProvider.getDescriptionForErrorBodyForREJECTED_CARD_DISABLED(paymentMethodName)
             case PXPayment.StatusDetails.REJECTED_INSUFFICIENT_AMOUNT:

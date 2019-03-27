@@ -42,7 +42,7 @@
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>1- Llama al teléfono que está al reverso de tu tarjeta para autorizar el pago de [monto] a Mercado Pago.
+		<string>1- Llama al teléfono que está al reverso de tu tarjeta para autorizar el pago de [amount] a Mercado Pago.
 2- Avísanos para que podamos acreditarlo.</string>
 	</dict>
 	<key>error_body_description_cc_rejected_card_disabled</key>

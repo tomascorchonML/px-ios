@@ -34,9 +34,18 @@ internal class PXResourceProvider {
         return key.localized_beta
     }
 
-    static internal func getDescriptionForErrorBodyForREJECTED_CALL_FOR_AUTHORIZE() -> String {
+    static internal func getDescriptionForErrorBodyForREJECTED_CALL_FOR_AUTHORIZE(_ amount: Double) -> String {
         let key = error_body_description_base + PXPayment.StatusDetails.REJECTED_CALL_FOR_AUTHORIZE
-        return key.localized_beta
+        let initialText = key.localized_beta
+
+        let currency = SiteManager.shared.getCurrency()
+        let currencySymbol = currency.getCurrencySymbolOrDefault()
+        let thousandSeparator = currency.getThousandsSeparatorOrDefault()
+        let decimalSeparator = currency.getDecimalSeparatorOrDefault()
+        let attributtedString = Utils.getAttributedAmount(amount, thousandSeparator: thousandSeparator, decimalSeparator: decimalSeparator, currencySymbol: currencySymbol, color: UIColor.px_white(), fontSize: PXHeaderRenderer.TITLE_FONT_SIZE, centsFontSize: PXHeaderRenderer.TITLE_FONT_SIZE/2, smallSymbol: true)
+        let amountString = attributtedString.string
+        let composedText = initialText.replacingOccurrences(of: "[amount]", with: amountString)
+        return composedText
     }
 
     static internal func getDescriptionForErrorBodyForREJECTED_CARD_DISABLED(_ paymentMethodName: String?) -> String {

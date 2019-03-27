@@ -113,6 +113,7 @@ extension PXCardSlider {
 extension PXCardSlider {
     private func setupSlider(_ containerView: UIView) {
         containerView.addSubview(pagerView)
+        pagerView.accessibilityIdentifier = "card_carrousel"
         PXLayout.setHeight(owner: pagerView, height: containerView.bounds.height).isActive = true
         PXLayout.pinLeft(view: pagerView).isActive = true
         PXLayout.pinRight(view: pagerView).isActive = true

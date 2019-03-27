@@ -40,39 +40,35 @@ internal extension PXResultViewModel {
 
     private func getButtonLabel() -> String? {
         if paymentResult.isAccepted() {
-            if self.paymentResult.isWaitingForPayment() {
-                if preference.getPendingSecondaryButtonText() != nil {
-                    return preference.getPendingSecondaryButtonText()!
-                } else {
-                    return PXFooterResultConstants.DEFAULT_BUTTON_TEXT
-                }
-            } else if !preference.getApprovedSecondaryButtonText().isEmpty {
-                return preference.getApprovedSecondaryButtonText()
-            } else {
-                return PXFooterResultConstants.DEFAULT_BUTTON_TEXT
-            }
+            return nil
         } else if paymentResult.isError() {
-            if let labelError = preference.getRejectedSecondaryButtonText() {
-                return labelError
-            } else {
-                return PXFooterResultConstants.ERROR_BUTTON_TEXT.localized
-            }
+            return PXFooterResultConstants.GENERIC_ERROR_BUTTON_TEXT.localized_beta
         } else if paymentResult.isWarning() {
-            if let labelWarning = preference.getPendingSecondaryButtonText() {
-                return labelWarning
-            } else if self.paymentResult.statusDetail == PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue || self.paymentResult.statusDetail == PXRejectedStatusDetail.INSUFFICIENT_AMOUNT.rawValue {
-                return PXFooterResultConstants.C4AUTH_BUTTON_TEXT.localized
-            } else if self.paymentResult.statusDetail == PXRejectedStatusDetail.CARD_DISABLE.rawValue {
-                return PXFooterResultConstants.CARD_DISABLE_BUTTON_TEXT.localized
-            } else {
-                return PXFooterResultConstants.WARNING_BUTTON_TEXT.localized
-            }
+            return getWarningButtonLabel()
         }
         return PXFooterResultConstants.DEFAULT_BUTTON_TEXT
     }
 
+    private func getWarningButtonLabel() -> String? {
+        if self.paymentResult.isCallForAuth() {
+            return PXFooterResultConstants.C4AUTH_BUTTON_TEXT.localized_beta
+        } else if self.paymentResult.isBadFilled() {
+            return PXFooterResultConstants.BAD_FILLED_BUTTON_TEXT.localized_beta
+        } else if self.paymentResult.isDuplicatedPayment() {
+            return PXFooterResultConstants.DUPLICATED_PAYMENT_BUTTON_TEXT.localized_beta
+        } else if self.paymentResult.isCardDisabled() {
+            return PXFooterResultConstants.CARD_DISABLE_BUTTON_TEXT.localized_beta
+        } else if self.paymentResult.isFraudPayment() {
+            return PXFooterResultConstants.FRAUD_BUTTON_TEXT.localized_beta
+        } else {
+            return PXFooterResultConstants.GENERIC_ERROR_BUTTON_TEXT.localized_beta
+        }
+    }
+
     private func getLinkLabel() -> String? {
-        if paymentResult.isAccepted() {
+        if paymentResult.hasSecondaryButton() {
+            return PXFooterResultConstants.GENERIC_ERROR_BUTTON_TEXT.localized_beta
+        } else if paymentResult.isAccepted() {
             return PXFooterResultConstants.APPROVED_LINK_TEXT.localized_beta
         }
         return nil
@@ -91,20 +87,33 @@ internal extension PXResultViewModel {
         if paymentResult.isAccepted() {
              callback(PaymentResult.CongratsState.cancel_EXIT)
         } else if paymentResult.isError() {
-             callback(PaymentResult.CongratsState.cancel_SELECT_OTHER)
-        } else if paymentResult.isWarning() {
-            if self.paymentResult.statusDetail == PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue || self.paymentResult.statusDetail == PXRejectedStatusDetail.INSUFFICIENT_AMOUNT.rawValue {
-                callback(PaymentResult.CongratsState.cancel_SELECT_OTHER)
-            } else {
+            callback(PaymentResult.CongratsState.cancel_SELECT_OTHER)
+        } else if self.paymentResult.isBadFilled() {
+            callback(PaymentResult.CongratsState.cancel_SELECT_OTHER)
+        }  else if paymentResult.isWarning() {
+            switch self.paymentResult.statusDetail {
+            case PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue:
+                callback(PaymentResult.CongratsState.call_FOR_AUTH)
+            case PXRejectedStatusDetail.CARD_DISABLE.rawValue:
                 callback(PaymentResult.CongratsState.cancel_RETRY)
+            default:
+                callback(PaymentResult.CongratsState.cancel_SELECT_OTHER)
             }
         }
     }
 
     private func pressLink() {
+        guard let callback = self.callback else {return}
         if paymentResult.isAccepted() {
-            if let callback = self.callback {
                 callback(PaymentResult.CongratsState.cancel_EXIT)
+        } else {
+            switch self.paymentResult.statusDetail {
+            case PXRejectedStatusDetail.REJECTED_FRAUD.rawValue:
+                callback(PaymentResult.CongratsState.cancel_EXIT)
+            case PXRejectedStatusDetail.DUPLICATED_PAYMENT.rawValue:
+                callback(PaymentResult.CongratsState.cancel_EXIT)
+            default:
+                callback(PaymentResult.CongratsState.cancel_SELECT_OTHER)
             }
         }
     }

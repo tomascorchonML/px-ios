@@ -187,6 +187,7 @@ extension PXOneTapViewController {
         })
         loadingButtonComponent?.setTitle("Pagar".localized, for: .normal)
         loadingButtonComponent?.backgroundColor = ThemeManager.shared.getAccentColor()
+        loadingButtonComponent?.accessibilityIdentifier = "pay_button"
         return loadingButtonComponent
     }
 

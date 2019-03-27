@@ -18,7 +18,22 @@ internal class PaymentResult {
         case call_FOR_AUTH = 4
     }
 
-    let warningStatusDetails = [PXRejectedStatusDetail.INVALID_ESC.rawValue, PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue, PXRejectedStatusDetail.BAD_FILLED_CARD_NUMBER.rawValue, PXRejectedStatusDetail.CARD_DISABLE.rawValue, PXRejectedStatusDetail.INSUFFICIENT_AMOUNT.rawValue, PXRejectedStatusDetail.BAD_FILLED_DATE.rawValue, PXRejectedStatusDetail.BAD_FILLED_SECURITY_CODE.rawValue, PXRejectedStatusDetail.BAD_FILLED_OTHER.rawValue]
+    let warningStatusDetails = [PXRejectedStatusDetail.INVALID_ESC.rawValue,
+                                PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue,
+                                PXRejectedStatusDetail.BAD_FILLED_CARD_NUMBER.rawValue,
+                                PXRejectedStatusDetail.CARD_DISABLE.rawValue,
+                                PXRejectedStatusDetail.INSUFFICIENT_AMOUNT.rawValue,
+                                PXRejectedStatusDetail.REJECTED_INVALID_INSTALLMENTS.rawValue,
+                                PXRejectedStatusDetail.BAD_FILLED_DATE.rawValue,
+                                PXRejectedStatusDetail.BAD_FILLED_SECURITY_CODE.rawValue,
+                                PXRejectedStatusDetail.BAD_FILLED_OTHER.rawValue,
+                                PXPendingStatusDetail.CONTINGENCY.rawValue,
+                                PXPendingStatusDetail.REVIEW_MANUAL.rawValue]
+
+    let badFilledStatusDetails = [PXRejectedStatusDetail.BAD_FILLED_CARD_NUMBER.rawValue,
+                                  PXRejectedStatusDetail.BAD_FILLED_DATE.rawValue,
+                                  PXRejectedStatusDetail.BAD_FILLED_SECURITY_CODE.rawValue,
+                                  PXRejectedStatusDetail.BAD_FILLED_OTHER.rawValue]
 
     var paymentData: PXPaymentData?
     var splitAccountMoney: PXPaymentData?
@@ -56,6 +71,33 @@ internal class PaymentResult {
 
     func isCallForAuth() -> Bool {
         return self.statusDetail == PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue
+    }
+
+    func isInvalidInstallments() -> Bool {
+        return self.statusDetail == PXRejectedStatusDetail.REJECTED_INVALID_INSTALLMENTS.rawValue
+    }
+
+    func isDuplicatedPayment() -> Bool {
+        return self.statusDetail == PXRejectedStatusDetail.DUPLICATED_PAYMENT.rawValue
+    }
+
+    func isFraudPayment() -> Bool {
+        return self.statusDetail == PXRejectedStatusDetail.REJECTED_FRAUD.rawValue
+    }
+
+    func isCardDisabled() -> Bool {
+        return self.statusDetail == PXRejectedStatusDetail.CARD_DISABLE.rawValue
+    }
+
+    func isBadFilled() -> Bool {
+        return badFilledStatusDetails.contains(statusDetail)
+    }
+
+    func hasSecondaryButton() -> Bool {
+        return self.isCallForAuth() ||
+            self.isBadFilled() ||
+            self.isInvalidInstallments() ||
+            self.isCardDisabled()
     }
 
     func isApproved() -> Bool {

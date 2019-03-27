@@ -107,6 +107,15 @@ extension PXCardSlider {
             self?.pageControl.alpha = 0
         }
     }
+
+    func getCircleButtonData() -> (view: UIView?, frame: CGRect?) {
+        if let targetCell = pagerView.cellForItem(at: (model.count - 1)), let cardCell = targetCell as? PXCardSliderPagerCell {
+            if let circleView = cardCell.circleView {
+                return (circleView, circleView.frame)
+            }
+        }
+        return (nil, nil)
+    }
 }
 
 // MARK: Privates

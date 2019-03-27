@@ -17,6 +17,8 @@ class PXCardSliderPagerCell: FSPagerViewCell {
 
     @IBOutlet weak var containerView: UIView!
 
+    weak var circleView: UIView?
+
     override func prepareForReuse() {
         super.prepareForReuse()
         cardHeader?.view.removeFromSuperview()
@@ -54,7 +56,7 @@ extension PXCardSliderPagerCell {
         cardHeader?.show()
         if let headerView = cardHeader?.view {
             containerView.addSubview(headerView)
-            EmptyCard.render(containerView: containerView)
+            circleView = EmptyCard.render(containerView: containerView)
             PXLayout.centerHorizontally(view: headerView).isActive = true
             PXLayout.centerVertically(view: headerView).isActive = true
         }

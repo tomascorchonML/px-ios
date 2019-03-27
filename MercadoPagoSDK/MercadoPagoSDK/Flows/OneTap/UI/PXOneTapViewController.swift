@@ -349,7 +349,45 @@ extension PXOneTapViewController: PXCardSliderProtocol {
     }
 
     func addPaymentMethodCardDidTap() {
-        shouldChangePaymentMethod()
+        let targetData = slider.getCircleButtonData()
+        if let tFrame = targetData.frame, let tView = targetData.view?.superview {
+            doTransitionAnimation(tFrame, tView)
+        } else {
+            shouldChangePaymentMethod()
+        }
+    }
+
+    func doTransitionAnimation(_ tFrame: CGRect, _ tView: UIView) {
+        let ttView = UIView(frame: tFrame)
+        ttView.layer.cornerRadius = tFrame.width / 2
+        ttView.backgroundColor = .white
+
+        let ttFrame = tView.convert(tFrame, to: view)
+        ttView.frame = ttFrame
+        view.addSubview(ttView)
+
+        UIView.animate(withDuration: 0.5, animations: {
+            ttView.transform = CGAffineTransform(scaleX: 15, y: 15)
+        }, completion: { _ in
+
+            ttView.layer.cornerRadius = 0
+            ttView.transform = CGAffineTransform.identity
+            ttView.frame = self.view.frame
+
+            let initialFrame = CGRect(x: 0, y: 0, width: ttView.frame.width, height: 0)
+            let finalFrame = CGRect(x: 0, y: 0, width: ttView.frame.width, height: 153)
+            let animatedHeader = UIView(frame: initialFrame)
+            animatedHeader.backgroundColor = ThemeManager.shared.navigationBar().backgroundColor
+            ttView.addSubview(animatedHeader)
+
+            UIView.animate(withDuration: 0.4, animations: {
+                animatedHeader.frame = finalFrame
+            }, completion: { _ in
+                self.shouldChangePaymentMethod()
+                ttView.removeFromSuperview()
+            })
+
+        })
     }
 
     func didScroll(offset: CGPoint) {

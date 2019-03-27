@@ -1,3 +1,16 @@
+# v4.8.3
+🚀Private RC - 4.8.3 🚀
+MercadoPagoSDKV4 - Private Version
+- Fix vending bug
+
+# v4.8.2
+🚀Private RC - 4.8.2 🚀 MercadoPagoSDKV4 - Private Version
+-Fix loading vending processor
+
+# v4.8.1
+🚀Private RC - 4.8.1 🚀 MercadoPagoSDKV4 - Private Version
+- Fix screen processor vending bug
+
 # v4.8.0
 🚀Private RC - 4.8.0 🚀
 MercadoPagoSDKV4 - Private Version

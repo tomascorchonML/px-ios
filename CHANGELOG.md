@@ -1,3 +1,24 @@
+# v4.9.0
+🚀Private RC - 4.9.0 🚀
+MercadoPagoSDKV4 - Private Version
+- MoneyIn CNPJ
+- Loyalty support
+- Issuer images feature
+- Instore YPF AddCard flow (Skip Congrats)
+- Fix payer cost bug with saved cards
+- Fix swiftlint
+- Remove track token and off paymets
+
+# v4.8.2
+🚀Private RC - 4.8.2 🚀
+MercadoPagoSDKV4 - Private Version
+- Fix loading vending processor
+
+# v4.8.1
+🚀Private RC - 4.8.1 🚀
+MercadoPagoSDKV4 - Private Version
+- Fix screen processor vending bug
+
 # v4.8.0
 🚀Private RC - 4.8.0 🚀
 MercadoPagoSDKV4 - Private Version

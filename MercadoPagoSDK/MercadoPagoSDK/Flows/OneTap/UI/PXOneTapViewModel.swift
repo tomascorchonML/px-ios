@@ -191,14 +191,14 @@ extension PXOneTapViewModel {
             }
         }
 
-        // HeaderTitle
+        // TODO: Q2 2019 - SP Integration - Get title and subtitle from Preference.
         if let headerTitleStr = items.first?._description {
             headerTitle = headerTitleStr
         } else if let headerTitleStr = items.first?.title {
             headerTitle = headerTitleStr
         }
 
-        let headerVM = PXOneTapHeaderViewModel(icon: headerImage, title: headerTitle, data: customData, splitConfiguration: splitConfiguration)
+        let headerVM = PXOneTapHeaderViewModel(icon: headerImage, title: headerTitle, subTitle: nil, data: customData, splitConfiguration: splitConfiguration)
         return headerVM
     }
 

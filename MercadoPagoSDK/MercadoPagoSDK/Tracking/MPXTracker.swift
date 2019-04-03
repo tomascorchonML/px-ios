@@ -41,11 +41,11 @@ internal extension MPXTracker {
         sessionService.startNewSession()
     }
 
-    internal func startNewFlow(externalFlowId: String) {
-        sessionService.startNewFlow(externalFlowId: externalFlowId)
+    internal func startNewFlow(externalSessionId: String) {
+        sessionService.startNewSession(externalSessionId: externalSessionId)
     }
 
-    internal func getFlowID() -> String {
+    internal func getSessionID() -> String {
         return sessionService.getSessionId()
     }
 

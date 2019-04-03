@@ -25,8 +25,8 @@ final internal class SessionService {
         sessionId = SessionService.getUUID()
     }
 
-    func startNewFlow(externalFlowId: String) {
-        sessionId = externalFlowId
+    func startNewSession(externalSessionId: String) {
+        sessionId = externalSessionId
     }
 }
 

@@ -37,7 +37,7 @@ internal extension MPXTracker {
         self.flowName = name
     }
 
-    internal func startNewFlow() {
+    internal func startNewSession() {
         sessionService.startNewSession()
     }
 

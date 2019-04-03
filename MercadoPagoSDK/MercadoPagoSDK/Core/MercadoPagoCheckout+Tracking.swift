@@ -11,7 +11,7 @@ import Foundation
 extension MercadoPagoCheckout {
 
     internal func startTracking() {
-        MPXTracker.sharedInstance.startNewFlow()
+        MPXTracker.sharedInstance.startNewSession()
 
         // Track init event
         var properties: [String: Any] = [:]

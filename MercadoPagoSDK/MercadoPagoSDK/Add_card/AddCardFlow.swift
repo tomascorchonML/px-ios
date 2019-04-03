@@ -36,7 +36,7 @@ public class AddCardFlow: NSObject, PXFlow {
         Localizator.sharedInstance.setLanguage(string: locale)
         ThemeManager.shared.saveNavBarStyleFor(navigationController: navigationController)
         PXNotificationManager.SuscribeTo.attemptToClose(self, selector: #selector(goBack))
-        MPXTracker.sharedInstance.startNewFlow()
+        MPXTracker.sharedInstance.startNewSession()
     }
 
     public func start() {

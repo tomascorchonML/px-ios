@@ -53,10 +53,10 @@ extension MercadoPagoCheckout {
             }
             cloneCardToken(token: token, securityCode: securityCode!)
 
-        } else if self.viewModel.mpESCManager.hasESCEnable() {
+        } else if self.viewModel.escManager?.hasESCEnable() ?? false {
             var savedESCCardToken: PXSavedESCCardToken
 
-            let esc = self.viewModel.mpESCManager.getESC(cardId: cardInfo.getCardId(), firstSixDigits: cardInfo.getFirstSixDigits(), lastFourDigits: cardInfo.getCardLastForDigits())
+            let esc = self.viewModel.escManager?.getESC(cardId: cardInfo.getCardId(), firstSixDigits: cardInfo.getFirstSixDigits(), lastFourDigits: cardInfo.getCardLastForDigits())
 
             if !String.isNullOrEmpty(esc) {
                 savedESCCardToken = PXSavedESCCardToken(cardId: cardInfo.getCardId(), esc: esc, requireESC: viewModel.getAdvancedConfiguration().escEnabled)
@@ -161,8 +161,8 @@ extension MercadoPagoCheckout {
             }
             let mpError = MPSDKError.convertFrom(error, requestOrigin: ApiUtil.RequestOrigin.CREATE_TOKEN.rawValue)
 
-            if let apiException = mpError.apiException, apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_ESC.rawValue) ||  apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_FINGERPRINT.rawValue) {
-                    strongSelf.viewModel.mpESCManager.deleteESC(cardId: savedESCCardToken.cardId)
+            if let apiException = mpError.apiException, apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_ESC.rawValue) || apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_FINGERPRINT.rawValue) {
+                strongSelf.viewModel.escManager?.deleteESC(cardId: savedESCCardToken.cardId)
             } else {
                 strongSelf.viewModel.errorInputs(error: mpError, errorCallback: { [weak self] () in
                     self?.createSavedESCCardToken(savedESCCardToken: savedESCCardToken)

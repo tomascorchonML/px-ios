@@ -41,7 +41,7 @@ internal extension MPXTracker {
         sessionService.startNewSession()
     }
 
-    internal func startNewFlow(externalSessionId: String) {
+    internal func startNewSession(externalSessionId: String) {
         sessionService.startNewSession(externalSessionId: externalSessionId)
     }
 

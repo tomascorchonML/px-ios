@@ -40,7 +40,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     var hookService: HookService = HookService()
 
-    internal var advancedConfig: PXAdvancedConfiguration = PXAdvancedConfiguration()
+    private var advancedConfig: PXAdvancedConfiguration = PXAdvancedConfiguration()
 
     internal var publicKey: String
     internal var privateKey: String?

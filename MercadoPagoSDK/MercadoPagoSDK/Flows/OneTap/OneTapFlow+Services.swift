@@ -12,7 +12,7 @@ extension OneTapFlow {
         guard let cardInfo = model.paymentOptionSelected as? PXCardInformation else {
             return
         }
-        if model.escManager?.hasESCEnable() ?? false {
+        if let escManager = model.escManager, escManager.hasESCEnable() {
             var savedESCCardToken: PXSavedESCCardToken
 
             let esc = model.escManager?.getESC(cardId: cardInfo.getCardId(), firstSixDigits: cardInfo.getFirstSixDigits(), lastFourDigits: cardInfo.getCardLastForDigits())

@@ -53,7 +53,7 @@ extension MercadoPagoCheckout {
             }
             cloneCardToken(token: token, securityCode: securityCode!)
 
-        } else if self.viewModel.escManager?.hasESCEnable() ?? false {
+        } else if let escManager = viewModel.escManager, escManager.hasESCEnable() {
             var savedESCCardToken: PXSavedESCCardToken
 
             let esc = self.viewModel.escManager?.getESC(cardId: cardInfo.getCardId(), firstSixDigits: cardInfo.getFirstSixDigits(), lastFourDigits: cardInfo.getCardLastForDigits())

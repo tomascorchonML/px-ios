@@ -139,7 +139,7 @@ extension MercadoPagoCheckoutViewModel {
         if selectedType.isCustomerPaymentMethod() {
             return false
         }
-        if !paymentData.hasIssuer()  && pm.isCard && !Array.isNullOrEmpty(issuers) {
+        if !paymentData.hasIssuer() && pm.isCard && !Array.isNullOrEmpty(issuers) {
             return true
         }
         return false
@@ -317,7 +317,7 @@ extension MercadoPagoCheckoutViewModel {
         }
 
         if let card = pmSelected as? PXCardInformation {
-            return mpESCManager.getESC(cardId: card.getCardId(), firstSixDigits: card.getFirstSixDigits(), lastFourDigits: card.getCardLastForDigits()) == nil ? false : true
+            return escManager?.getESC(cardId: card.getCardId(), firstSixDigits: card.getFirstSixDigits(), lastFourDigits: card.getCardLastForDigits()) == nil ? false : true
         }
         return false
     }

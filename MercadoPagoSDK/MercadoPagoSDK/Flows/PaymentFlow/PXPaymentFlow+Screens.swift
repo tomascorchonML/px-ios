@@ -1,5 +1,5 @@
 //
-//  PaymentFlow+Screens.swift
+//  PXPaymentFlow+Screens.swift
 //  MercadoPagoSDK
 //
 //  Created by Eden Torres on 18/07/2018.

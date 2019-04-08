@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal typealias InitFlowProperties = (paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, paymentPlugin: PXSplitPaymentProcessor?, paymentMethodPlugins: [PXPaymentMethodPlugin], paymentMethodSearchResult: PXPaymentMethodSearch?, chargeRules: [PXPaymentTypeChargeRule]?, serviceAdapter: MercadoPagoServicesAdapter, advancedConfig: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices)
+internal typealias InitFlowProperties = (paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, paymentPlugin: PXSplitPaymentProcessor?, paymentMethodPlugins: [PXPaymentMethodPlugin], paymentMethodSearchResult: PXPaymentMethodSearch?, chargeRules: [PXPaymentTypeChargeRule]?, serviceAdapter: MercadoPagoServicesAdapter, advancedConfig: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices, escManager: MercadoPagoESC?)
 internal typealias InitFlowError = (errorStep: InitFlowModel.Steps, shouldRetry: Bool, requestOrigin: ApiUtil.RequestOrigin?, apiException: ApiException?)
 
 internal protocol InitFlowProtocol: NSObjectProtocol {
@@ -25,8 +25,6 @@ final class InitFlowModel: NSObject, PXFlowModel {
         case SERVICE_PAYMENT_METHOD_PLUGIN_INIT = "Iniciando plugin de pago"
         case FINISH = "Finish step"
     }
-
-    private let mpESCManager: MercadoPagoESC
 
     private var preferenceValidated: Bool = false
     private var needPaymentMethodPluginInit = true
@@ -47,7 +45,6 @@ final class InitFlowModel: NSObject, PXFlowModel {
         self.properties = flowProperties
         self.loadPreferenceStatus = !String.isNullOrEmpty(flowProperties.checkoutPreference.id)
         self.directDiscountSearchStatus = flowProperties.paymentData.isComplete()
-        self.mpESCManager = PXESCManager(enabled: flowProperties.advancedConfig.escEnabled)
         super.init()
     }
 
@@ -64,8 +61,8 @@ extension InitFlowModel {
         return properties.serviceAdapter
     }
 
-    func getESCService() -> MercadoPagoESC {
-        return mpESCManager
+    func getESCService() -> MercadoPagoESC? {
+        return properties.escManager
     }
 
     func getError() -> InitFlowError {

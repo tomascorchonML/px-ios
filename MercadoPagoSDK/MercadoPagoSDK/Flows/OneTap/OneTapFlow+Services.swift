@@ -12,10 +12,10 @@ extension OneTapFlow {
         guard let cardInfo = model.paymentOptionSelected as? PXCardInformation else {
             return
         }
-        if self.model.mpESCManager.hasESCEnable() {
+        if let escManager = model.escManager, escManager.hasESCEnable() {
             var savedESCCardToken: PXSavedESCCardToken
 
-            let esc = self.model.mpESCManager.getESC(cardId: cardInfo.getCardId(), firstSixDigits: cardInfo.getFirstSixDigits(), lastFourDigits: cardInfo.getCardLastForDigits())
+            let esc = model.escManager?.getESC(cardId: cardInfo.getCardId(), firstSixDigits: cardInfo.getFirstSixDigits(), lastFourDigits: cardInfo.getCardLastForDigits())
 
             if !String.isNullOrEmpty(esc) {
                 savedESCCardToken = PXSavedESCCardToken(cardId: cardInfo.getCardId(), esc: esc, requireESC: advancedConfig.escEnabled)
@@ -84,9 +84,9 @@ extension OneTapFlow {
                 }
                 let error = MPSDKError.convertFrom(error, requestOrigin: ApiUtil.RequestOrigin.CREATE_TOKEN.rawValue)
 
-                if let apiException = error.apiException, apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_ESC.rawValue) ||  apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_FINGERPRINT.rawValue) {
+                if let apiException = error.apiException, apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_ESC.rawValue) || apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_FINGERPRINT.rawValue) {
 
-                    strongSelf.model.mpESCManager.deleteESC(cardId: savedESCCardToken.cardId)
+                    strongSelf.model.escManager?.deleteESC(cardId: savedESCCardToken.cardId)
                     strongSelf.executeNextStep()
                 } else {
                     if strongSelf.isShowingLoading() {

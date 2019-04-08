@@ -42,12 +42,12 @@ final internal class OneTapFlowModel: PXFlowModel {
         }
     }
 
-    let mpESCManager: MercadoPagoESC
+    let escManager: MercadoPagoESC?
     let advancedConfiguration: PXAdvancedConfiguration
     let mercadoPagoServicesAdapter: MercadoPagoServicesAdapter
     let paymentConfigurationService: PXPaymentConfigurationServices
 
-    init(paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, chargeRules: [PXPaymentTypeChargeRule]?, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, advancedConfiguration: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices) {
+    init(paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, chargeRules: [PXPaymentTypeChargeRule]?, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, advancedConfiguration: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices, escManager: MercadoPagoESC?) {
         self.paymentData = paymentData.copy() as? PXPaymentData ?? paymentData
         self.checkoutPreference = checkoutPreference
         self.search = search
@@ -55,7 +55,7 @@ final internal class OneTapFlowModel: PXFlowModel {
         self.advancedConfiguration = advancedConfiguration
         self.chargeRules = chargeRules
         self.mercadoPagoServicesAdapter = mercadoPagoServicesAdapter
-        self.mpESCManager = PXESCManager(enabled: advancedConfiguration.escEnabled)
+        self.escManager = escManager
         self.paymentConfigurationService = paymentConfigurationService
 
         // Payer cost pre selection.
@@ -205,7 +205,7 @@ internal extension OneTapFlowModel {
 
     func hasSavedESC() -> Bool {
         if let card = paymentOptionSelected as? PXCardInformation {
-            return mpESCManager.getESC(cardId: card.getCardId(), firstSixDigits: card.getFirstSixDigits(), lastFourDigits: card.getCardLastForDigits()) == nil ? false : true
+            return escManager?.getESC(cardId: card.getCardId(), firstSixDigits: card.getFirstSixDigits(), lastFourDigits: card.getCardLastForDigits()) == nil ? false : true
         }
         return false
     }

@@ -67,6 +67,7 @@
 //
 
     [self setCheckoutPref_CreditCardNotExcluded];
+    [self setCheckoutPrefAdditionalInfo];
 
     self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"APP_USR-ba2e6b8c-8b6d-4fc3-8a47-0ab241d0dba4" checkoutPreference:self.pref paymentConfiguration:[self getPaymentConfiguration]];
 
@@ -206,6 +207,11 @@
 
     self.pref = [[PXCheckoutPreference alloc] initWithSiteId:@"MLA" payerEmail:@"sara@gmail.com" items:items];
 //    [self.pref addExcludedPaymentType:@"ticket"];
+}
+
+-(void)setCheckoutPrefAdditionalInfo {
+    // Example SP support for custom additional info.
+    self.pref.additionalInfo = @"{\"px_summary\":{\"title\":\"Titulo en additional info\",\"image_url\":\"https://pbs.twimg.com/profile_images/589556737876844544/Gz0_UguO_400x400.jpg\",\"subtitle\":\"Subtítulo en additional info\",\"purpose\":\"Tu vieja\"}}";
 }
 
 -(void)setCheckoutPref_WithId {

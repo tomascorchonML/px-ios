@@ -60,7 +60,11 @@ import Foundation
     /**
      Additional info - json string.
      */
-    open var additionalInfo: String?
+    open var additionalInfo: String? {
+        didSet {
+            self.populateAdditionalInfoModel()
+        }
+    }
 
     internal var binaryModeEnabled: Bool = false
     internal var pxAdditionalInfo: PXAdditionalInfo?

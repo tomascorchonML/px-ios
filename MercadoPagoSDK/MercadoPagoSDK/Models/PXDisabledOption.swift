@@ -20,7 +20,7 @@ class PXDisabledOption {
                 disabledCardId = cardId
             }
 
-            if paymentResult.paymentData?.getPaymentMethod()?.getId() == PXPaymentTypes.ACCOUNT_MONEY.rawValue,
+            if paymentResult.paymentData?.getPaymentMethod()?.isAccountMoney ?? false,
                 paymentResult.statusDetail == PXPayment.StatusDetails.REJECTED_HIGH_RISK {
                 disabledAccountMoney = true
             }

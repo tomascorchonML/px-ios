@@ -31,7 +31,7 @@ class PaymentSearchCollectionViewCell: UICollectionViewCell {
 
         subtitleSearch.attributedText = subtitle
 
-        let image = isDisabled ? grayscale(originalImage: image) : image
+        let image = isDisabled ? image?.grayscale() : image
         addPaymentOptionIconComponent(image: image)
         if isDisabled {
             addWarningBadge()
@@ -134,18 +134,4 @@ extension PaymentSearchCollectionViewCell {
         PXLayout.setWidth(owner: paymentMethodIconComponent, width: paymentOptionImageContainer.frame.width).isActive = true
         PXLayout.pinTop(view: paymentMethodIconComponent, withMargin: 0).isActive = true
     }
-
-    func grayscale(originalImage: UIImage?) -> UIImage? {
-        if let originalImage = originalImage, let currentFilter = CIFilter(name: "CIPhotoEffectMono")  {
-            let context = CIContext(options: nil)
-            currentFilter.setValue(CIImage(image: originalImage), forKey: kCIInputImageKey)
-            if let output = currentFilter.outputImage,
-                let cgimg = context.createCGImage(output,from: output.extent) {
-                let processedImage = UIImage(cgImage: cgimg)
-                return processedImage
-            }
-        }
-        return nil
-    }
-
 }

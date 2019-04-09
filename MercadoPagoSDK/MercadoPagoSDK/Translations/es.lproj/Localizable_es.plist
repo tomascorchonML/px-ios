@@ -598,5 +598,54 @@
 		<key>value</key>
 		<string>Términos y Condiciones</string>
 	</dict>
+	<key>disabled_title_am</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Tu dinero en Mercado Pago no está disponible ahora</string>
+	</dict>
+	<key>disabled_title_card</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Esta tarjeta no está disponible ahora</string>
+	</dict>
+	<key>disabled_description_am</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>No te preocupes, puedes usar otro medio para completar el pago.</string>
+	</dict>
+	<key>disabled_description_card</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>No te preocupes, puedes usar otro medio para completar el pago.</string>
+	</dict>
+	<key>disabled_button_text</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Pagar con otro medio</string>
+	</dict>
+	<key>disabled_disclaimer_am</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string> Medio no disponible para este pago</string>
+	</dict>
+	<key>disabled_disclaimer_card</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Tarjeta no disponible para este pago</string>
+	</dict>
 </dict>
 </plist>

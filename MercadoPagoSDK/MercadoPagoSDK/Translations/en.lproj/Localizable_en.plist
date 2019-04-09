@@ -361,5 +361,54 @@ Or if you prefer, you can choose another payment method.</string>
 		<key>value</key>
 		<string>With each payment to this brand you will consume the discounts until you reach the limit.</string>
 	</dict>
+	<key>disabled_title_am</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Your money in Mercado Pago is currently unavailable</string>
+	</dict>
+	<key>disabled_title_card</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>This card is currently unavailable</string>
+	</dict>
+	<key>disabled_description_am</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Don’t worry, you can use another method to complete the payment.</string>
+	</dict>
+	<key>disabled_description_card</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Don’t worry, you can use another method to complete the payment.</string>
+	</dict>
+	<key>disabled_button_text</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Pay with a different method</string>
+	</dict>
+	<key>disabled_disclaimer_am</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Method unavailable for this payment</string>
+	</dict>
+	<key>disabled_disclaimer_card</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Card unavailable for this payment</string>
+	</dict>
 </dict>
 </plist>

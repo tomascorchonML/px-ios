@@ -160,6 +160,10 @@ extension PXOneTapViewController {
             }
         }
 
+        if selectedCard?.isDisabled ?? false {
+            loadingButtonComponent?.setDisabled()
+        }
+
         view.layoutIfNeeded()
         refreshContentViewSize()
         scrollView.isScrollEnabled = false
@@ -350,8 +354,8 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         }
     }
 
-    func disabledCardDidTap() {
-        let vc = PXDisabledViewController()
+    func disabledCardDidTap(isAccountMoney: Bool) {
+        let vc = PXDisabledViewController(isAccountMoney: isAccountMoney)
         PXComponentFactory.Modal.show(viewController: vc, title: nil)
     }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PXDisabledOption {
+internal class PXDisabledOption {
 
     var disabledCardId: String? = nil
     var disabledAccountMoney: Bool = false

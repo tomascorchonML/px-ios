@@ -33,8 +33,9 @@ class PaymentSearchCollectionViewCell: UICollectionViewCell {
 
         let image = isDisabled ? grayscale(originalImage: image) : image
         addPaymentOptionIconComponent(image: image)
-        addWarningBadge()
-        warningBadgeIcon.isHidden = !isDisabled
+        if isDisabled {
+            addWarningBadge()
+        }
 
         backgroundColor = .white
         titleSearch.textColor = UIColor.black
@@ -107,7 +108,7 @@ class PaymentSearchCollectionViewCell: UICollectionViewCell {
 
 extension PaymentSearchCollectionViewCell {
 
-    fileprivate func addWarningBadge() {
+    private func addWarningBadge() {
         let image = ResourceManager.shared.getImage("warning_badge")
         warningBadgeIcon = UIImageView(image: image)
         paymentOptionImageContainer.insertSubview(warningBadgeIcon, at: 2)

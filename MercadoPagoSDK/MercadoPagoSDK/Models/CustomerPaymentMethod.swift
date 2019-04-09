@@ -9,14 +9,6 @@
 import UIKit
 
 @objcMembers internal class CustomerPaymentMethod: NSObject, PXCardInformation, PaymentMethodOption {
-    func setDisabled(_ disabled: Bool) {
-        disabledOption = disabled
-    }
-
-    func isDisabled() -> Bool {
-        return disabledOption
-    }
-
 
     var customerPaymentMethodId: String!
     var customerPaymentMethodDescription: String!
@@ -94,6 +86,14 @@ import UIKit
 
     func isIssuerRequired() -> Bool {
         return false
+    }
+
+    func setDisabled(_ disabled: Bool) {
+        disabledOption = disabled
+    }
+
+    func isDisabled() -> Bool {
+        return disabledOption
     }
 
     /** PaymentOptionDrawable implementation */

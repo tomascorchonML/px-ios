@@ -56,7 +56,14 @@ import Foundation
      marketplace
      */
     open var marketplace: String? = "NONE"
+
+    /**
+     Additional info - json string.
+     */
+    open var additionalInfo: String?
+
     internal var binaryModeEnabled: Bool = false
+    internal var pxAdditionalInfo: PXAdditionalInfo?
 
     // MARK: Initialization
     /**
@@ -113,6 +120,7 @@ import Foundation
         case differentialPricing = "differential_pricing"
         case site
         case marketplace
+        case additionalInfo = "additional_info"
     }
 
     required public convenience init(from decoder: Decoder) throws {
@@ -128,6 +136,8 @@ import Foundation
         let differentialPricing: PXDifferentialPricing? = try container.decodeIfPresent(PXDifferentialPricing.self, forKey: .differentialPricing)
         let marketplace: String? = try container.decodeIfPresent(String.self, forKey: .marketplace)
         self.init(id: id, items: items, payer: payer, paymentPreference: paymentPreference, siteId: siteId, expirationDateTo: expirationDateTo, expirationDateFrom: expirationDateFrom, site: site, differentialPricing: differentialPricing, marketplace: marketplace)
+        self.additionalInfo = try container.decodeIfPresent(String.self, forKey: .additionalInfo)
+        populateAdditionalInfoModel()
     }
 
     /// :nodoc:
@@ -141,6 +151,7 @@ import Foundation
         try container.encodeIfPresent(self.site, forKey: .site)
         try container.encodeIfPresent(self.differentialPricing, forKey: .differentialPricing)
         try container.encodeIfPresent(self.marketplace, forKey: .marketplace)
+        try container.encodeIfPresent(self.additionalInfo, forKey: .additionalInfo)
     }
 
     /// :nodoc:

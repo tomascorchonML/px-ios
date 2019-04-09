@@ -79,7 +79,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
     internal var splitAccountMoney: PXPaymentData?
     var payment: PXPayment?
     internal var paymentResult: PaymentResult?
-    internal var disabledOption: PXDisabledOption?
+    var disabledOption: PXDisabledOption?
     var businessResult: PXBusinessResult?
     open var payerCosts: [PXPayerCost]?
     open var issuers: [PXIssuer]?
@@ -238,7 +238,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         populateCheckoutStore()
         let paymentMethodPluginsToShow = paymentMethodPlugins.filter {$0.mustShowPaymentMethodPlugin(PXCheckoutStore.sharedInstance) == true}
 
-        var customerOptions: [PXCardInformation]?
+        var customerOptions: [CustomerPaymentMethod]?
         var pluginOptions: [PXPaymentMethodPlugin] = []
 
         if inRootGroupSelection() { // Solo se muestran las opciones custom y los plugines en root

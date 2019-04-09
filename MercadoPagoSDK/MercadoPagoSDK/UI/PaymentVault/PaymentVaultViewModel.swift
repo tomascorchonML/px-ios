@@ -14,7 +14,7 @@ class PaymentVaultViewModel: NSObject {
     var groupName: String?
     var email: String
     var paymentMethodOptions: [PaymentMethodOption]
-    var customerPaymentOptions: [PXCardInformation]?
+    var customerPaymentOptions: [CustomerPaymentMethod]?
     var paymentMethodPlugins = [PXPaymentMethodPlugin]()
     var paymentMethods: [PXPaymentMethod]!
     var defaultPaymentOption: PXPaymentMethodSearchItem?
@@ -30,7 +30,7 @@ class PaymentVaultViewModel: NSObject {
 
     internal var isRoot = true
 
-    init(amountHelper: PXAmountHelper, paymentMethodOptions: [PaymentMethodOption], customerPaymentOptions: [PXCardInformation]?, paymentMethodPlugins: [PXPaymentMethodPlugin], paymentMethods: [PXPaymentMethod], groupName: String? = nil, isRoot: Bool, email: String, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, callbackCancel: (() -> Void)? = nil, advancedConfiguration: PXAdvancedConfiguration, disabledOption: PXDisabledOption?) {
+    init(amountHelper: PXAmountHelper, paymentMethodOptions: [PaymentMethodOption], customerPaymentOptions: [CustomerPaymentMethod]?, paymentMethodPlugins: [PXPaymentMethodPlugin], paymentMethods: [PXPaymentMethod], groupName: String? = nil, isRoot: Bool, email: String, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, callbackCancel: (() -> Void)? = nil, advancedConfiguration: PXAdvancedConfiguration, disabledOption: PXDisabledOption?) {
         self.amountHelper = amountHelper
         self.email = email
         self.groupName = groupName
@@ -89,7 +89,10 @@ extension PaymentVaultViewModel {
         return nil
     }
 
+}
 
+// MARK: Disabled methods
+extension PaymentVaultViewModel {
     func shouldDisableAccountMoney() ->  Bool {
         return disabledOption?.isAccountMoneyDisabled() ?? false
     }
@@ -156,6 +159,7 @@ extension PaymentVaultViewModel {
                 }
             }
         }
+        //this line brings the disabled option to the last position in the payment method array
         returnDrawable = returnDrawable.sorted(by: { return $1.isDisabled() })
         return returnDrawable
     }

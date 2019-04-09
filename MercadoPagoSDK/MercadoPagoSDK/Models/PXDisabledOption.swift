@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PXDisabledOption {
+internal class PXDisabledOption {
 
     var disabledCardId: String? = nil
     var disabledAccountMoney: Bool = false
@@ -20,7 +20,7 @@ class PXDisabledOption {
                 disabledCardId = cardId
             }
 
-            if paymentResult.paymentData?.getPaymentMethod()?.getId() == PXPaymentTypes.ACCOUNT_MONEY.rawValue,
+            if paymentResult.paymentData?.getPaymentMethod()?.isAccountMoney ?? false,
                 paymentResult.statusDetail == PXPayment.StatusDetails.REJECTED_HIGH_RISK {
                 disabledAccountMoney = true
             }

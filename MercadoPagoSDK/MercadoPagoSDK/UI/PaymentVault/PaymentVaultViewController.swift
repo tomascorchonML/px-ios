@@ -245,9 +245,9 @@ internal class PaymentVaultViewController: MercadoPagoUIScrollViewController, UI
                 if paymentItemDrawable.isDisabled() {
                     let vc = PXDisabledViewController()
                     PXComponentFactory.Modal.show(viewController: vc, title: nil)
-                } else {
+                } else if let callback = self.callback {
                     collectionView.allowsSelection = false
-                    self.callback!(paymentSearchItemSelected)
+                    callback(paymentSearchItemSelected)
                 }
             }
         }

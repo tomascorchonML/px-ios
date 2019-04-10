@@ -160,7 +160,7 @@ extension PXOneTapViewController {
             }
         }
 
-        if selectedCard?.isDisabled ?? false {
+        if let selectedCard = selectedCard, selectedCard.isDisabled {
             loadingButtonComponent?.setDisabled()
         }
 

@@ -626,7 +626,7 @@
 		<key>value</key>
 		<string>Não se preocupe, você pode usar outro meio para concluir o pagamento.</string>
 	</dict>
-	<key>disabled_button_text</key>
+	<key>disabled_screen_change_method_action</key>
 	<dict>
 		<key>comment</key>
 		<string></string>

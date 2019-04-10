@@ -314,7 +314,7 @@ extension PXOneTapViewModel {
         return text
     }
 
-    internal func getSplitMessageForDebit(amountToPay: Double) -> NSAttributedString {
+    func getSplitMessageForDebit(amountToPay: Double) -> NSAttributedString {
         var amount: String = ""
         let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: Utils.getSemiBoldFont(size: PXLayout.XS_FONT), NSAttributedString.Key.foregroundColor: ThemeManager.shared.boldLabelTintColor()]
 
@@ -322,12 +322,12 @@ extension PXOneTapViewModel {
         return NSAttributedString(string: amount, attributes: attributes)
     }
 
-    internal func getDisabledOptionMessage(isAccountMoney: Bool) -> NSAttributedString {
+    func getDisabledOptionMessage(isAccountMoney: Bool) -> NSAttributedString {
         let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: Utils.getSemiBoldFont(size: PXLayout.XS_FONT), NSAttributedString.Key.foregroundColor: ThemeManager.shared.labelTintColor()]
 
-        let amDisclaimer = "disabled_disclaimer_am".localized_beta
-        let cardDisclaimer = "disabled_disclaimer_am".localized_beta
-        let disclaimer = isAccountMoney ? amDisclaimer : cardDisclaimer
+        let amDisclaimer = "disabled_disclaimer_am"
+        let cardDisclaimer = "disabled_disclaimer_am"
+        let disclaimer = isAccountMoney ? amDisclaimer.localized_beta : cardDisclaimer.localized_beta
         return NSAttributedString(string: disclaimer, attributes: attributes)
     }
 }

@@ -8,37 +8,37 @@
 import Foundation
 
 final class PXAdditionalInfoSummary: NSObject, Codable {
-    let title: String
+    var title: String?
     var subtitle: String?
     var purpose: String?
     var imageUrl: String?
 
-    public init(title: String, subtitle: String?, purpose: String?, imageUrl: String?) {
+    init(title: String?, subtitle: String?, purpose: String?, imageUrl: String?) {
         self.title = title
         self.subtitle = subtitle
         self.purpose = purpose
         self.imageUrl = imageUrl
     }
 
-    public enum PXAdditionalInfoSummaryKeys: String, CodingKey {
+    enum PXAdditionalInfoSummaryKeys: String, CodingKey {
         case title
         case subtitle
         case purpose
         case imageUrl = "image_url"
     }
 
-    required public convenience init(from decoder: Decoder) throws {
+    required convenience init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: PXAdditionalInfoSummaryKeys.self)
-        let title: String = try container.decode(String.self, forKey: .title)
+        let title: String? = try container.decodeIfPresent(String.self, forKey: .title)
         let subtitle: String? = try container.decodeIfPresent(String.self, forKey: .subtitle)
         let purpose: String? = try container.decodeIfPresent(String.self, forKey: .purpose)
         let imageUrl: String? = try container.decodeIfPresent(String.self, forKey: .imageUrl)
         self.init(title: title, subtitle: subtitle, purpose: purpose, imageUrl: imageUrl)
     }
 
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: PXAdditionalInfoSummaryKeys.self)
-        try container.encode(self.title, forKey: .title)
+        try container.encodeIfPresent(self.title, forKey: .title)
         try container.encodeIfPresent(self.subtitle, forKey: .subtitle)
         try container.encodeIfPresent(self.purpose, forKey: .purpose)
         try container.encodeIfPresent(self.imageUrl, forKey: .imageUrl)

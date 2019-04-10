@@ -201,9 +201,9 @@ extension PXOneTapViewModel {
             headerImage = defaultImage
         }
 
-        if let additionalSummaryData = additionalInfoSummaryData, additionalSummaryData.title.count > 0 {
+        if let additionalSummaryData = additionalInfoSummaryData, let additionalSummaryTitle = additionalSummaryData.title, !additionalSummaryTitle.isEmpty {
             // SP and new scenario based on Additional Info Summary
-            headerTitle = additionalSummaryData.title
+            headerTitle = additionalSummaryTitle
             headerSubtitle = additionalSummaryData.subtitle
             if let headerUrl = additionalSummaryData.imageUrl {
                 headerImage = PXUIImage(url: headerUrl)

@@ -15,6 +15,7 @@ import UIKit
     var paymentMethodId: String!
     var paymentMethodTypeId: String!
     var firstSixDigits: String!
+    var disabledOption: Bool = false
 
     var securityCode: PXSecurityCode?
     var paymentMethod: PXPaymentMethod?
@@ -85,6 +86,14 @@ import UIKit
 
     func isIssuerRequired() -> Bool {
         return false
+    }
+
+    func setDisabled(_ disabled: Bool) {
+        disabledOption = disabled
+    }
+
+    func isDisabled() -> Bool {
+        return disabledOption
     }
 
     /** PaymentOptionDrawable implementation */

@@ -8,7 +8,6 @@
 import Foundation
 /// :nodoc:
 extension PXCard: PXCardInformation {
-
     internal func getIssuer() -> PXIssuer? {
         return issuer
     }
@@ -80,6 +79,9 @@ extension PXCard: PXCardInformation {
 }
 /// :nodoc:
 extension PXCard: PaymentOptionDrawable {
+    func isDisabled() -> Bool {
+        return false
+    }
 
     func getTitle() -> String {
         return getCardDescription()

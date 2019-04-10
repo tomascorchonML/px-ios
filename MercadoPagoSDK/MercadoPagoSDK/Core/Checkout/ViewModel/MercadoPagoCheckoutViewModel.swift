@@ -79,7 +79,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
     internal var splitAccountMoney: PXPaymentData?
     var payment: PXPayment?
     internal var paymentResult: PaymentResult?
-    private var disabledOption: PXDisabledOption?
+    var disabledOption: PXDisabledOption?
     var businessResult: PXBusinessResult?
     open var payerCosts: [PXPayerCost]?
     open var issuers: [PXIssuer]?

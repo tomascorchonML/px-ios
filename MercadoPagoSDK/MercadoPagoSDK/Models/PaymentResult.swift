@@ -131,6 +131,10 @@ internal class PaymentResult {
     func isContingency() -> Bool {
         return self.statusDetail == PXPendingStatusDetail.CONTINGENCY.rawValue
     }
+
+    func isAccountMoney() -> Bool {
+        return self.paymentData?.getPaymentMethod()?.isAccountMoney ?? false
+    }
 }
 
 // MARK: Congrats logic

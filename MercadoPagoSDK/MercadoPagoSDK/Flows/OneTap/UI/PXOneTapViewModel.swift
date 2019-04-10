@@ -19,6 +19,7 @@ final class PXOneTapViewModel: PXReviewViewModel {
 
     var splitPaymentEnabled: Bool = false
     var splitPaymentSelectionByUser: Bool?
+    var additionalInfoSummary: PXAdditionalInfoSummary?
 }
 
 // MARK: ViewModels Publics.
@@ -156,15 +157,20 @@ extension PXOneTapViewModel {
 
             amountHelper.getPaymentData().setDiscount(discount, withCampaign: campaign, consumedDiscount: consumedDiscount)
 
+            var yourPurchaseSummaryTitle: String = "onetap_purchase_summary_title".localized_beta
+            if let customPurposeSummaryTitle = additionalInfoSummary?.purpose {
+                yourPurchaseSummaryTitle = customPurposeSummaryTitle
+            }
+
             if consumedDiscount {
-                customData.append(OneTapHeaderSummaryData("onetap_purchase_summary_title".localized_beta, yourPurchaseToShow, summaryColor, summaryAlpha, false, nil))
+                customData.append(OneTapHeaderSummaryData(yourPurchaseSummaryTitle, yourPurchaseToShow, summaryColor, summaryAlpha, false, nil))
                 let helperImage: UIImage? = isDefaultStatusBarStyle ? ResourceManager.shared.getImage("helper_ico_gray") : ResourceManager.shared.getImage("helper_ico_light")
                 customData.append(OneTapHeaderSummaryData("total_row_consumed_discount".localized_beta, "", summaryColor, discountDisclaimerAlpha, false, helperImage))
 
                 totalAmountToShow = Utils.getAmountFormated(amount: amountHelper.getAmountToPayWithoutPayerCost(selectedCard?.cardId), forCurrency: currency)
                 yourPurchaseToShow = Utils.getAmountFormated(amount: amountHelper.preferenceAmount, forCurrency: currency)
             } else if let discount = discount {
-                customData.append(OneTapHeaderSummaryData("onetap_purchase_summary_title".localized_beta, yourPurchaseToShow, summaryColor, summaryAlpha, false, nil))
+                customData.append(OneTapHeaderSummaryData(yourPurchaseSummaryTitle, yourPurchaseToShow, summaryColor, summaryAlpha, false, nil))
                 let discountToShow = Utils.getAmountFormated(amount: discount.couponAmount, forCurrency: currency)
                 let helperImage: UIImage? = isDefaultStatusBarStyle ? ResourceManager.shared.getImage("helper_ico") : ResourceManager.shared.getImage("helper_ico_light")
                 customData.append(OneTapHeaderSummaryData(discount.getDiscountDescription(), "- \(discountToShow)", discountColor, discountAlpha, false, helperImage))
@@ -180,26 +186,45 @@ extension PXOneTapViewModel {
 
         customData.append(OneTapHeaderSummaryData("onetap_purchase_summary_total".localized_beta, totalAmountToShow, totalColor, totalAlpha, true, nil))
 
-        // HeaderImage
+        // Populate header display data. From SP pref AdditionalInfo or instore retrocompatibility.
+        let (headerTitle, headerSubtitle, headerImage) = getSummaryHeader(item: items.first, additionalInfoSummaryData: additionalInfoSummary)
+
+        let headerVM = PXOneTapHeaderViewModel(icon: headerImage, title: headerTitle, subTitle: headerSubtitle, data: customData, splitConfiguration: splitConfiguration)
+        return headerVM
+    }
+
+    func getSummaryHeader(item: PXItem?, additionalInfoSummaryData: PXAdditionalInfoSummary?) -> (title: String, subtitle: String?, image: UIImage) {
         var headerImage: UIImage = UIImage()
         var headerTitle: String = ""
-        if let headerUrl = items.first?.getPictureURL() {
-            headerImage = PXUIImage(url: headerUrl)
+        var headerSubtitle: String?
+        if let defaultImage = ResourceManager.shared.getImage("MPSDK_review_iconoCarrito_white") {
+            headerImage = defaultImage
+        }
+
+        if let additionalSummaryData = additionalInfoSummaryData, let additionalSummaryTitle = additionalSummaryData.title, !additionalSummaryTitle.isEmpty {
+            // SP and new scenario based on Additional Info Summary
+            headerTitle = additionalSummaryTitle
+            headerSubtitle = additionalSummaryData.subtitle
+            if let headerUrl = additionalSummaryData.imageUrl {
+                headerImage = PXUIImage(url: headerUrl)
+            }
         } else {
-            if let defaultImage = ResourceManager.shared.getImage("MPSDK_review_iconoCarrito_white") {
-                headerImage = defaultImage
+            // Instore scenario. Retrocompatibility
+            // To deprecate. After instore migrate current preferences.
+
+            // Title desc from item
+            if let headerTitleStr = item?._description {
+                headerTitle = headerTitleStr
+            } else if let headerTitleStr = item?.title {
+                headerTitle = headerTitleStr
+            }
+            headerSubtitle = nil
+            // Image from item
+            if let headerUrl = item?.getPictureURL() {
+                headerImage = PXUIImage(url: headerUrl)
             }
         }
-
-        // TODO: Q2 2019 - SP Integration - Get title and subtitle from Preference.
-        if let headerTitleStr = items.first?._description {
-            headerTitle = headerTitleStr
-        } else if let headerTitleStr = items.first?.title {
-            headerTitle = headerTitleStr
-        }
-
-        let headerVM = PXOneTapHeaderViewModel(icon: headerImage, title: headerTitle, subTitle: nil, data: customData, splitConfiguration: splitConfiguration)
-        return headerVM
+        return (title: headerTitle, subtitle: headerSubtitle, image: headerImage)
     }
 
     func getCardSliderViewModel() -> [PXCardSliderViewModel] {

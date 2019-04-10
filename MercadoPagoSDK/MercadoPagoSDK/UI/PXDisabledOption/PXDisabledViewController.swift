@@ -9,11 +9,17 @@ import UIKit
 
 class PXDisabledViewController: UIViewController {
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-
+    init(isAccountMoney: Bool) {
+        super.init(nibName: nil, bundle: nil)
         let title = UILabel()
-        title.text = "Esta tarjeta no está disponible ahora"
+
+        let amTitle = "disabled_title_am"
+        let cardTitle = "disabled_title_card"
+        let amDescription = "disabled_description_am"
+        let cardDescription = "disabled_description_card"
+        let buttonText = "disabled_screen_change_method_action"
+
+        title.text = isAccountMoney ? amTitle.localized_beta : cardTitle.localized_beta
         view.addSubview(title)
         title.font = Utils.getFont(size: PXLayout.M_FONT)
         title.textColor = ThemeManager.shared.boldLabelTintColor()
@@ -25,7 +31,7 @@ class PXDisabledViewController: UIViewController {
         _ = PXLayout.pinRight(view: title, to: view, withMargin: PXLayout.M_MARGIN).isActive = true
 
         let description = UILabel()
-        description.text = "No te preocupes, puedes usar otro medio para completar el pago."
+        description.text = isAccountMoney ? amDescription.localized_beta : cardDescription.localized_beta
         view.addSubview(description)
         description.font = Utils.getFont(size: PXLayout.XS_FONT)
         description.textColor = ThemeManager.shared.labelTintColor()
@@ -38,7 +44,7 @@ class PXDisabledViewController: UIViewController {
 
         let dismissButton = PXSecondaryButton()
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
-        dismissButton.buttonTitle = "Probar con otro medio"
+        dismissButton.buttonTitle = buttonText.localized_beta
         view.addSubview(dismissButton)
         _ = PXLayout.put(view: dismissButton, onBottomOf: description, withMargin: PXLayout.S_MARGIN, relation: .equal)
         _ = PXLayout.pinLeft(view: dismissButton, to: view, withMargin: PXLayout.S_MARGIN).isActive = true

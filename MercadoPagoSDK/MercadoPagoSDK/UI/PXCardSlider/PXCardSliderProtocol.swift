@@ -10,7 +10,7 @@ import Foundation
 protocol PXCardSliderProtocol: NSObjectProtocol {
     func newCardDidSelected(targetModel: PXCardSliderViewModel)
     func addPaymentMethodCardDidTap()
-    func disabledCardDidTap()
+    func disabledCardDidTap(isAccountMoney: Bool)
     func didScroll(offset: CGPoint)
     func didEndDecelerating()
 }

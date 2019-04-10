@@ -78,7 +78,7 @@ extension PXCardSlider: FSPagerViewDelegate {
             let modelData = model[index]
 
             if modelData.isDisabled {
-                delegate?.disabledCardDidTap()
+                delegate?.disabledCardDidTap(isAccountMoney: !modelData.isCard())
             }
 
             if modelData.cardData == nil {

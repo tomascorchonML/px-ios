@@ -121,7 +121,8 @@ extension PXOneTapViewModel {
             let selectedPayerCost = sliderNode.selectedPayerCost
             let installment = PXInstallment(issuer: nil, payerCosts: payerCost, paymentMethodId: nil, paymentTypeId: nil)
             if sliderNode.isDisabled {
-                let disabledInfoModel = PXOneTapInstallmentInfoViewModel(text: getDisabledOptionMessage(),
+                let isAM = !sliderNode.isCard()
+                let disabledInfoModel = PXOneTapInstallmentInfoViewModel(text: getDisabledOptionMessage(isAccountMoney: isAM),
                                                                             installmentData: nil,
                                                                             selectedPayerCost: nil,
                                                                             shouldShowArrow: false)
@@ -313,7 +314,7 @@ extension PXOneTapViewModel {
         return text
     }
 
-    internal func getSplitMessageForDebit(amountToPay: Double) -> NSAttributedString {
+    func getSplitMessageForDebit(amountToPay: Double) -> NSAttributedString {
         var amount: String = ""
         let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: Utils.getSemiBoldFont(size: PXLayout.XS_FONT), NSAttributedString.Key.foregroundColor: ThemeManager.shared.boldLabelTintColor()]
 
@@ -321,9 +322,12 @@ extension PXOneTapViewModel {
         return NSAttributedString(string: amount, attributes: attributes)
     }
 
-    internal func getDisabledOptionMessage() -> NSAttributedString {
-        let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: Utils.getSemiBoldFont(size: PXLayout.XS_FONT), NSAttributedString.Key.foregroundColor: ThemeManager.shared.boldLabelTintColor()]
-        let text = "No podes usar esta tarjeta"
-        return NSAttributedString(string: text, attributes: attributes)
+    func getDisabledOptionMessage(isAccountMoney: Bool) -> NSAttributedString {
+        let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: Utils.getSemiBoldFont(size: PXLayout.XS_FONT), NSAttributedString.Key.foregroundColor: ThemeManager.shared.labelTintColor()]
+
+        let amDisclaimer = "disabled_disclaimer_am"
+        let cardDisclaimer = "disabled_disclaimer_am"
+        let disclaimer = isAccountMoney ? amDisclaimer.localized_beta : cardDisclaimer.localized_beta
+        return NSAttributedString(string: disclaimer, attributes: attributes)
     }
 }

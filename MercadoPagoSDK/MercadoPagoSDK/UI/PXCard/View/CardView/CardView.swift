@@ -9,8 +9,7 @@ class CardView: UIView {
     private var cardUI: CardUI?
     var color: UIColor?
     var isDisabled: Bool = false
-
-    let disabledGray = UIColor(red: 73/255, green: 73/255, blue: 73/255, alpha: 1)
+    let disabledGray = ThemeManager.shared.disabledCardGray()
     let cornerRadius: CGFloat = 11
 
     func setup(_ cardUI: CardUI, _ model: CardData, _ frame: CGRect, _ isDisabled: Bool) {

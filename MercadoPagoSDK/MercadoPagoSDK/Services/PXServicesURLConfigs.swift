@@ -13,9 +13,9 @@ internal class PXServicesURLConfigs: NSObject {
     static var MP_PROD_ENV = "/v1"
     static var MP_SELECTED_ENV = MP_PROD_ENV
     static var PX_SDK_VERSION: String?
-    static var API_VERSION = "1.9"
+    static var API_VERSION = "2.0"
     static let MP_API_BASE_URL_PROD: String =  "https://api.mercadopago.com"
-    static let MP_API_BASE_URL: String =  MP_API_BASE_URL_PROD
+    static let MP_API_BASE_URL: String = MP_API_BASE_URL_PROD
 
     static var MP_ENVIROMENT = MP_SELECTED_ENV  + "/checkout"
     static let MP_OP_ENVIROMENT = "/v1"

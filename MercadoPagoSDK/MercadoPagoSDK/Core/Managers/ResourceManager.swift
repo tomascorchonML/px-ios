@@ -199,16 +199,15 @@ extension ResourceManager {
             if paymentResult.isError() {
                 return ThemeManager.shared.rejectedColor()
             }
-        } else {
-            if status == PXBusinessResultStatus.APPROVED.getDescription() {
-                return ThemeManager.shared.successColor()
-            } else if status == PXBusinessResultStatus.REJECTED.getDescription() {
-                return ThemeManager.shared.rejectedColor()
-            } else if status == PXBusinessResultStatus.PENDING.getDescription() {
-                return ThemeManager.shared.warningColor()
-            } else if status == PXBusinessResultStatus.IN_PROGRESS.getDescription() {
-                return ThemeManager.shared.warningColor()
-            }
+        }
+        if status.uppercased() == PXBusinessResultStatus.APPROVED.getDescription() {
+            return ThemeManager.shared.successColor()
+        } else if status.uppercased() == PXBusinessResultStatus.REJECTED.getDescription() {
+            return ThemeManager.shared.rejectedColor()
+        } else if status.uppercased() == PXBusinessResultStatus.PENDING.getDescription() {
+            return ThemeManager.shared.warningColor()
+        } else if status.uppercased() == PXBusinessResultStatus.IN_PROGRESS.getDescription() {
+            return ThemeManager.shared.warningColor()
         }
         return ThemeManager.shared.rejectedColor()
     }

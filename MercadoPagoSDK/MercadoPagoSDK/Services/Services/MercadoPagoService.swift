@@ -50,6 +50,9 @@ internal class MercadoPagoService: NSObject {
             request.setValue(value, forHTTPHeaderField: "User-Agent")
         }
 
+        // Add session id
+        request.setValue(MPXTracker.sharedInstance.getSessionID(), forHTTPHeaderField: "X-Session-Id")
+
         if let headers = headers {
             for header in headers {
                 request.setValue(header.value, forHTTPHeaderField: header.key)

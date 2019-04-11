@@ -19,26 +19,11 @@ import UIKit
     private var trackListener: PXTrackerListener?
     private var flowDetails: [String: Any]?
     private var flowName: String?
-    private var flowService: FlowService = FlowService()
+    private var sessionService: SessionService = SessionService()
 }
 
 // MARK: Getters/setters.
 internal extension MPXTracker {
-    internal func setPublicKey(_ public_key: String) {
-        self.public_key = public_key.trimSpaces()
-    }
-
-    internal func getPublicKey() -> String {
-        return self.public_key
-    }
-
-    internal func getSdkVersion() -> String {
-        return sdkVersion
-    }
-
-    internal func getPlatformType() -> String {
-        return "/mobile/ios"
-    }
 
     internal func setTrack(listener: PXTrackerListener) {
         trackListener = listener
@@ -52,16 +37,16 @@ internal extension MPXTracker {
         self.flowName = name
     }
 
-    internal func startNewFlow() {
-        flowService.startNewFlow()
+    internal func startNewSession() {
+        sessionService.startNewSession()
     }
 
-    internal func startNewFlow(externalFlowId: String) {
-        flowService.startNewFlow(externalFlowId: externalFlowId)
+    internal func startNewSession(externalSessionId: String) {
+        sessionService.startNewSession(externalSessionId: externalSessionId)
     }
 
-    internal func getFlowID() -> String {
-        return flowService.getFlowId()
+    internal func getSessionID() -> String {
+        return sessionService.getSessionId()
     }
 
     internal func clean() {
@@ -81,6 +66,7 @@ internal extension MPXTracker {
             if let flowName = flowName {
                 metadata["flow"] = flowName
             }
+            metadata[SessionService.SESSION_ID_KEY] = sessionService.getSessionId()
             trackListenerInterfase.trackScreen(screenName: screenName, extraParams: metadata)
         }
     }
@@ -95,16 +81,19 @@ internal extension MPXTracker {
                 if let flowName = flowName {
                     metadata["flow"] = flowName
                 }
+                metadata[SessionService.SESSION_ID_KEY] = sessionService.getSessionId()
             } else {
                 if let extraInfo = metadata["extra_info"] as? [String: Any] {
                     var frictionExtraInfo: [String: Any] = extraInfo
                     frictionExtraInfo["flow_detail"] = flowDetails
                     frictionExtraInfo["flow"] = flowName
+                    frictionExtraInfo[SessionService.SESSION_ID_KEY] = sessionService.getSessionId()
                     metadata["extra_info"] = frictionExtraInfo
                 } else {
                     var frictionExtraInfo: [String: Any] = [:]
                     frictionExtraInfo["flow_detail"] = flowDetails
                     frictionExtraInfo["flow"] = flowName
+                    frictionExtraInfo[SessionService.SESSION_ID_KEY] = sessionService.getSessionId()
                     metadata["extra_info"] = frictionExtraInfo
                 }
             }

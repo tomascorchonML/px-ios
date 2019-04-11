@@ -290,7 +290,7 @@ extension PXOneTapHeaderView {
         PXLayout.put(view: splitPaymentView, onBottomOf: summaryView).isActive = true
 
         let showHorizontally = shouldShowHorizontally(model: model)
-        let merchantView = PXOneTapHeaderMerchantView(image: model.icon, title: model.title, showHorizontally: showHorizontally)
+        let merchantView = PXOneTapHeaderMerchantView(image: model.icon, title: model.title, subTitle: model.subTitle, showHorizontally: showHorizontally)
         self.merchantView = merchantView
         self.addSubview(merchantView)
 

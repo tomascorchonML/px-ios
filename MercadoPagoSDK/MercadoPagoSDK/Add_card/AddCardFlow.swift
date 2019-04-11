@@ -28,7 +28,7 @@ public class AddCardFlow: NSObject, PXFlow {
         self.init(accessToken: accessToken, locale: locale, navigationController: navigationController)
         model.skipCongrats = shouldSkipCongrats
     }
-    
+
     public init(accessToken: String, locale: String, navigationController: UINavigationController) {
         self.accessToken = accessToken
         self.navigationHandler = PXNavigationHandler(navigationController: navigationController)
@@ -36,6 +36,7 @@ public class AddCardFlow: NSObject, PXFlow {
         Localizator.sharedInstance.setLanguage(string: locale)
         ThemeManager.shared.saveNavBarStyleFor(navigationController: navigationController)
         PXNotificationManager.SuscribeTo.attemptToClose(self, selector: #selector(goBack))
+        MPXTracker.sharedInstance.startNewSession()
     }
 
     public func start() {
@@ -232,7 +233,7 @@ public class AddCardFlow: NSObject, PXFlow {
 
     private func reset() {
         PXNotificationManager.Post.cardFormReset()
-        if let cardForm = self.navigationHandler.navigationController.viewControllers.filter({$0 is CardFormViewController}).first {
+        if let cardForm = self.navigationHandler.navigationController.viewControllers.filter({ $0 is CardFormViewController }).first {
             self.navigationHandler.navigationController.popToViewController(cardForm, animated: true)
             self.model.reset()
         } else {

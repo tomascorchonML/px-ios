@@ -10,14 +10,16 @@ import UIKit
 class PXOneTapHeaderMerchantView: PXComponentView {
     let image: UIImage
     let title: String
+    private var subTitle: String?
     private var showHorizontally: Bool
-    private var horizontalLayoutConstraints: [NSLayoutConstraint] = []
-    private var verticalLayoutConstraints: [NSLayoutConstraint] = []
+    private var layout: PXOneTapHeaderMerchantLayout
 
-    init(image: UIImage, title: String, showHorizontally: Bool) {
+    init(image: UIImage, title: String, subTitle: String? = nil, showHorizontally: Bool) {
         self.image = image
         self.title = title
         self.showHorizontally = showHorizontally
+        self.subTitle = subTitle
+        self.layout = PXOneTapHeaderMerchantLayout(layoutType: subTitle == nil ? .onlyTitle : .titleSubtitle)
         super.init()
         render()
     }
@@ -44,7 +46,7 @@ class PXOneTapHeaderMerchantView: PXComponentView {
 
         let imageView = PXUIImageView()
         imageView.layer.masksToBounds = false
-        imageView.layer.cornerRadius = IMAGE_SIZE/2
+        imageView.layer.cornerRadius = IMAGE_SIZE / 2
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.enableFadeIn()
@@ -70,27 +72,24 @@ class PXOneTapHeaderMerchantView: PXComponentView {
         titleLabel.textAlignment = .center
         containerView.addSubview(titleLabel)
 
-        self.addSubviewToBottom(containerView)
-        PXLayout.pinBottom(view: containerView).isActive = true
-        PXLayout.centerHorizontally(view: containerView).isActive = true
+        addSubviewToBottom(containerView)
 
-        let horizontalConstraints = [PXLayout.pinTop(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
-                                     PXLayout.pinBottom(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
-                                     PXLayout.pinLeft(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
-                                     PXLayout.pinRight(view: titleLabel, withMargin: PXLayout.XXS_MARGIN),
-                                     PXLayout.put(view: imageContainerView, leftOf: titleLabel, withMargin: PXLayout.XXS_MARGIN, relation: .equal),
-                                     PXLayout.centerVertically(view: imageContainerView, to: titleLabel)]
-
-        horizontalLayoutConstraints.append(contentsOf: horizontalConstraints)
-
-        let verticalConstraints = [PXLayout.centerHorizontally(view: imageContainerView),
-                                   PXLayout.pinTop(view: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
-                                   PXLayout.centerHorizontally(view: titleLabel),
-                                   PXLayout.put(view: titleLabel, onBottomOf: imageContainerView, withMargin: PXLayout.XXS_MARGIN),
-                                   PXLayout.pinBottom(view: titleLabel, withMargin: PXLayout.XXS_MARGIN),
-                                   PXLayout.matchWidth(ofView: containerView)]
-
-        verticalLayoutConstraints.append(contentsOf: verticalConstraints)
+        if layout.getLayoutType() == .onlyTitle {
+            layout.makeConstraints(containerView, imageContainerView, titleLabel)
+        } else {
+            let subTitleAlpha: CGFloat = 0.48
+            let subTitleLabel = UILabel()
+            subTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            subTitleLabel.text = subTitle
+            subTitleLabel.numberOfLines = 1
+            subTitleLabel.alpha = subTitleAlpha
+            subTitleLabel.lineBreakMode = .byTruncatingTail
+            subTitleLabel.font = Utils.getFont(size: PXLayout.XXXS_FONT)
+            subTitleLabel.textColor = ThemeManager.shared.statusBarStyle() == UIStatusBarStyle.default ? UIColor.black : ThemeManager.shared.whiteColor()
+            subTitleLabel.textAlignment = .center
+            containerView.addSubview(subTitleLabel)
+            layout.makeConstraints(containerView, imageContainerView, titleLabel, subTitleLabel)
+        }
 
         if showHorizontally {
             animateToHorizontal()
@@ -118,11 +117,11 @@ class PXOneTapHeaderMerchantView: PXComponentView {
 
             strongSelf.layoutIfNeeded()
 
-            for constraint in strongSelf.horizontalLayoutConstraints {
+            for constraint in strongSelf.layout.getHorizontalContrainsts() {
                 constraint.isActive = false
             }
 
-            for constraint in strongSelf.verticalLayoutConstraints {
+            for constraint in strongSelf.layout.getVerticalContrainsts() {
                 constraint.isActive = true
             }
             strongSelf.layoutIfNeeded()
@@ -141,11 +140,11 @@ class PXOneTapHeaderMerchantView: PXComponentView {
 
             strongSelf.layoutIfNeeded()
             strongSelf.pinContentViewToTop()
-            for constraint in strongSelf.horizontalLayoutConstraints {
+            for constraint in strongSelf.layout.getHorizontalContrainsts() {
                 constraint.isActive = true
             }
 
-            for constraint in strongSelf.verticalLayoutConstraints {
+            for constraint in strongSelf.layout.getVerticalContrainsts() {
                 constraint.isActive = false
             }
             strongSelf.layoutIfNeeded()

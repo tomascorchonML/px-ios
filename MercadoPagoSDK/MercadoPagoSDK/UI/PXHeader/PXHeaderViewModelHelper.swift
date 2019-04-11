@@ -100,13 +100,15 @@ internal extension PXResultViewModel {
             return "".toAttributedString()
         }
 
-        if statusDetail == PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue {
-            return getTitleForCallForAuth(paymentMethod)
+        var statusDetail = statusDetail
+        let badFilledKey = "cc_rejected_bad_filled"
+        if statusDetail.contains(badFilledKey) {
+            statusDetail = badFilledKey
         }
 
         let title = statusDetail + "_title"
 
-        if title.existsLocalized() {
+        if title.existsLocalizedBeta() {
             return getTitleForRejected(paymentMethod, title)
         } else {
             return getDefaultRejectedTitle()
@@ -130,7 +132,7 @@ internal extension PXResultViewModel {
         if let range = amountRange {
             let lowerBoundTitle = String(instructionsInfo.instructions[0].title[..<range.lowerBound])
             let attributedTitle = NSMutableAttributedString(string: lowerBoundTitle, attributes: [NSAttributedString.Key.font: Utils.getFont(size: PXHeaderRenderer.TITLE_FONT_SIZE)])
-            let attributedAmount = Utils.getAttributedAmount(amountInfo.amount, thousandSeparator: thousandSeparator, decimalSeparator: decimalSeparator, currencySymbol: currencySymbol, color: UIColor.px_white(), fontSize: PXHeaderRenderer.TITLE_FONT_SIZE, centsFontSize: PXHeaderRenderer.TITLE_FONT_SIZE/2, smallSymbol: true)
+            let attributedAmount = Utils.getAttributedAmount(amountInfo.amount, thousandSeparator: thousandSeparator, decimalSeparator: decimalSeparator, currencySymbol: currencySymbol, color: UIColor.px_white(), fontSize: PXHeaderRenderer.TITLE_FONT_SIZE, centsFontSize: PXHeaderRenderer.TITLE_FONT_SIZE / 2, smallSymbol: true)
             attributedTitle.append(attributedAmount)
             let upperBoundTitle = String(instructionsInfo.instructions[0].title[range.upperBound...])
             let endingTitle = NSAttributedString(string: upperBoundTitle, attributes: [NSAttributedString.Key.font: Utils.getFont(size: PXHeaderRenderer.TITLE_FONT_SIZE)])
@@ -143,33 +145,16 @@ internal extension PXResultViewModel {
         }
     }
 
-    func getTitleForCallForAuth(_ paymentMethod: PXPaymentMethod) -> NSAttributedString {
-        if let paymentMethodName = paymentMethod.name {
-            let currency = SiteManager.shared.getCurrency()
-            let currencySymbol = currency.getCurrencySymbolOrDefault()
-            let thousandSeparator = currency.getThousandsSeparatorOrDefault()
-            let decimalSeparator = currency.getDecimalSeparatorOrDefault()
-            let amountStr = Utils.getAttributedAmount(amountHelper.amountToPay, thousandSeparator: thousandSeparator, decimalSeparator: decimalSeparator, currencySymbol: currencySymbol, color: UIColor.px_white(), fontSize: PXHeaderRenderer.TITLE_FONT_SIZE, centsFontSize: PXHeaderRenderer.TITLE_FONT_SIZE/2, smallSymbol: true)
-            let string = "Debes autorizar ante %1$s el pago de ".localized.replacingOccurrences(of: "%1$s", with: "\(paymentMethodName)")
-            let result: NSMutableAttributedString = NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.font: Utils.getFont(size: PXHeaderRenderer.TITLE_FONT_SIZE)])
-            result.append(amountStr)
-            result.append(NSMutableAttributedString(string: " a Mercado Pago".localized, attributes: [NSAttributedString.Key.font: Utils.getFont(size: PXHeaderRenderer.TITLE_FONT_SIZE)]))
-            return result
-        } else {
-            return "".toAttributedString()
-        }
-    }
-
     func getTitleForRejected(_ paymentMethod: PXPaymentMethod, _ title: String) -> NSAttributedString {
 
         guard let paymentMethodName = paymentMethod.name else {
             return getDefaultRejectedTitle()
         }
 
-        return NSMutableAttributedString(string: (title.localized as NSString).replacingOccurrences(of: "%0", with: "\(paymentMethodName)"), attributes: [NSAttributedString.Key.font: Utils.getFont(size: PXHeaderRenderer.TITLE_FONT_SIZE)])
+        return NSMutableAttributedString(string: (title.localized_beta as NSString).replacingOccurrences(of: "%0", with: "\(paymentMethodName)"), attributes: [NSAttributedString.Key.font: Utils.getFont(size: PXHeaderRenderer.TITLE_FONT_SIZE)])
     }
 
     func getDefaultRejectedTitle() -> NSAttributedString {
-        return NSMutableAttributedString(string: "Uy, no pudimos procesar el pago".localized, attributes: [NSAttributedString.Key.font: Utils.getFont(size: PXHeaderRenderer.TITLE_FONT_SIZE)])
+        return NSMutableAttributedString(string: PXHeaderResutlConstants.REJECTED_HEADER_TITLE.localized_beta, attributes: [NSAttributedString.Key.font: Utils.getFont(size: PXHeaderRenderer.TITLE_FONT_SIZE)])
     }
 }

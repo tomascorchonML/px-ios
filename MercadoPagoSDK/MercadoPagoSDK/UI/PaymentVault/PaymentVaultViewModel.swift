@@ -14,10 +14,11 @@ class PaymentVaultViewModel: NSObject {
     var groupName: String?
     var email: String
     var paymentMethodOptions: [PaymentMethodOption]
-    var customerPaymentOptions: [PXCardInformation]?
+    var customerPaymentOptions: [CustomerPaymentMethod]?
     var paymentMethodPlugins = [PXPaymentMethodPlugin]()
     var paymentMethods: [PXPaymentMethod]!
     var defaultPaymentOption: PXPaymentMethodSearchItem?
+    var disabledOption: PXDisabledOption?
 
     var displayItems = [PaymentOptionDrawable]()
     var currency: PXCurrency = SiteManager.shared.getCurrency()
@@ -29,7 +30,7 @@ class PaymentVaultViewModel: NSObject {
 
     internal var isRoot = true
 
-    init(amountHelper: PXAmountHelper, paymentMethodOptions: [PaymentMethodOption], customerPaymentOptions: [PXCardInformation]?, paymentMethodPlugins: [PXPaymentMethodPlugin], paymentMethods: [PXPaymentMethod], groupName: String? = nil, isRoot: Bool, email: String, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, callbackCancel: (() -> Void)? = nil, advancedConfiguration: PXAdvancedConfiguration) {
+    init(amountHelper: PXAmountHelper, paymentMethodOptions: [PaymentMethodOption], customerPaymentOptions: [CustomerPaymentMethod]?, paymentMethodPlugins: [PXPaymentMethodPlugin], paymentMethods: [PXPaymentMethod], groupName: String? = nil, isRoot: Bool, email: String, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, callbackCancel: (() -> Void)? = nil, advancedConfiguration: PXAdvancedConfiguration, disabledOption: PXDisabledOption?) {
         self.amountHelper = amountHelper
         self.email = email
         self.groupName = groupName
@@ -40,6 +41,7 @@ class PaymentVaultViewModel: NSObject {
         self.isRoot = isRoot
         self.mercadoPagoServicesAdapter = mercadoPagoServicesAdapter
         self.advancedConfiguration = advancedConfiguration
+        self.disabledOption = disabledOption
         super.init()
         self.populateDisplayItemsDrawable()
     }
@@ -86,6 +88,18 @@ extension PaymentVaultViewModel {
         }
         return nil
     }
+
+}
+
+// MARK: Disabled methods
+extension PaymentVaultViewModel {
+    func shouldDisableAccountMoney() -> Bool {
+        return disabledOption?.isAccountMoneyDisabled() ?? false
+    }
+
+    func getDisabledCardID() -> String? {
+        return disabledOption?.getDisabledCardId()
+    }
  }
 
 // MARK: Drawable Builders
@@ -130,13 +144,23 @@ extension PaymentVaultViewModel {
         var returnDrawable = [PaymentOptionDrawable]()
         let customerPaymentMethodsCount = getCustomerPaymentMethodsToDisplayCount()
         if customerPaymentMethodsCount > 0 {
-            for customerPaymentMethodIndex in 0...customerPaymentMethodsCount-1 {
+            for customerPaymentMethodIndex in 0...customerPaymentMethodsCount - 1 {
                 if let customerPaymentOptions = customerPaymentOptions, customerPaymentOptions.indices.contains(customerPaymentMethodIndex) {
                     let customerPaymentOption = customerPaymentOptions[customerPaymentMethodIndex]
+
+                    let isAM = customerPaymentOption.getPaymentMethodId() == PXPaymentTypes.ACCOUNT_MONEY.rawValue
+                    let disableAM = isAM && shouldDisableAccountMoney()
+                    let disableCC = customerPaymentOption.getCardId() == getDisabledCardID()
+                    let disableCustomerOption = disableAM || disableCC
+                    if disableCustomerOption {
+                        customerPaymentOption.setDisabled(true)
+                    }
                     returnDrawable.append(customerPaymentOption)
                 }
             }
         }
+        //this line brings the disabled option to the last position in the payment method array
+        returnDrawable = returnDrawable.sorted(by: { return $1.isDisabled() })
         return returnDrawable
     }
 

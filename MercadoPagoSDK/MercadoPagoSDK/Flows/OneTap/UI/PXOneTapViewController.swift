@@ -160,6 +160,10 @@ extension PXOneTapViewController {
             }
         }
 
+        if let selectedCard = selectedCard, selectedCard.isDisabled {
+            loadingButtonComponent?.setDisabled()
+        }
+
         view.layoutIfNeeded()
         refreshContentViewSize()
         scrollView.isScrollEnabled = false
@@ -187,6 +191,7 @@ extension PXOneTapViewController {
         })
         loadingButtonComponent?.setTitle("Pagar".localized, for: .normal)
         loadingButtonComponent?.backgroundColor = ThemeManager.shared.getAccentColor()
+        loadingButtonComponent?.accessibilityIdentifier = "pay_button"
         return loadingButtonComponent
     }
 
@@ -304,6 +309,7 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
 
 // MARK: CardSlider delegate.
 extension PXOneTapViewController: PXCardSliderProtocol {
+
     func newCardDidSelected(targetModel: PXCardSliderViewModel) {
         selectedCard = targetModel
 
@@ -317,7 +323,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         }
 
         // Add card. - CardData nil
-        if targetModel.cardData == nil {
+        if targetModel.cardData == nil || targetModel.isDisabled {
             loadingButtonComponent?.setDisabled()
             headerView?.updateModel(viewModel.getHeaderViewModel(selectedCard: nil))
         } else {
@@ -346,6 +352,11 @@ extension PXOneTapViewController: PXCardSliderProtocol {
             }
 
         }
+    }
+
+    func disabledCardDidTap(isAccountMoney: Bool) {
+        let vc = PXDisabledViewController(isAccountMoney: isAccountMoney)
+        PXComponentFactory.Modal.show(viewController: vc, title: nil)
     }
 
     func addPaymentMethodCardDidTap() {
@@ -423,7 +434,7 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
         PXLayout.matchWidth(ofView: installmentsSelectorView).isActive = true
         PXLayout.centerHorizontally(view: installmentsSelectorView).isActive = true
         PXLayout.put(view: installmentsSelectorView, onBottomOf: installmentInfoRow).isActive = true
-        let installmentsSelectorViewHeight = PXCardSliderSizeManager.getWhiteViewHeight(viewController: self)-PXOneTapInstallmentInfoView.DEFAULT_ROW_HEIGHT
+        let installmentsSelectorViewHeight = PXCardSliderSizeManager.getWhiteViewHeight(viewController: self) - PXOneTapInstallmentInfoView.DEFAULT_ROW_HEIGHT
         PXLayout.setHeight(owner: installmentsSelectorView, height: installmentsSelectorViewHeight).isActive = true
 
         installmentsSelectorView.layoutIfNeeded()

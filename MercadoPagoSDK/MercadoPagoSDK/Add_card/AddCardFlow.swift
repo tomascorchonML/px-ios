@@ -36,6 +36,7 @@ public class AddCardFlow: NSObject, PXFlow {
         Localizator.sharedInstance.setLanguage(string: locale)
         ThemeManager.shared.saveNavBarStyleFor(navigationController: navigationController)
         PXNotificationManager.SuscribeTo.attemptToClose(self, selector: #selector(goBack))
+        MPXTracker.sharedInstance.startNewSession()
     }
 
     public func start() {
@@ -104,7 +105,6 @@ public class AddCardFlow: NSObject, PXFlow {
 
     private func getIdentificationTypes() {
         self.mercadoPagoServicesAdapter.getIdentificationTypes(callback: { [weak self] identificationTypes in
-            self?.navigationHandler.dismissLoading()
             self?.model.identificationTypes = identificationTypes
             self?.executeNextStep()
         }, failure: { [weak self] error in
@@ -116,7 +116,6 @@ public class AddCardFlow: NSObject, PXFlow {
                 }, errorCallback: nil)
             } else {
                 if let status = error.userInfo["status"] as? Int, status == 404 {
-                    self?.navigationHandler.dismissLoading()
                     self?.model.identificationTypes = []
                     self?.model.lastStepFailed = false
                     self?.executeNextStep()
@@ -186,7 +185,7 @@ public class AddCardFlow: NSObject, PXFlow {
             self?.navigationHandler.dismissLoading()
             self?.model.associateCardResult = json
             if let esc = token.esc {
-                let escManager = PXESCManager(enabled: false, sessionId: MPXTracker.sharedInstance.getFlowID())
+                let escManager = PXESCManager(enabled: false, sessionId: MPXTracker.sharedInstance.getSessionID())
                 _ = escManager.saveESC(cardId: token.cardId, esc: esc)
             }
             self?.executeNextStep()

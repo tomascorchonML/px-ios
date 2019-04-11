@@ -84,7 +84,7 @@ import Foundation
     // MARK: Rejected
     // To deprecate post v4. SP integration.
     private var disableRejectedLabelText = false
-    internal lazy var rejectedTitle = PXHeaderResutlConstants.REJECTED_HEADER_TITLE.localized
+    internal lazy var rejectedTitle = PXHeaderResutlConstants.REJECTED_HEADER_TITLE.localized_beta
     internal var rejectedSubtitle = ""
     internal var rejectedTitleSetted = false
     internal lazy var rejectedIconSubtext = PXHeaderResutlConstants.REJECTED_ICON_SUBTEXT.localized
@@ -426,7 +426,7 @@ extension PXPaymentResultConfiguration {
     @available(*, deprecated)
     open func getHeaderApprovedIcon() -> UIImage? {
         if let urlImage = approvedURLImage {
-            if let image =  ViewUtils.loadImageFromUrl(urlImage) {
+            if let image = ViewUtils.loadImageFromUrl(urlImage) {
                 return image
             }
         }
@@ -446,7 +446,7 @@ extension PXPaymentResultConfiguration {
     @available(*, deprecated)
     open func getHeaderPendingIcon() -> UIImage? {
         if let urlImage = self.pendingURLImage {
-            if let image =  ViewUtils.loadImageFromUrl(urlImage) {
+            if let image = ViewUtils.loadImageFromUrl(urlImage) {
                 return image
             }
         }
@@ -502,7 +502,7 @@ extension PXPaymentResultConfiguration {
     @available(*, deprecated)
     open func getHeaderRejectedIcon(_ paymentMethod: PXPaymentMethod?) -> UIImage? {
         if let urlImage = self.rejectedURLImage {
-            if let image =  ViewUtils.loadImageFromUrl(urlImage) {
+            if let image = ViewUtils.loadImageFromUrl(urlImage) {
                 return image
             }
         }

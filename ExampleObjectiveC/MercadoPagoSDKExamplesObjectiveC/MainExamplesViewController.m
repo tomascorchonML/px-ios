@@ -67,6 +67,7 @@
 //
 
     [self setCheckoutPref_CreditCardNotExcluded];
+    [self setCheckoutPrefAdditionalInfo];
 
     self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"APP_USR-ba2e6b8c-8b6d-4fc3-8a47-0ab241d0dba4" checkoutPreference:self.pref paymentConfiguration:[self getPaymentConfiguration]];
 
@@ -206,6 +207,11 @@
 
     self.pref = [[PXCheckoutPreference alloc] initWithSiteId:@"MLA" payerEmail:@"sara@gmail.com" items:items];
 //    [self.pref addExcludedPaymentType:@"ticket"];
+}
+
+-(void)setCheckoutPrefAdditionalInfo {
+    // Example SP support for custom additional info.
+    self.pref.additionalInfo = @"{\"px_summary\":{\"title\":\"Recarga Claro\",\"image_url\":\"https://www.rondachile.cl/wordpress/wp-content/uploads/2018/03/Logo-Claro-1.jpg\",\"subtitle\":\"Celular 1159199234\",\"purpose\":\"Tu recarga\"}}";
 }
 
 -(void)setCheckoutPref_WithId {

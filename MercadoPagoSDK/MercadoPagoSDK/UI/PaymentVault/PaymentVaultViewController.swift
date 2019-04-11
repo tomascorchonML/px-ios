@@ -126,7 +126,7 @@ internal class PaymentVaultViewController: MercadoPagoUIScrollViewController, UI
         getCustomerCards()
         hideNavBarCallback = hideNavBarCallbackDisplayTitle()
         if loadingGroups {
-            let temporalView = UIView.init(frame: CGRect(x: 0, y: navBarHeigth + statusBarHeigth, width: view.frame.size.width, height: view.frame.size.height))
+            let temporalView = UIView(frame: CGRect(x: 0, y: navBarHeigth + statusBarHeigth, width: view.frame.size.width, height: view.frame.size.height))
             temporalView.backgroundColor?.withAlphaComponent(0)
             temporalView.isUserInteractionEnabled = false
             view.addSubview(temporalView)
@@ -238,15 +238,19 @@ internal class PaymentVaultViewController: MercadoPagoUIScrollViewController, UI
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         if isGroupSection(section: indexPath.section) {
-
-            if let paymentSearchItemSelected = self.viewModel.getPaymentMethodOption(row: indexPath.row) as? PaymentMethodOption {
+            if let paymentItemDrawable = self.viewModel.getPaymentMethodOption(row: indexPath.row),
+                let paymentSearchItemSelected = paymentItemDrawable as? PaymentMethodOption {
                 collectionView.deselectItem(at: indexPath, animated: true)
-                collectionView.allowsSelection = false
-                self.callback!(paymentSearchItemSelected)
+                if paymentItemDrawable.isDisabled() {
+                    let isAM = paymentSearchItemSelected.getId() == PXPaymentTypes.ACCOUNT_MONEY.rawValue
+                    let vc = PXDisabledViewController(isAccountMoney: isAM)
+                    PXComponentFactory.Modal.show(viewController: vc, title: nil)
+                } else if let callback = self.callback {
+                    collectionView.allowsSelection = false
+                    callback(paymentSearchItemSelected)
+                }
             }
-
         }
     }
 
@@ -275,13 +279,13 @@ internal class PaymentVaultViewController: MercadoPagoUIScrollViewController, UI
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         if indexPath.section == 0 {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paymentVaultTitleCollectionViewCell", for: indexPath) as? PaymentVaultTitleCollectionViewCell else { return UICollectionViewCell.init() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paymentVaultTitleCollectionViewCell", for: indexPath) as? PaymentVaultTitleCollectionViewCell else { return UICollectionViewCell() }
             self.titleSectionReference = cell
             titleCell = cell
             return cell
         } else if isGroupSection(section: indexPath.section) {
 
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "searchCollectionCell", for: indexPath) as? PaymentSearchCollectionViewCell else { return UICollectionViewCell.init() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "searchCollectionCell", for: indexPath) as? PaymentSearchCollectionViewCell else { return UICollectionViewCell() }
 
             if let paymentMethodToDisplay = self.viewModel.getPaymentMethodOption(row: indexPath.row) {
                 let discountInfo = self.viewModel.getDiscountInfo(row: indexPath.row)
@@ -335,8 +339,8 @@ internal class PaymentVaultViewController: MercadoPagoUIScrollViewController, UI
         } else {
             section = row / 2
         }
-        let index1 = (section  * 2)
-        let index2 = (section  * 2) + 1
+        let index1 = (section * 2)
+        let index2 = (section * 2) + 1
 
         if index1 + 1 > numberOfCells {
             return 0

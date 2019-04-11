@@ -262,7 +262,7 @@ extension MercadoPagoCheckout {
 
     // Chnage in Q2 when esc info comes in the init flow
     private func initializeEscManager() {
-        viewModel.escManager = PXESCManager(enabled: viewModel.getAdvancedConfiguration().escEnabled, sessionId: MPXTracker.sharedInstance.getFlowID())
+        viewModel.escManager = PXESCManager(enabled: viewModel.getAdvancedConfiguration().escEnabled, sessionId: MPXTracker.sharedInstance.getSessionID())
     }
 
     private func commondInit() {

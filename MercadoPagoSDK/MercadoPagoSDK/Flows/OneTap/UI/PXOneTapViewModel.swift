@@ -19,6 +19,14 @@ final class PXOneTapViewModel: PXReviewViewModel {
 
     var splitPaymentEnabled: Bool = false
     var splitPaymentSelectionByUser: Bool?
+    var additionalInfoSummary: PXAdditionalInfoSummary?
+    var disabledOption: PXDisabledOption?
+
+    public init(amountHelper: PXAmountHelper, paymentOptionSelected: PaymentMethodOption, advancedConfig: PXAdvancedConfiguration, userLogged: Bool, disabledOption: PXDisabledOption? = nil) {
+        self.disabledOption = disabledOption
+        super.init(amountHelper: amountHelper, paymentOptionSelected: paymentOptionSelected, advancedConfig: advancedConfig, userLogged: userLogged)
+    }
+
 }
 
 // MARK: ViewModels Publics.
@@ -33,7 +41,8 @@ extension PXOneTapViewModel {
                 let cardData = PXCardDataFactory().create(cardName: displayTitle, cardNumber: "", cardCode: "", cardExpiration: "")
                 let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(accountMoney.getId())
 
-                let viewModelCard = PXCardSliderViewModel(targetNode.paymentMethodId, targetNode.paymentTypeId, "", AccountMoneyCard(), cardData, [PXPayerCost](), nil, accountMoney.getId(), false, amountConfiguration: amountConfiguration)
+                let isDisabled = self.disabledOption?.isAccountMoneyDisabled() ?? false
+                let viewModelCard = PXCardSliderViewModel(targetNode.paymentMethodId, targetNode.paymentTypeId, "", AccountMoneyCard(), cardData, [PXPayerCost](), nil, accountMoney.getId(), false, amountConfiguration: amountConfiguration, isDisabled: isDisabled)
                 viewModelCard.setAccountMoney(accountMoneyBalance: accountMoney.availableBalance)
                 let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: Utils.getFont(size: PXLayout.XS_FONT), NSAttributedString.Key.foregroundColor: ThemeManager.shared.greyColor()]
                 viewModelCard.displayMessage = NSAttributedString(string: accountMoney.sliderTitle ?? "", attributes: attributes)
@@ -93,14 +102,15 @@ extension PXOneTapViewModel {
 
                     let selectedPayerCost = amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(targetCardData.cardId, splitPaymentEnabled: defaultEnabledSplitPayment)
 
-                    let viewModelCard = PXCardSliderViewModel(targetNode.paymentMethodId, targetNode.paymentTypeId, targetIssuerId, templateCard, cardData, payerCost, selectedPayerCost, targetCardData.cardId, showArrow, amountConfiguration: amountConfiguration)
+                    let isDisabled = self.disabledOption?.getDisabledCardId() == targetCardData.cardId
+                    let viewModelCard = PXCardSliderViewModel(targetNode.paymentMethodId, targetNode.paymentTypeId, targetIssuerId, templateCard, cardData, payerCost, selectedPayerCost, targetCardData.cardId, showArrow, amountConfiguration: amountConfiguration, isDisabled: isDisabled)
 
                     viewModelCard.displayMessage = displayMessage
                     sliderModel.append(viewModelCard)
                 }
             }
         }
-        sliderModel.append(PXCardSliderViewModel("", "", "", EmptyCard(), nil, [PXPayerCost](), nil, nil, false, amountConfiguration: nil))
+        sliderModel.append(PXCardSliderViewModel("", "", "", EmptyCard(), nil, [PXPayerCost](), nil, nil, false, amountConfiguration: nil, isDisabled: false))
         cardSliderViewModel = sliderModel
     }
 
@@ -111,8 +121,14 @@ extension PXOneTapViewModel {
             let payerCost = sliderNode.payerCost
             let selectedPayerCost = sliderNode.selectedPayerCost
             let installment = PXInstallment(issuer: nil, payerCosts: payerCost, paymentMethodId: nil, paymentTypeId: nil)
-
-            if sliderNode.paymentTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
+            if sliderNode.isDisabled {
+                let isAM = !sliderNode.isCard()
+                let disabledInfoModel = PXOneTapInstallmentInfoViewModel(text: getDisabledOptionMessage(isAccountMoney: isAM),
+                                                                            installmentData: nil,
+                                                                            selectedPayerCost: nil,
+                                                                            shouldShowArrow: false)
+                model.append(disabledInfoModel)
+            } else if sliderNode.paymentTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
                 // If it's debit and has split, update split message
                 if let amountToPay = sliderNode.selectedPayerCost?.totalAmount {
                     let displayMessage = getSplitMessageForDebit(amountToPay: amountToPay)
@@ -156,15 +172,20 @@ extension PXOneTapViewModel {
 
             amountHelper.getPaymentData().setDiscount(discount, withCampaign: campaign, consumedDiscount: consumedDiscount)
 
+            var yourPurchaseSummaryTitle: String = "onetap_purchase_summary_title".localized_beta
+            if let customPurposeSummaryTitle = additionalInfoSummary?.purpose {
+                yourPurchaseSummaryTitle = customPurposeSummaryTitle
+            }
+
             if consumedDiscount {
-                customData.append(OneTapHeaderSummaryData("onetap_purchase_summary_title".localized_beta, yourPurchaseToShow, summaryColor, summaryAlpha, false, nil))
+                customData.append(OneTapHeaderSummaryData(yourPurchaseSummaryTitle, yourPurchaseToShow, summaryColor, summaryAlpha, false, nil))
                 let helperImage: UIImage? = isDefaultStatusBarStyle ? ResourceManager.shared.getImage("helper_ico_gray") : ResourceManager.shared.getImage("helper_ico_light")
                 customData.append(OneTapHeaderSummaryData("total_row_consumed_discount".localized_beta, "", summaryColor, discountDisclaimerAlpha, false, helperImage))
 
                 totalAmountToShow = Utils.getAmountFormated(amount: amountHelper.getAmountToPayWithoutPayerCost(selectedCard?.cardId), forCurrency: currency)
                 yourPurchaseToShow = Utils.getAmountFormated(amount: amountHelper.preferenceAmount, forCurrency: currency)
             } else if let discount = discount {
-                customData.append(OneTapHeaderSummaryData("onetap_purchase_summary_title".localized_beta, yourPurchaseToShow, summaryColor, summaryAlpha, false, nil))
+                customData.append(OneTapHeaderSummaryData(yourPurchaseSummaryTitle, yourPurchaseToShow, summaryColor, summaryAlpha, false, nil))
                 let discountToShow = Utils.getAmountFormated(amount: discount.couponAmount, forCurrency: currency)
                 let helperImage: UIImage? = isDefaultStatusBarStyle ? ResourceManager.shared.getImage("helper_ico") : ResourceManager.shared.getImage("helper_ico_light")
                 customData.append(OneTapHeaderSummaryData(discount.getDiscountDescription(), "- \(discountToShow)", discountColor, discountAlpha, false, helperImage))
@@ -180,26 +201,45 @@ extension PXOneTapViewModel {
 
         customData.append(OneTapHeaderSummaryData("onetap_purchase_summary_total".localized_beta, totalAmountToShow, totalColor, totalAlpha, true, nil))
 
-        // HeaderImage
+        // Populate header display data. From SP pref AdditionalInfo or instore retrocompatibility.
+        let (headerTitle, headerSubtitle, headerImage) = getSummaryHeader(item: items.first, additionalInfoSummaryData: additionalInfoSummary)
+
+        let headerVM = PXOneTapHeaderViewModel(icon: headerImage, title: headerTitle, subTitle: headerSubtitle, data: customData, splitConfiguration: splitConfiguration)
+        return headerVM
+    }
+
+    func getSummaryHeader(item: PXItem?, additionalInfoSummaryData: PXAdditionalInfoSummary?) -> (title: String, subtitle: String?, image: UIImage) {
         var headerImage: UIImage = UIImage()
         var headerTitle: String = ""
-        if let headerUrl = items.first?.getPictureURL() {
-            headerImage = PXUIImage(url: headerUrl)
+        var headerSubtitle: String?
+        if let defaultImage = ResourceManager.shared.getImage("MPSDK_review_iconoCarrito_white") {
+            headerImage = defaultImage
+        }
+
+        if let additionalSummaryData = additionalInfoSummaryData, let additionalSummaryTitle = additionalSummaryData.title, !additionalSummaryTitle.isEmpty {
+            // SP and new scenario based on Additional Info Summary
+            headerTitle = additionalSummaryTitle
+            headerSubtitle = additionalSummaryData.subtitle
+            if let headerUrl = additionalSummaryData.imageUrl {
+                headerImage = PXUIImage(url: headerUrl)
+            }
         } else {
-            if let defaultImage = ResourceManager.shared.getImage("MPSDK_review_iconoCarrito_white") {
-                headerImage = defaultImage
+            // Instore scenario. Retrocompatibility
+            // To deprecate. After instore migrate current preferences.
+
+            // Title desc from item
+            if let headerTitleStr = item?._description {
+                headerTitle = headerTitleStr
+            } else if let headerTitleStr = item?.title {
+                headerTitle = headerTitleStr
+            }
+            headerSubtitle = nil
+            // Image from item
+            if let headerUrl = item?.getPictureURL() {
+                headerImage = PXUIImage(url: headerUrl)
             }
         }
-
-        // HeaderTitle
-        if let headerTitleStr = items.first?._description {
-            headerTitle = headerTitleStr
-        } else if let headerTitleStr = items.first?.title {
-            headerTitle = headerTitleStr
-        }
-
-        let headerVM = PXOneTapHeaderViewModel(icon: headerImage, title: headerTitle, data: customData, splitConfiguration: splitConfiguration)
-        return headerVM
+        return (title: headerTitle, subtitle: headerSubtitle, image: headerImage)
     }
 
     func getCardSliderViewModel() -> [PXCardSliderViewModel] {
@@ -252,10 +292,10 @@ extension PXOneTapViewModel {
     }
 
     func getPaymentMethod(targetId: String) -> PXPaymentMethod? {
-        if let plugins = paymentMethodPlugins, let pluginsPms = plugins.filter({return $0.getId() == targetId}).first {
+        if let plugins = paymentMethodPlugins, let pluginsPms = plugins.filter({ return $0.getId() == targetId }).first {
             return pluginsPms.toPaymentMethod()
         }
-        return paymentMethods.filter({return $0.id == targetId}).first
+        return paymentMethods.filter({ return $0.id == targetId }).first
     }
 }
 
@@ -299,11 +339,20 @@ extension PXOneTapViewModel {
         return text
     }
 
-    internal func getSplitMessageForDebit(amountToPay: Double) -> NSAttributedString {
+    func getSplitMessageForDebit(amountToPay: Double) -> NSAttributedString {
         var amount: String = ""
         let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: Utils.getSemiBoldFont(size: PXLayout.XS_FONT), NSAttributedString.Key.foregroundColor: ThemeManager.shared.boldLabelTintColor()]
 
         amount = Utils.getAmountFormated(amount: amountToPay, forCurrency: SiteManager.shared.getCurrency())
         return NSAttributedString(string: amount, attributes: attributes)
+    }
+
+    func getDisabledOptionMessage(isAccountMoney: Bool) -> NSAttributedString {
+        let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: Utils.getSemiBoldFont(size: PXLayout.XS_FONT), NSAttributedString.Key.foregroundColor: ThemeManager.shared.labelTintColor()]
+
+        let amDisclaimer = "disabled_disclaimer_am"
+        let cardDisclaimer = "disabled_disclaimer_am"
+        let disclaimer = isAccountMoney ? amDisclaimer.localized_beta : cardDisclaimer.localized_beta
+        return NSAttributedString(string: disclaimer, attributes: attributes)
     }
 }

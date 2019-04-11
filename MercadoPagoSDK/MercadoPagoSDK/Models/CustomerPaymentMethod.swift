@@ -14,13 +14,14 @@ import UIKit
     var customerPaymentMethodDescription: String
     var paymentMethodId: String
     var paymentMethodTypeId: String
+    var firstSixDigits: String!
+    var lastFourDigits: String
+    var disabledOption: Bool = false
 
     var securityCode: PXSecurityCode?
     var paymentMethod: PXPaymentMethod?
 
     var issuer: PXIssuer?
-    var firstSixDigits: String
-    var lastFourDigits: String
 
     init(id: String, paymentMethodId: String, paymentMethodTypeId: String, description: String, issuer: PXIssuer?, firstSixDigits: String, lastFourDigits: String) {
         self.paymentMethodId = paymentMethodId
@@ -86,6 +87,14 @@ import UIKit
 
     func isIssuerRequired() -> Bool {
         return false
+    }
+
+    func setDisabled(_ disabled: Bool) {
+        disabledOption = disabled
+    }
+
+    func isDisabled() -> Bool {
+        return disabledOption
     }
 
     /** PaymentOptionDrawable implementation */

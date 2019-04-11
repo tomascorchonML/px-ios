@@ -11,9 +11,14 @@ import Foundation
 internal class PXResourceProvider {
 
     static var error_body_title_base = "error_body_title_"
+    static var error_body_title_c4a = "error_body_title_call_for_authorize"
     static var error_body_description_base = "error_body_description_"
     static var error_body_action_text_base = "error_body_action_text_"
     static var error_body_secondary_title_base = "error_body_secondary_title_"
+
+    static internal func getTitleForCallForAuth() -> String {
+        return error_body_title_c4a.localized_beta
+    }
 
     static internal func getTitleForErrorBody() -> String {
         return error_body_title_base.localized_beta
@@ -29,9 +34,18 @@ internal class PXResourceProvider {
         return key.localized_beta
     }
 
-    static internal func getDescriptionForErrorBodyForREJECTED_CALL_FOR_AUTHORIZE() -> String {
+    static internal func getDescriptionForErrorBodyForREJECTED_CALL_FOR_AUTHORIZE(_ amount: Double) -> String {
         let key = error_body_description_base + PXPayment.StatusDetails.REJECTED_CALL_FOR_AUTHORIZE
-        return key.localized_beta
+        let initialText = key.localized_beta
+
+        let currency = SiteManager.shared.getCurrency()
+        let currencySymbol = currency.getCurrencySymbolOrDefault()
+        let thousandSeparator = currency.getThousandsSeparatorOrDefault()
+        let decimalSeparator = currency.getDecimalSeparatorOrDefault()
+        let attributtedString = Utils.getAttributedAmount(amount, thousandSeparator: thousandSeparator, decimalSeparator: decimalSeparator, currencySymbol: currencySymbol, color: UIColor.px_white(), fontSize: PXHeaderRenderer.TITLE_FONT_SIZE, centsFontSize: PXHeaderRenderer.TITLE_FONT_SIZE / 2, smallSymbol: true)
+        let amountString = attributtedString.string
+        let composedText = initialText.replacingOccurrences(of: "[amount]", with: amountString)
+        return composedText
     }
 
     static internal func getDescriptionForErrorBodyForREJECTED_CARD_DISABLED(_ paymentMethodName: String?) -> String {
@@ -78,8 +92,18 @@ internal class PXResourceProvider {
         return key.localized_beta
     }
 
+    static internal func getDescriptionForErrorBodyForREJECTED_CARD_HIGH_RISK() -> String {
+        let key = error_body_description_base + PXPayment.StatusDetails.REJECTED_CARD_HIGH_RISK
+        return key.localized_beta
+    }
+
     static internal func getDescriptionForErrorBodyForREJECTED_BY_REGULATIONS() -> String {
         let key = error_body_description_base + PXPayment.StatusDetails.REJECTED_BY_REGULATIONS
+        return key.localized_beta
+    }
+
+    static internal func getDescriptionForErrorBodyForREJECTED_INVALID_INSTALLMENTS() -> String {
+        let key = error_body_description_base + PXPayment.StatusDetails.REJECTED_INVALID_INSTALLMENTS
         return key.localized_beta
     }
 

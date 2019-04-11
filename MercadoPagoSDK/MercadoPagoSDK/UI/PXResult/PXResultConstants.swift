@@ -13,7 +13,7 @@ struct PXHeaderResutlConstants {
     // Header titles
     static let APPROVED_HEADER_TITLE = "¡Listo! Se acreditó tu pago"
     static let PENDING_HEADER_TITLE = "Estamos procesando el pago"
-    static let REJECTED_HEADER_TITLE = "Uy, no pudimos procesar el pago"
+    static let REJECTED_HEADER_TITLE = "rejected_default_title"
 
     // Icon subtext
     static let REJECTED_ICON_SUBTEXT = "Algo salió mal..."
@@ -22,10 +22,12 @@ struct PXHeaderResutlConstants {
 // MARK: Footer Constants
 struct PXFooterResultConstants {
     // Button texts
-    static let ERROR_BUTTON_TEXT = "Pagar con otro medio"
-    static let C4AUTH_BUTTON_TEXT = "Pagar con otro medio"
-    static let CARD_DISABLE_BUTTON_TEXT = "Ya habilité mi tarjeta"
-    static let WARNING_BUTTON_TEXT = "Revisar los datos de tarjeta"
+    static let GENERIC_ERROR_BUTTON_TEXT = "cc_rejected_generic_button"
+    static let C4AUTH_BUTTON_TEXT = "cc_rejected_call_for_authorize_button"
+    static let CARD_DISABLE_BUTTON_TEXT = "cc_rejected_card_disabled_button"
+    static let DUPLICATED_PAYMENT_BUTTON_TEXT = "cc_rejected_duplicated_payment_button"
+    static let BAD_FILLED_BUTTON_TEXT = "cc_rejected_bad_filled_button"
+    static let FRAUD_BUTTON_TEXT = "cc_rejected_fraud_button"
     static let DEFAULT_BUTTON_TEXT: String? = nil
 
     // Link texts

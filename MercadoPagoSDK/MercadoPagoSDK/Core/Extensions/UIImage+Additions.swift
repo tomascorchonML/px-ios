@@ -9,6 +9,20 @@
 import Foundation
 
 internal extension UIImage {
+
+    func grayscale() -> UIImage? {
+        if let currentFilter = CIFilter(name: "CIPhotoEffectMono")  {
+            let context = CIContext(options: nil)
+            currentFilter.setValue(CIImage(image: self), forKey: kCIInputImageKey)
+            if let output = currentFilter.outputImage,
+                let cgimg = context.createCGImage(output,from: output.extent) {
+                let processedImage = UIImage(cgImage: cgimg)
+                return processedImage
+            }
+        }
+        return nil
+    }
+
     func imageGreyScale() -> UIImage {
         let imageRect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
         let greyContext = CGContext(

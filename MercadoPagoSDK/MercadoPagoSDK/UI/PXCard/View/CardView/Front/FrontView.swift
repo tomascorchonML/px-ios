@@ -13,8 +13,8 @@ class FrontView: CardView {
         super.setupUI(cardUI)
 
         securityCodeCircle.alpha = 0
-        bank.image = cardUI.bankImage
-        logo.image = cardUI.cardLogoImage
+        bank.image = isDisabled ? cardUI.bankImage?.imageGreyScale() : cardUI.bankImage
+        logo.image = isDisabled ? cardUI.cardLogoImage?.imageGreyScale() : cardUI.cardLogoImage
         securityCode.textColor = cardUI.cardFontColor
         let input = [model?.name, model?.number, model?.expiration, model?.securityCode]
         securityCode.isHidden = cardUI.securityCodeLocation == .back

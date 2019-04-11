@@ -24,13 +24,17 @@ class PaymentSearchCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    public func fillCell(image: UIImage?, title: String? = "", subtitle: NSAttributedString?) {
+    public func fillCell(image: UIImage?, title: String? = "", subtitle: NSAttributedString?, isDisabled: Bool) {
         titleSearch.text = title
         titleSearch.font = Utils.getFont(size: titleSearch.font.pointSize)
 
         subtitleSearch.attributedText = subtitle
 
+        let image = isDisabled ? image?.imageGreyScale() : image
         addPaymentOptionIconComponent(image: image)
+        if isDisabled {
+            addWarningBadge()
+        }
 
         backgroundColor = .white
         titleSearch.textColor = UIColor.black
@@ -50,11 +54,17 @@ class PaymentSearchCollectionViewCell: UICollectionViewCell {
 
         let attributedSubtitle = PaymentSearchCollectionViewCell.getSubtitleAttributedString(subtitle: drawablePaymentOption.getSubtitle(), discountInfo: discountInfo, fontSize: subtitleSearch.font.pointSize, textColor: subtitleSearch.textColor)
 
-        self.fillCell(image: image, title: drawablePaymentOption.getTitle(), subtitle: attributedSubtitle)
+        self.fillCell(image: image,
+                      title: drawablePaymentOption.getTitle(),
+                      subtitle: attributedSubtitle,
+                      isDisabled: drawablePaymentOption.isDisabled())
     }
 
     func fillCell(optionText: String) {
-        self.fillCell(image: nil, title: optionText, subtitle: nil)
+        self.fillCell(image: nil,
+                      title: optionText,
+                      subtitle: nil,
+                      isDisabled: false)
     }
 
     static func getSubtitleAttributedString(subtitle: String?, discountInfo: String? = nil, fontSize: CGFloat = 15, textColor: UIColor = .black) -> NSAttributedString {
@@ -97,8 +107,18 @@ class PaymentSearchCollectionViewCell: UICollectionViewCell {
 
 extension PaymentSearchCollectionViewCell {
 
-    fileprivate func addPaymentOptionIconComponent(image: UIImage?) {
+    private func addWarningBadge() {
+        let image = ResourceManager.shared.getImage("warning_badge")
+        let warningBadgeIcon = UIImageView(image: image)
+        paymentOptionImageContainer.insertSubview(warningBadgeIcon, at: 2)
 
+        PXLayout.setHeight(owner: warningBadgeIcon, height: paymentOptionImageContainer.frame.width/2).isActive = true
+        PXLayout.setWidth(owner: warningBadgeIcon, width: paymentOptionImageContainer.frame.width/2).isActive = true
+        PXLayout.pinTop(view: warningBadgeIcon, withMargin: -PXLayout.XXS_MARGIN).isActive = true
+        PXLayout.pinRight(view: warningBadgeIcon, withMargin: -PXLayout.S_MARGIN).isActive = true
+    }
+
+    fileprivate func addPaymentOptionIconComponent(image: UIImage?) {
         let paymentMethodIconComponent = PXPaymentMethodIconComponent(props: PXPaymentMethodIconProps(paymentMethodIcon: image)).render()
 
         paymentMethodIconComponent.layer.cornerRadius = paymentOptionImageContainer.frame.width/2

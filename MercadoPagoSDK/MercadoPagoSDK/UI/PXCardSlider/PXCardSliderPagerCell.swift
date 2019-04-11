@@ -14,6 +14,7 @@ class PXCardSliderPagerCell: FSPagerViewCell {
 
     private lazy var cornerRadius: CGFloat = 11
     private var cardHeader: CardHeaderController?
+    private var warningBadgeIcon: UIView!
 
     @IBOutlet weak var containerView: UIView!
 
@@ -27,20 +28,22 @@ class PXCardSliderPagerCell: FSPagerViewCell {
 
 // MARK: Publics.
 extension PXCardSliderPagerCell {
-    func render(withCard: CardUI, cardData: CardData) {
+    func render(withCard: CardUI, cardData: CardData, isDisabled: Bool) {
         containerView.layer.masksToBounds = false
         containerView.removeAllSubviews()
         containerView.layer.cornerRadius = cornerRadius
         containerView.backgroundColor = .clear
-        cardHeader = CardHeaderController(withCard, cardData)
+        cardHeader = CardHeaderController(withCard, cardData, isDisabled)
         cardHeader?.view.frame = CGRect(origin: CGPoint.zero, size: PXCardSliderSizeManager.getItemContainerSize())
         cardHeader?.animated(false)
         cardHeader?.show()
+
         if let headerView = cardHeader?.view {
             containerView.addSubview(headerView)
             PXLayout.centerHorizontally(view: headerView).isActive = true
             PXLayout.centerVertically(view: headerView).isActive = true
         }
+        addWarningBadge(isDisabled)
     }
 
     func renderEmptyCard() {
@@ -48,7 +51,7 @@ extension PXCardSliderPagerCell {
         containerView.removeAllSubviews()
         containerView.layer.cornerRadius = cornerRadius
         containerView.backgroundColor = .clear
-        cardHeader = CardHeaderController(EmptyCard(), PXCardDataFactory())
+        cardHeader = CardHeaderController(EmptyCard(), PXCardDataFactory(), false)
         cardHeader?.view.frame = CGRect(origin: CGPoint.zero, size: PXCardSliderSizeManager.getItemContainerSize())
         cardHeader?.animated(false)
         cardHeader?.show()
@@ -60,20 +63,34 @@ extension PXCardSliderPagerCell {
         }
     }
 
-    func renderAccountMoneyCard(balanceText: String) {
+    func renderAccountMoneyCard(balanceText: String, isDisabled: Bool) {
         containerView.layer.masksToBounds = false
         containerView.backgroundColor = .clear
         containerView.removeAllSubviews()
         containerView.layer.cornerRadius = cornerRadius
-        cardHeader = CardHeaderController(AccountMoneyCard(), PXCardDataFactory())
+        cardHeader = CardHeaderController(AccountMoneyCard(), PXCardDataFactory(), isDisabled)
         cardHeader?.view.frame = CGRect(origin: CGPoint.zero, size: PXCardSliderSizeManager.getItemContainerSize())
         cardHeader?.animated(false)
         cardHeader?.show()
+
         if let headerView = cardHeader?.view {
             containerView.addSubview(headerView)
-            AccountMoneyCard.render(containerView: containerView, balanceText: balanceText)
+            AccountMoneyCard.render(containerView: containerView, balanceText: balanceText, isDisabled: isDisabled)
             PXLayout.centerHorizontally(view: headerView).isActive = true
             PXLayout.centerVertically(view: headerView).isActive = true
+        }
+        addWarningBadge(isDisabled)
+    }
+
+    func addWarningBadge(_ isDisabled: Bool) {
+        if isDisabled {
+            let image = ResourceManager.shared.getImage("warning_badge")
+            warningBadgeIcon = UIImageView(image: image)
+            containerView.insertSubview(warningBadgeIcon, at: 10)
+            PXLayout.setHeight(owner: warningBadgeIcon, height: 60).isActive = true
+            PXLayout.setWidth(owner: warningBadgeIcon, width: 60).isActive = true
+            PXLayout.pinTop(view: warningBadgeIcon, withMargin: -28).isActive = true
+            PXLayout.pinRight(view: warningBadgeIcon, withMargin: PXLayout.S_MARGIN).isActive = true
         }
     }
 

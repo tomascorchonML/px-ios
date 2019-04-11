@@ -9,6 +9,13 @@
 		<key>value</key>
 		<string>O que posso fazer?</string>
 	</dict>
+	<key>error_body_title_call_for_authorize</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Como posso autorizá-lo?</string>
+	</dict>
 	<key>error_body_description_</key>
 	<dict>
 		<key>comment</key>
@@ -35,30 +42,15 @@
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>O telefone do banco está no verso do seu cartão.</string>
+		<string>1- Ligue para o telefone no verso do seu cartão para autorizar o pagamento de [amount] para o Mercado Pago.
+2- Por favor, avise-nos para que possamos creditá-lo.</string>
 	</dict>
 	<key>error_body_description_cc_rejected_card_disabled</key>
 	<dict>
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>Use outro meio de pagamento ou ligue para %1$s e desbloqueie o cartão.</string>
-	</dict>
-	<key>error_body_description_cc_rejected_insufficient_amount</key>
-	<dict>
-		<key>comment</key>
-		<string></string>
-		<key>value</key>
-		<string>Não se preocupe! Recarregue-o em qualquer banco ou pelo Internet Banking e tente novamente.
-
-Se preferir, você pode escolher outro meio de pagamento.</string>
-	</dict>
-	<key>error_body_description_cc_rejected_other_reason</key>
-	<dict>
-		<key>comment</key>
-		<string></string>
-		<key>value</key>
-		<string>Use outro cartão ou outro meio de pagamento.</string>
+		<string>Ligue para o %1$s para desbloquear seu cartão ou use outro meio de pagamento.</string>
 	</dict>
 	<key>error_body_description_rejected_by_bank</key>
 	<dict>
@@ -79,28 +71,42 @@ Se preferir, você pode escolher outro meio de pagamento.</string>
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>Não se preocupe! O seu pagamento foi efetuado com sucesso.</string>
+		<string>Não se preocupe, cobramos somente o primeiro pagamento.</string>
 	</dict>
 	<key>error_body_description_cc_rejected_max_attempts</key>
 	<dict>
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>Como você chegou no limite de tentativas com este cartão, use outro meio de pagamento.</string>
+		<string>Como você atingiu o limite de tentativas com este cartão, por favor, use outro meio de pagamento.</string>
 	</dict>
 	<key>error_body_description_rejected_high_risk</key>
 	<dict>
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>Use um meio de pagamento diferente de cartão.</string>
+		<string>Tente pagar com outro meio.</string>
+	</dict>
+	<key>error_body_description_cc_rejected_high_risk</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Tente pagar com outro meio.</string>
 	</dict>
 	<key>error_body_description_rejected_by_regulations</key>
 	<dict>
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>Você possui dados pendentes para atualizar. Para pagar com dinheiro em conta, você deve preencher os dados faltantes.</string>
+		<string>Para pagar com dinheiro em conta, você deve preencher os dados faltantes.</string>
+	</dict>
+	<key>error_body_description_cc_rejected_invalid_installments</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Selecione outro número de parcelas ou use outro meio de pagamento.</string>
 	</dict>
 	<key>error_body_action_text_</key>
 	<dict>
@@ -122,6 +128,146 @@ Se preferir, você pode escolher outro meio de pagamento.</string>
 		<string></string>
 		<key>value</key>
 		<string>Não conseguiu autorizá-lo?</string>
+	</dict>
+	<key>cc_rejected_call_for_authorize_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Seu cartão não autorizou o pagamento</string>
+	</dict>
+	<key>cc_rejected_card_disabled_button</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Já desbloqueei o cartão</string>
+	</dict>
+	<key>cc_rejected_bad_filled_button</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Inserir os dados do cartão novamente</string>
+	</dict>
+	<key>cc_rejected_call_for_authorize_button</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Já autorizei o pagamento</string>
+	</dict>
+	<key>cc_rejected_generic_button</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Pagar com outro meio</string>
+	</dict>
+	<key>cc_rejected_duplicated_payment_button</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Entendi</string>
+	</dict>
+	<key>cc_rejected_fraud_button</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Continuar</string>
+	</dict>
+	<key>cc_rejected_card_disabled_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Seu cartão não está desbloqueado</string>
+	</dict>
+	<key>cc_rejected_insufficient_amount_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Não há limite suficiente no seu cartão</string>
+	</dict>
+	<key>cc_rejected_other_reason_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Não foi possível processar seu pagamento</string>
+	</dict>
+	<key>cc_rejected_duplicated_payment_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Desculpe, o pagamento foi feito duas vezes, por isso recusamos a segunda vez</string>
+	</dict>
+	<key>cc_rejected_max_attempts_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Recusamos o pagamento porque você atingiu o limite de tentativas</string>
+	</dict>
+	<key>cc_rejected_blacklist_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Recusamos seu pagamento com este cartão</string>
+	</dict>
+	<key>cc_rejected_fraud_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Você está suspenso para pagar</string>
+	</dict>
+	<key>cc_rejected_high_risk_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Recusamos seu pagamento</string>
+	</dict>
+	<key>cc_rejected_bad_filled_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Algum dado do cartão está incorreto</string>
+	</dict>
+	<key>rejected_high_risk_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Você não pode usar seu dinheiro no Mercado Pago para este pagamento</string>
+	</dict>
+	<key>rejected_by_regulations_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Não foi possível processar o seu pagamento</string>
+	</dict>
+	<key>cc_rejected_invalid_installments_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Seu cartão não permite este número de parcelas</string>
+	</dict>
+	<key>rejected_default_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Não foi possível processar o seu pagamento</string>
 	</dict>
 	<key>discount_coupon_detail_default_concept</key>
 	<dict>
@@ -451,6 +597,55 @@ Se preferir, você pode escolher outro meio de pagamento.</string>
 		<string></string>
 		<key>value</key>
 		<string>Termos e Condições</string>
+	</dict>
+	<key>disabled_title_am</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Seu dinheiro do Mercado Pago está indisponível no momento</string>
+	</dict>
+	<key>disabled_title_card</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Este cartão está indisponível no momento</string>
+	</dict>
+	<key>disabled_description_am</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Não se preocupe, você pode usar outro meio para concluir o pagamento.</string>
+	</dict>
+	<key>disabled_description_card</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Não se preocupe, você pode usar outro meio para concluir o pagamento.</string>
+	</dict>
+	<key>disabled_screen_change_method_action</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Pagar com outro meio</string>
+	</dict>
+	<key>disabled_disclaimer_am</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Meio indisponível para este pagamento</string>
+	</dict>
+	<key>disabled_disclaimer_card</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Cartão indisponível para este pagamento</string>
 	</dict>
 </dict>
 </plist>

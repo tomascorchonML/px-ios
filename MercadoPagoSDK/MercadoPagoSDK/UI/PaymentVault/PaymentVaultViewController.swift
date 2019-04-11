@@ -238,15 +238,19 @@ internal class PaymentVaultViewController: MercadoPagoUIScrollViewController, UI
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         if isGroupSection(section: indexPath.section) {
-
-            if let paymentSearchItemSelected = self.viewModel.getPaymentMethodOption(row: indexPath.row) as? PaymentMethodOption {
+            if let paymentItemDrawable = self.viewModel.getPaymentMethodOption(row: indexPath.row),
+                let paymentSearchItemSelected = paymentItemDrawable as? PaymentMethodOption {
                 collectionView.deselectItem(at: indexPath, animated: true)
-                collectionView.allowsSelection = false
-                self.callback!(paymentSearchItemSelected)
+                if paymentItemDrawable.isDisabled() {
+                    let isAM = paymentSearchItemSelected.getId() == PXPaymentTypes.ACCOUNT_MONEY.rawValue
+                    let vc = PXDisabledViewController(isAccountMoney: isAM)
+                    PXComponentFactory.Modal.show(viewController: vc, title: nil)
+                } else if let callback = self.callback {
+                    collectionView.allowsSelection = false
+                    callback(paymentSearchItemSelected)
+                }
             }
-
         }
     }
 

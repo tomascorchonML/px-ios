@@ -98,6 +98,22 @@ public enum PXRejectedStatusDetail: String {
      REJECTED_PLUGIN_PM - Rejected status detail.
      */
     case REJECTED_PLUGIN_PM = "cc_rejected_plugin_pm"
+    /**
+     REJECTED_INVALID_INSTALLMENTS - The user has chosen an invalid option for installments.
+     */
+    case REJECTED_INVALID_INSTALLMENTS = "cc_rejected_invalid_installments"
+    /**
+     REJECTED_FRAUD - User account has been suspended.
+     */
+    case REJECTED_FRAUD = "cc_rejected_fraud"
+    /**
+     REJECTED_BLACKLIST - The card has been blacklisted.
+     */
+    case REJECTED_BLACKLIST = "cc_rejected_blacklist"
+    /**
+     REJECTED_BY_REGULATIONS - The MLB user needs to complete some information to proceed.
+     */
+    case REJECTED_BY_REGULATIONS = "rejected_by_regulations"
 }
 
 /**

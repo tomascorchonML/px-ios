@@ -113,6 +113,6 @@ extension TestComponent: PXDynamicViewControllerProtocol {
     }
 
     public func navigationHandler(navigationHandler: PXPluginNavigationHandler) {
-        
+
     }
 }

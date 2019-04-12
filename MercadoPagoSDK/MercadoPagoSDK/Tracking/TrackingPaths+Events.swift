@@ -19,6 +19,10 @@ extension TrackingPaths {
             return "/friction"
         }
 
+        static func getCreateTokenPath() -> String {
+            return TrackingPaths.pxTrack + "/create_esc_token"
+        }
+
         static func getConfirmPath() -> String {
             return TrackingPaths.pxTrack + "/review/confirm"
         }

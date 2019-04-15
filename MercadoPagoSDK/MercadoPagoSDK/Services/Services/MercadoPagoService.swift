@@ -45,7 +45,7 @@ internal class MercadoPagoService: NSObject {
         request.timeoutInterval = MP_DEFAULT_TIME_OUT
 
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let sdkVersion = PXServicesURLConfigs.PX_SDK_VERSION {
+        if let sdkVersion = Bundle(for: MercadoPagoService.self).infoDictionary?["CFBundleShortVersionString"] as? String {
             let value = "PX/iOS/" + sdkVersion
             request.setValue(value, forHTTPHeaderField: "User-Agent")
         }

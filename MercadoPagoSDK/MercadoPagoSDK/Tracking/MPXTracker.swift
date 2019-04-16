@@ -13,7 +13,6 @@ import UIKit
 
     internal static let kTrackingSettings = "tracking_settings"
     internal var public_key: String = ""
-    internal var sdkVersion = Utils.getSetting(identifier: "sdk_version") ?? ""
 
     private static let kTrackingEnabled = "tracking_enabled"
     private var trackListener: PXTrackerListener?
@@ -25,31 +24,31 @@ import UIKit
 // MARK: Getters/setters.
 internal extension MPXTracker {
 
-    internal func setTrack(listener: PXTrackerListener) {
+    func setTrack(listener: PXTrackerListener) {
         trackListener = listener
     }
 
-    internal func setFlowDetails(flowDetails: [String: Any]?) {
+    func setFlowDetails(flowDetails: [String: Any]?) {
         self.flowDetails = flowDetails
     }
 
-    internal func setFlowName(name: String?) {
+    func setFlowName(name: String?) {
         self.flowName = name
     }
 
-    internal func startNewSession() {
+    func startNewSession() {
         sessionService.startNewSession()
     }
 
-    internal func startNewSession(externalSessionId: String) {
+    func startNewSession(externalSessionId: String) {
         sessionService.startNewSession(externalSessionId: externalSessionId)
     }
 
-    internal func getSessionID() -> String {
+    func getSessionID() -> String {
         return sessionService.getSessionId()
     }
 
-    internal func clean() {
+    func clean() {
         MPXTracker.sharedInstance.flowDetails = [:]
         MPXTracker.sharedInstance.trackListener = nil
     }
@@ -57,7 +56,7 @@ internal extension MPXTracker {
 
 // MARK: Public interfase.
 internal extension MPXTracker {
-    internal func trackScreen(screenName: String, properties: [String: Any] = [:]) {
+    func trackScreen(screenName: String, properties: [String: Any] = [:]) {
         if let trackListenerInterfase = trackListener {
             var metadata = properties
             if let flowDetails = flowDetails {
@@ -71,7 +70,7 @@ internal extension MPXTracker {
         }
     }
 
-    internal func trackEvent(path: String, properties: [String: Any] = [:]) {
+    func trackEvent(path: String, properties: [String: Any] = [:]) {
         if let trackListenerInterfase = trackListener {
             var metadata = properties
             if path != TrackingPaths.Events.getErrorPath() {

@@ -51,7 +51,7 @@ internal class ViewUtils {
     }
 
     class func getCustomNavigationTitleLabel(textColor: UIColor, font: UIFont, titleText: String?) -> UILabel {
-        let titleLabelView = UILabel.init(frame: CGRect(x: 0, y: 0, width: 0, height: 44))
+        let titleLabelView = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 44))
         titleLabelView.backgroundColor = .clear
         titleLabelView.textAlignment = .center
         titleLabelView.textColor = textColor

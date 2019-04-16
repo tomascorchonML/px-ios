@@ -12,9 +12,9 @@ class EmptyCard: NSObject, CardUI {
     var placeholderExpiration = ""
     var bankImage: UIImage?
     var cardPattern = [0]
-    var cardFontColor: UIColor = UIColor(red: 105/255, green: 105/255, blue: 105/255, alpha: 1)
+    var cardFontColor: UIColor = UIColor(red: 105 / 255, green: 105 / 255, blue: 105 / 255, alpha: 1)
     var cardLogoImage: UIImage?
-    var cardBackgroundColor: UIColor = UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 1)
+    var cardBackgroundColor: UIColor = UIColor(red: 239 / 255, green: 239 / 255, blue: 239 / 255, alpha: 1)
     var securityCodeLocation: Location = .back
     var defaultUI = true
     var securityCodePattern = 3

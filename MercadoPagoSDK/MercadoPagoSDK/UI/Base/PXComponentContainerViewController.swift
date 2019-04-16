@@ -100,7 +100,7 @@ extension PXComponentContainerViewController: UIScrollViewDelegate {
         scrollView.delegate = self
         customNavigationTitle = navigationCustomTitle
         elasticHeader.backgroundColor = headerBackgroundColor
-        if let customDeltaY =  navigationDeltaY {
+        if let customDeltaY = navigationDeltaY {
             NAVIGATION_BAR_DELTA_Y = customDeltaY
         }
         if let customSecondaryDeltaY = navigationSecondaryDeltaY {
@@ -154,7 +154,7 @@ extension PXComponentContainerViewController: UIScrollViewDelegate {
                 titleAnimation.duration = 0.5
                 titleAnimation.type = CATransitionType.push
                 titleAnimation.subtype = CATransitionSubtype.fromTop
-                titleAnimation.timingFunction = CAMediaTimingFunction.init(name: CAMediaTimingFunctionName.easeInEaseOut)
+                titleAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
                 navigationItem.titleView?.layer.add(titleAnimation, forKey: "changeTitle")
                 (navigationItem.titleView as? UILabel)?.sizeToFit()
                 (navigationItem.titleView as? UILabel)?.text = customNavigationTitle

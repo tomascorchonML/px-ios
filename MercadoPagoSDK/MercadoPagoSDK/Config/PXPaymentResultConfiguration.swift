@@ -426,7 +426,7 @@ extension PXPaymentResultConfiguration {
     @available(*, deprecated)
     open func getHeaderApprovedIcon() -> UIImage? {
         if let urlImage = approvedURLImage {
-            if let image =  ViewUtils.loadImageFromUrl(urlImage) {
+            if let image = ViewUtils.loadImageFromUrl(urlImage) {
                 return image
             }
         }
@@ -446,7 +446,7 @@ extension PXPaymentResultConfiguration {
     @available(*, deprecated)
     open func getHeaderPendingIcon() -> UIImage? {
         if let urlImage = self.pendingURLImage {
-            if let image =  ViewUtils.loadImageFromUrl(urlImage) {
+            if let image = ViewUtils.loadImageFromUrl(urlImage) {
                 return image
             }
         }
@@ -502,7 +502,7 @@ extension PXPaymentResultConfiguration {
     @available(*, deprecated)
     open func getHeaderRejectedIcon(_ paymentMethod: PXPaymentMethod?) -> UIImage? {
         if let urlImage = self.rejectedURLImage {
-            if let image =  ViewUtils.loadImageFromUrl(urlImage) {
+            if let image = ViewUtils.loadImageFromUrl(urlImage) {
                 return image
             }
         }

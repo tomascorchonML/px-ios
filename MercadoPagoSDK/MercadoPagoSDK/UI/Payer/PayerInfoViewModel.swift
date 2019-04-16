@@ -147,7 +147,7 @@ internal class PayerInfoViewModel {
         }
 
         let length = currentMask.textUnmasked(identificationNumber).count
-        let hasValidLenght = identificationType.minLength <= length &&  length <= identificationType.maxLength
+        let hasValidLenght = identificationType.minLength <= length && length <= identificationType.maxLength
         let hasValidFormat = self.identificationNumberHasValidFormat()
         return hasValidFormat && hasValidLenght
     }

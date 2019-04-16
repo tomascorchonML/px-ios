@@ -76,23 +76,23 @@ class FSPagerViewLayout: UICollectionViewLayout {
             return pagerView.interitemSpacing
         }()
         self.scrollDirection = pagerView.scrollDirection
-        self.leadingSpacing = self.scrollDirection == .horizontal ? (collectionView.frame.width-self.actualItemSize.width)*0.5 : (collectionView.frame.height-self.actualItemSize.height)*0.5
+        self.leadingSpacing = self.scrollDirection == .horizontal ? (collectionView.frame.width - self.actualItemSize.width) * 0.5 : (collectionView.frame.height - self.actualItemSize.height) * 0.5
         self.itemSpacing = (self.scrollDirection == .horizontal ? self.actualItemSize.width : self.actualItemSize.height) + self.actualInteritemSpacing
 
         // Calculate and cache contentSize, rather than calculating each time
         self.contentSize = {
-            let numberOfItems = self.numberOfItems*self.numberOfSections
+            let numberOfItems = self.numberOfItems * self.numberOfSections
             switch self.scrollDirection {
                 case .horizontal:
-                    var contentSizeWidth: CGFloat = self.leadingSpacing*2 // Leading & trailing spacing
-                    contentSizeWidth += CGFloat(numberOfItems-1)*self.actualInteritemSpacing // Interitem spacing
-                    contentSizeWidth += CGFloat(numberOfItems)*self.actualItemSize.width // Item sizes
+                    var contentSizeWidth: CGFloat = self.leadingSpacing * 2 // Leading & trailing spacing
+                    contentSizeWidth += CGFloat(numberOfItems - 1) * self.actualInteritemSpacing // Interitem spacing
+                    contentSizeWidth += CGFloat(numberOfItems) * self.actualItemSize.width // Item sizes
                     let contentSize = CGSize(width: contentSizeWidth, height: collectionView.frame.height)
                     return contentSize
                 case .vertical:
-                    var contentSizeHeight: CGFloat = self.leadingSpacing*2 // Leading & trailing spacing
-                    contentSizeHeight += CGFloat(numberOfItems-1)*self.actualInteritemSpacing // Interitem spacing
-                    contentSizeHeight += CGFloat(numberOfItems)*self.actualItemSize.height // Item sizes
+                    var contentSizeHeight: CGFloat = self.leadingSpacing * 2 // Leading & trailing spacing
+                    contentSizeHeight += CGFloat(numberOfItems - 1) * self.actualInteritemSpacing // Interitem spacing
+                    contentSizeHeight += CGFloat(numberOfItems) * self.actualItemSize.height // Item sizes
                     let contentSize = CGSize(width: collectionView.frame.width, height: contentSizeHeight)
                     return contentSize
             }
@@ -118,17 +118,17 @@ class FSPagerViewLayout: UICollectionViewLayout {
             return layoutAttributes
         }
         // Calculate start position and index of certain rects
-        let numberOfItemsBefore = self.scrollDirection == .horizontal ? max(Int((rect.minX-self.leadingSpacing)/self.itemSpacing), 0) : max(Int((rect.minY-self.leadingSpacing)/self.itemSpacing), 0)
-        let startPosition = self.leadingSpacing + CGFloat(numberOfItemsBefore)*self.itemSpacing
+        let numberOfItemsBefore = self.scrollDirection == .horizontal ? max(Int((rect.minX - self.leadingSpacing) / self.itemSpacing), 0) : max(Int((rect.minY - self.leadingSpacing) / self.itemSpacing), 0)
+        let startPosition = self.leadingSpacing + CGFloat(numberOfItemsBefore) * self.itemSpacing
         let startIndex = numberOfItemsBefore
         // Create layout attributes
         var itemIndex = startIndex
 
         var origin = startPosition
-        let maxPosition = self.scrollDirection == .horizontal ? min(rect.maxX, self.contentSize.width-self.actualItemSize.width-self.leadingSpacing) : min(rect.maxY, self.contentSize.height-self.actualItemSize.height-self.leadingSpacing)
+        let maxPosition = self.scrollDirection == .horizontal ? min(rect.maxX, self.contentSize.width - self.actualItemSize.width - self.leadingSpacing) : min(rect.maxY, self.contentSize.height - self.actualItemSize.height - self.leadingSpacing)
         // https://stackoverflow.com/a/10335601/2398107
-        while origin-maxPosition <= max(CGFloat(100.0) * .ulpOfOne * abs(origin+maxPosition), .leastNonzeroMagnitude) {
-            let indexPath = IndexPath(item: itemIndex%self.numberOfItems, section: itemIndex/self.numberOfItems)
+        while origin - maxPosition <= max(CGFloat(100.0) * .ulpOfOne * abs(origin + maxPosition), .leastNonzeroMagnitude) {
+            let indexPath = IndexPath(item: itemIndex % self.numberOfItems, section: itemIndex / self.numberOfItems)
             let attributes = self.layoutAttributesForItem(at: indexPath) as! FSPagerViewLayoutAttributes
             self.applyTransform(to: attributes, with: self.pagerView?.transformer)
             layoutAttributes.append(attributes)
@@ -160,19 +160,19 @@ class FSPagerViewLayout: UICollectionViewLayout {
             if pagerView.decelerationDistance == FSPagerView.automaticDistance {
                 if abs(velocity.x) >= 0.3 {
                     let vector: CGFloat = velocity.x >= 0 ? 1.0 : -1.0
-                    targetOffset = round(proposedOffset/self.itemSpacing+0.35*vector) * self.itemSpacing // Ceil by 0.15, rather than 0.5
+                    targetOffset = round(proposedOffset / self.itemSpacing + 0.35 * vector) * self.itemSpacing // Ceil by 0.15, rather than 0.5
                 } else {
-                    targetOffset = round(proposedOffset/self.itemSpacing) * self.itemSpacing
+                    targetOffset = round(proposedOffset / self.itemSpacing) * self.itemSpacing
                 }
             } else {
-                let extraDistance = max(pagerView.decelerationDistance-1, 0)
+                let extraDistance = max(pagerView.decelerationDistance - 1, 0)
                 switch velocity.x {
                 case 0.3 ... CGFloat.greatestFiniteMagnitude:
-                    targetOffset = ceil(collectionView.contentOffset.x/self.itemSpacing+CGFloat(extraDistance)) * self.itemSpacing
+                    targetOffset = ceil(collectionView.contentOffset.x / self.itemSpacing + CGFloat(extraDistance)) * self.itemSpacing
                 case -CGFloat.greatestFiniteMagnitude ... -0.3:
-                    targetOffset = floor(collectionView.contentOffset.x/self.itemSpacing-CGFloat(extraDistance)) * self.itemSpacing
+                    targetOffset = floor(collectionView.contentOffset.x / self.itemSpacing - CGFloat(extraDistance)) * self.itemSpacing
                 default:
-                    targetOffset = round(proposedOffset/self.itemSpacing) * self.itemSpacing
+                    targetOffset = round(proposedOffset / self.itemSpacing) * self.itemSpacing
                 }
             }
             targetOffset = max(0, targetOffset)
@@ -183,14 +183,14 @@ class FSPagerViewLayout: UICollectionViewLayout {
             if self.scrollDirection == .vertical {
                 return proposedContentOffset.x
             }
-            let boundedOffset = collectionView.contentSize.width-self.itemSpacing
+            let boundedOffset = collectionView.contentSize.width - self.itemSpacing
             return calculateTargetOffset(by: proposedContentOffset.x, boundedOffset: boundedOffset)
         }()
         let proposedContentOffsetY: CGFloat = {
             if self.scrollDirection == .horizontal {
                 return proposedContentOffset.y
             }
-            let boundedOffset = collectionView.contentSize.height-self.itemSpacing
+            let boundedOffset = collectionView.contentSize.height - self.itemSpacing
             return calculateTargetOffset(by: proposedContentOffset.y, boundedOffset: boundedOffset)
         }()
         proposedContentOffset = CGPoint(x: proposedContentOffsetX, y: proposedContentOffsetY)
@@ -213,14 +213,14 @@ class FSPagerViewLayout: UICollectionViewLayout {
             if self.scrollDirection == .vertical {
                 return 0
             }
-            let contentOffsetX = origin.x - (collectionView.frame.width*0.5-self.actualItemSize.width*0.5)
+            let contentOffsetX = origin.x - (collectionView.frame.width * 0.5 - self.actualItemSize.width * 0.5)
             return contentOffsetX
         }()
         let contentOffsetY: CGFloat = {
             if self.scrollDirection == .horizontal {
                 return 0
             }
-            let contentOffsetY = origin.y - (collectionView.frame.height*0.5-self.actualItemSize.height*0.5)
+            let contentOffsetY = origin.y - (collectionView.frame.height * 0.5 - self.actualItemSize.height * 0.5)
             return contentOffsetY
         }()
         let contentOffset = CGPoint(x: contentOffsetX, y: contentOffsetY)
@@ -228,18 +228,18 @@ class FSPagerViewLayout: UICollectionViewLayout {
     }
 
     internal func frame(for indexPath: IndexPath) -> CGRect {
-        let numberOfItems = self.numberOfItems*indexPath.section + indexPath.item
+        let numberOfItems = self.numberOfItems * indexPath.section + indexPath.item
         let originX: CGFloat = {
             if self.scrollDirection == .vertical {
-                return (self.collectionView!.frame.width-self.actualItemSize.width)*0.5
+                return (self.collectionView!.frame.width - self.actualItemSize.width) * 0.5
             }
-            return self.leadingSpacing + CGFloat(numberOfItems)*self.itemSpacing
+            return self.leadingSpacing + CGFloat(numberOfItems) * self.itemSpacing
         }()
         let originY: CGFloat = {
             if self.scrollDirection == .horizontal {
-                return (self.collectionView!.frame.height-self.actualItemSize.height)*0.5
+                return (self.collectionView!.frame.height - self.actualItemSize.height) * 0.5
             }
-            return self.leadingSpacing + CGFloat(numberOfItems)*self.itemSpacing
+            return self.leadingSpacing + CGFloat(numberOfItems) * self.itemSpacing
         }()
         let origin = CGPoint(x: originX, y: originY)
         let frame = CGRect(origin: origin, size: self.actualItemSize)
@@ -267,7 +267,7 @@ class FSPagerViewLayout: UICollectionViewLayout {
             return
         }
         let currentIndex = max(0, min(pagerView.currentIndex, pagerView.numberOfItems - 1))
-        let newIndexPath = IndexPath(item: currentIndex, section: self.isInfinite ? self.numberOfSections/2 : 0)
+        let newIndexPath = IndexPath(item: currentIndex, section: self.isInfinite ? self.numberOfSections / 2 : 0)
         let contentOffset = self.contentOffset(for: newIndexPath)
         let newBounds = CGRect(origin: contentOffset, size: collectionView.frame.size)
         collectionView.bounds = newBounds
@@ -284,12 +284,12 @@ class FSPagerViewLayout: UICollectionViewLayout {
         switch self.scrollDirection {
         case .horizontal:
             let ruler = collectionView.bounds.midX
-            attributes.position = (attributes.center.x-ruler)/self.itemSpacing
+            attributes.position = (attributes.center.x - ruler) / self.itemSpacing
         case .vertical:
             let ruler = collectionView.bounds.midY
-            attributes.position = (attributes.center.y-ruler)/self.itemSpacing
+            attributes.position = (attributes.center.y - ruler) / self.itemSpacing
         }
-        attributes.zIndex = Int(self.numberOfItems)-Int(attributes.position)
+        attributes.zIndex = Int(self.numberOfItems) - Int(attributes.position)
         transformer.applyTransform(to: attributes)
     }
 

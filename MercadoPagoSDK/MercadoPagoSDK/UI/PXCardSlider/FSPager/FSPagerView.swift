@@ -204,7 +204,7 @@ open class FSPagerView: UIView, UICollectionViewDataSource, UICollectionViewDele
     @objc
     open var scrollOffset: CGFloat {
         let contentOffset = max(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y)
-        let scrollOffset = Double(contentOffset/self.collectionViewLayout.itemSpacing)
+        let scrollOffset = Double(contentOffset / self.collectionViewLayout.itemSpacing)
         return fmod(CGFloat(scrollOffset), CGFloat(Double(self.numberOfItems)))
     }
 
@@ -249,7 +249,7 @@ open class FSPagerView: UIView, UICollectionViewDataSource, UICollectionViewDele
                 rightCenter = rightFrame.midY
                 ruler = self.collectionView.bounds.midY
             }
-            return abs(ruler-leftCenter) < abs(ruler-rightCenter)
+            return abs(ruler - leftCenter) < abs(ruler - rightCenter)
         }
         let indexPath = sortedIndexPaths.first
         if let indexPath = indexPath {
@@ -320,7 +320,7 @@ open class FSPagerView: UIView, UICollectionViewDataSource, UICollectionViewDele
         guard self.numberOfItems > 0 else {
             return 0
         }
-        self.numberOfSections = self.isInfinite && (self.numberOfItems > 1 || !self.removesInfiniteLoopForSingleItem) ? Int(Int16.max)/self.numberOfItems : 1
+        self.numberOfSections = self.isInfinite && (self.numberOfItems > 1 || !self.removesInfiniteLoopForSingleItem) ? Int(Int16.max) / self.numberOfItems : 1
         return self.numberOfSections
     }
 
@@ -416,7 +416,7 @@ open class FSPagerView: UIView, UICollectionViewDataSource, UICollectionViewDele
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         if let function = self.delegate?.pagerViewWillEndDragging(_:targetIndex:) {
             let contentOffset = self.scrollDirection == .horizontal ? targetContentOffset.pointee.x : targetContentOffset.pointee.y
-            let targetItem = lround(Double(contentOffset/self.collectionViewLayout.itemSpacing))
+            let targetItem = lround(Double(contentOffset / self.collectionViewLayout.itemSpacing))
             function(self, targetItem % self.numberOfItems)
         }
         if self.automaticSlidingInterval > 0 {
@@ -511,7 +511,7 @@ open class FSPagerView: UIView, UICollectionViewDataSource, UICollectionViewDele
     @objc(scrollToItemAtIndex:animated:)
     open func scrollToItem(at index: Int, animated: Bool) {
         guard index < self.numberOfItems else {
-            fatalError("index \(index) is out of range [0...\(self.numberOfItems-1)]")
+            fatalError("index \(index) is out of range [0...\(self.numberOfItems - 1)]")
         }
         let indexPath = { () -> IndexPath in
             if let indexPath = self.possibleTargetingIndexPath, indexPath.item == index {
@@ -597,8 +597,8 @@ open class FSPagerView: UIView, UICollectionViewDataSource, UICollectionViewDele
         }
         let contentOffset: CGPoint = {
             let indexPath = self.centermostIndexPath
-            let section = self.numberOfSections > 1 ? (indexPath.section+(indexPath.item+1)/self.numberOfItems) : 0
-            let item = (indexPath.item+1) % self.numberOfItems
+            let section = self.numberOfSections > 1 ? (indexPath.section + (indexPath.item + 1) / self.numberOfItems) : 0
+            let item = (indexPath.item + 1) % self.numberOfItems
             return self.collectionViewLayout.contentOffset(for: IndexPath(item: item, section: section))
         }()
         self.collectionView.setContentOffset(contentOffset, animated: true)
@@ -616,12 +616,12 @@ open class FSPagerView: UIView, UICollectionViewDataSource, UICollectionViewDele
         // Is there a better algorithm?
         let currentIndex = self.currentIndex
         let currentSection = self.centermostIndexPath.section
-        if abs(currentIndex-index) <= self.numberOfItems/2 {
+        if abs(currentIndex - index) <= self.numberOfItems / 2 {
             return IndexPath(item: index, section: currentSection)
-        } else if (index-currentIndex >= 0) {
-            return IndexPath(item: index, section: currentSection-1)
+        } else if (index - currentIndex >= 0) {
+            return IndexPath(item: index, section: currentSection - 1)
         } else {
-            return IndexPath(item: index, section: currentSection+1)
+            return IndexPath(item: index, section: currentSection + 1)
         }
     }
 

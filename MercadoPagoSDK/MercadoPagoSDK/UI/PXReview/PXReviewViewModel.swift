@@ -130,7 +130,7 @@ extension PXReviewViewModel {
     }
 
     func getFloatingConfirmViewHeight() -> CGFloat {
-        return 82 + PXLayout.getSafeAreaBottomInset()/2
+        return 82 + PXLayout.getSafeAreaBottomInset() / 2
     }
 
     func getSummaryViewModel(amount: Double) -> Summary {

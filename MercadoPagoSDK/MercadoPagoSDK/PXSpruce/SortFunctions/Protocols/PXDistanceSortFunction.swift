@@ -75,7 +75,7 @@ internal extension DistanceSortFunction {
 
         let distancedViews = subviews.map {
             return (view: $0, distance: distanceBetween(comparisonPoint, and: $0.referencePoint))
-            }.sorted { (left, right) -> Bool in
+        }.sorted { (left, right) -> Bool in
                 if reversed {
                     return left.distance > right.distance
                 }

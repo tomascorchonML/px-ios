@@ -23,7 +23,7 @@ import UIKit
     }
 
     override func draw(_ rect: CGRect) {
-        shapeLayer.path = UIBezierPath.init(ovalIn: bounds).cgPath
+        shapeLayer.path = UIBezierPath(ovalIn: bounds).cgPath
         layer.addSublayer(shapeLayer)
     }
 }

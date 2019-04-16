@@ -20,7 +20,7 @@ extension PXFooterRenderer {
             PXLayout.pinTop(view: animatedButton, withMargin: PXLayout.M_MARGIN).isActive = true
             PXLayout.pinLeft(view: animatedButton, withMargin: PXLayout.M_MARGIN).isActive = true
             PXLayout.pinRight(view: animatedButton, withMargin: PXLayout.M_MARGIN).isActive = true
-            PXLayout.setHeight(owner: fooView, height: BUTTON_HEIGHT+PXLayout.XXL_MARGIN).isActive = true
+            PXLayout.setHeight(owner: fooView, height: BUTTON_HEIGHT + PXLayout.XXL_MARGIN).isActive = true
             PXLayout.setHeight(owner: animatedButton, height: BUTTON_HEIGHT).isActive = true
         }
         return fooView

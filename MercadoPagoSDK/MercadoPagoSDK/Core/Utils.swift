@@ -51,7 +51,7 @@ internal class Utils {
         }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        var dateArr = string.split {$0 == "T"}.map(String.init)
+        var dateArr = string.split { $0 == "T" }.map(String.init)
         return dateFormatter.date(from: dateArr[0])
     }
 
@@ -324,7 +324,7 @@ internal class Utils {
         }
         var numberWithoutLastThreeDigits: String = ""
         if let amountString = Double(formattedString) {
-            numberWithoutLastThreeDigits = String( CUnsignedLongLong(amountString/1000))
+            numberWithoutLastThreeDigits = String( CUnsignedLongLong(amountString / 1000))
         }
         let lastThreeDigits = amount.lastCharacters(number: 3)
 
@@ -381,7 +381,7 @@ internal class Utils {
 
     static internal func findPaymentMethodSearchItemInGroups(_ paymentMethodSearch: PXPaymentMethodSearch, paymentMethodId: String, paymentTypeId: PXPaymentTypes?) -> PXPaymentMethodSearchItem? {
         guard paymentMethodSearch.paymentMethodSearchItem != nil
-            else {return nil}
+            else { return nil }
 
         if let result = Utils.findPaymentMethodSearchItemById(paymentMethodSearch.paymentMethodSearchItem, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId) {
             return result
@@ -495,7 +495,7 @@ internal class Utils {
         }
         let floatMMYY = Float( validInt! / 100 )
         let mm: Int = Int(floor(floatMMYY))
-        let yy = Int(stringMMYY)! - (mm*100)
+        let yy = Int(stringMMYY)! - (mm * 100)
         return yy
 
     }

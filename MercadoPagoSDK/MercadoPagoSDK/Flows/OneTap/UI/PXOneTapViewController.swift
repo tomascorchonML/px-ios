@@ -434,7 +434,7 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
         PXLayout.matchWidth(ofView: installmentsSelectorView).isActive = true
         PXLayout.centerHorizontally(view: installmentsSelectorView).isActive = true
         PXLayout.put(view: installmentsSelectorView, onBottomOf: installmentInfoRow).isActive = true
-        let installmentsSelectorViewHeight = PXCardSliderSizeManager.getWhiteViewHeight(viewController: self)-PXOneTapInstallmentInfoView.DEFAULT_ROW_HEIGHT
+        let installmentsSelectorViewHeight = PXCardSliderSizeManager.getWhiteViewHeight(viewController: self) - PXOneTapInstallmentInfoView.DEFAULT_ROW_HEIGHT
         PXLayout.setHeight(owner: installmentsSelectorView, height: installmentsSelectorViewHeight).isActive = true
 
         installmentsSelectorView.layoutIfNeeded()

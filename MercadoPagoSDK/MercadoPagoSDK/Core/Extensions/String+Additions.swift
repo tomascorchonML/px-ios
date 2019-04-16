@@ -27,7 +27,7 @@ internal extension String {
     }
 
     static func isDigitsOnly(_ number: String) -> Bool {
-		if Regex.init("^[0-9]*$").test(number) {
+		if Regex("^[0-9]*$").test(number) {
 			return true
 		} else {
 			return false
@@ -39,7 +39,7 @@ internal extension String {
             return true
         }
         let startIndex = self.range(of: prefix)
-        if startIndex == nil  || self.startIndex != startIndex?.lowerBound {
+        if startIndex == nil || self.startIndex != startIndex?.lowerBound {
             return false
         }
         return true

@@ -24,8 +24,8 @@ internal class NavigationControllerMemento {
     var isNavigationBarHidden: Bool = true
 
     init(navigationController: UINavigationController) {
-        navBarTintColor =  navigationController.navigationBar.barTintColor
-        navTintColor =  navigationController.navigationBar.tintColor
+        navBarTintColor = navigationController.navigationBar.barTintColor
+        navTintColor = navigationController.navigationBar.tintColor
         navTitleTextAttributes = navigationController.navigationBar.titleTextAttributes
         navIsTranslucent = navigationController.navigationBar.isTranslucent
         navViewBackgroundColor = navigationController.view.backgroundColor

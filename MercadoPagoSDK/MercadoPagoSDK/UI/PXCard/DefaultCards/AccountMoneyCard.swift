@@ -12,7 +12,7 @@ class AccountMoneyCard: NSObject, CardUI {
     var placeholderExpiration = ""
     var bankImage: UIImage?
     var cardPattern = [0]
-    var cardFontColor: UIColor = UIColor(red: 105/255, green: 105/255, blue: 105/255, alpha: 1)
+    var cardFontColor: UIColor = UIColor(red: 105 / 255, green: 105 / 255, blue: 105 / 255, alpha: 1)
     var cardLogoImage: UIImage?
     var cardBackgroundColor: UIColor = UIColor(red: 0.00, green: 0.64, blue: 0.85, alpha: 1.0)
     var securityCodeLocation: Location = .back
@@ -32,7 +32,7 @@ extension AccountMoneyCard {
         containerView.addSubview(amImage)
         PXLayout.setWidth(owner: amImage, width: PXCardSliderSizeManager.getItemContainerSize().height * 0.65).isActive = true
         PXLayout.setHeight(owner: amImage, height: PXCardSliderSizeManager.getItemContainerSize().height * 0.65).isActive = true
-        PXLayout.pinTop(view: amImage).isActive =  true
+        PXLayout.pinTop(view: amImage).isActive = true
         PXLayout.pinRight(view: amImage).isActive = true
 
         let patternView = UIImageView()

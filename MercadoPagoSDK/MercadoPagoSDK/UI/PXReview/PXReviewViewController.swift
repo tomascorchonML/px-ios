@@ -354,7 +354,7 @@ extension PXReviewViewController {
         }
         let footerProps = PXFooterProps(buttonAction: payAction, animationDelegate: self, pinLastSubviewToBottom: false)
         let footerComponent = PXFooterComponent(props: footerProps)
-        let footerView =  PXFooterRenderer().render(footerComponent)
+        let footerView = PXFooterRenderer().render(footerComponent)
         loadingButtonComponent = footerView.principalButton
         loadingButtonComponent?.layer.cornerRadius = 4
         footerView.backgroundColor = .clear

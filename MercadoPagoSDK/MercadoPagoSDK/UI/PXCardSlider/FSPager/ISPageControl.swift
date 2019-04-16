@@ -126,7 +126,7 @@ class ISPageControl: UIControl {
 private extension ISPageControl {
 
     func setupDotLayers() {
-        dotLayers.forEach{ $0.removeFromSuperlayer() }
+        dotLayers.forEach { $0.removeFromSuperlayer() }
         dotLayers.removeAll()
 
         (0..<numberOfPages).forEach { _ in
@@ -159,7 +159,7 @@ private extension ISPageControl {
         let centerLayer = dotLayers[centerIndex]
         centerLayer.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
 
-        dotLayers.enumerated().filter{ $0.offset != centerIndex }.forEach {
+        dotLayers.enumerated().filter { $0.offset != centerIndex }.forEach {
             let index = abs($0.offset - centerIndex)
             let interval = $0.offset > centerIndex ? diameter + padding : -(diameter + padding)
             $0.element.position = CGPoint(x: centerLayer.position.x + interval * CGFloat(index), y: $0.element.position.y)
@@ -190,7 +190,7 @@ private extension ISPageControl {
     }
 
     func update() {
-        dotLayers.enumerated().forEach() {
+        dotLayers.enumerated().forEach {
             $0.element.backgroundColor = $0.offset == currentPage ? currentPageTintColor.cgColor : inactiveTintColor.withAlphaComponent(inactiveTransparency).cgColor
         }
 
@@ -220,4 +220,3 @@ private extension ISPageControl {
         }
     }
 }
-

@@ -39,6 +39,10 @@ public class AddCardFlow: NSObject, PXFlow {
         MPXTracker.sharedInstance.startNewSession()
     }
 
+    public func setSiteId(_ siteId: String) {
+        SiteManager.shared.setSite(siteId: siteId)
+    }
+
     public func start() {
         self.executeNextStep()
     }
@@ -206,7 +210,8 @@ public class AddCardFlow: NSObject, PXFlow {
         let viewModel = PXResultAddCardSuccessViewModel(buttonCallback: { [weak self] in
             self?.executeNextStep()
         })
-        let congratsVc = PXResultViewController(viewModel: viewModel) { (_) in
+        let congratsVc = PXResultViewController(viewModel: viewModel) { [weak self]  (_)  in
+            self?.finish()
         }
         self.navigationHandler.pushViewController(cleanCompletedCheckouts: false, targetVC: congratsVc, animated: true)
     }
@@ -226,7 +231,8 @@ public class AddCardFlow: NSObject, PXFlow {
             }, linkCallback: { [weak self] in
                 self?.finish()
         })
-        let failVc = PXResultViewController(viewModel: viewModel) { (_) in
+        let failVc = PXResultViewController(viewModel: viewModel) { [weak self]  (_)  in
+            self?.finish()
         }
         self.navigationHandler.pushViewController(cleanCompletedCheckouts: false, targetVC: failVc, animated: true)
     }

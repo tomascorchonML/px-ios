@@ -1,3 +1,21 @@
+# v4.10.1
+🚀Private Release - 4.10.1 🚀
+MercadoPagoSDKV4 - Private Version
+- New comunications for rejected screens
+- Disabled previous payment method for high risk scenarios
+- Session id for tracking
+- Support for single player in one tap
+- New banamex images
+
+# v4.10.0
+🚀Private Release - 4.10.0 🚀
+MercadoPagoSDKV4 - Private Version
+- New comunications for rejected screens
+- Disabled previous payment method for high risk scenarios
+- Session id for tracking
+- Support for single player in one tap
+- New banamex images
+
 # v4.9.0
 🚀Private RC - 4.9.0 🚀
 MercadoPagoSDKV4 - Private Version
@@ -38,7 +56,6 @@ MercadoPagoSDK - Public Version
 MercadoPagoSDKV4 - Private Version
 - Fix split payments fail flow.
 - Fix payment flow after not saved ESC.
-
 
 # v4.7.4
 🚀Private RC - 4.7.4 🚀

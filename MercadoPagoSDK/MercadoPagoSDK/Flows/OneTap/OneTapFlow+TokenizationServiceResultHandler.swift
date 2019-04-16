@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension OneTapFlow: TokenizationFlowResultHandler {
+extension OneTapFlow: TokenizationServiceResultHandler {
     func finishInvalidIdentificationNumber() {
     }
 
@@ -24,14 +24,14 @@ extension OneTapFlow: TokenizationFlowResultHandler {
     func finishWithError(error: MPSDKError, securityCode: String? = nil) {
         if isShowingLoading() {
             pxNavigationHandler.showErrorScreen(error: error, callbackCancel: resultHandler?.exitCheckout, errorCallback: { [weak self] () in
-                self?.getTokenizationFlow().createCardToken(securityCode: securityCode)
+                self?.getTokenizationService().createCardToken(securityCode: securityCode)
             })
         } else {
             finishPaymentFlow(error: error)
         }
     }
 
-    func getTokenizationFlow() -> TokenizationFlow {
-        return TokenizationFlow(paymentOptionSelected: model.paymentOptionSelected, cardToken: nil, escManager: model.escManager, pxNavigationHandler: pxNavigationHandler, needToShowLoading: model.needToShowLoading(), mercadoPagoServicesAdapter: model.mercadoPagoServicesAdapter, gatewayFlowResultHandler: self)
+    func getTokenizationService() -> TokenizationService {
+        return TokenizationService(paymentOptionSelected: model.paymentOptionSelected, cardToken: nil, escManager: model.escManager, pxNavigationHandler: pxNavigationHandler, needToShowLoading: model.needToShowLoading(), mercadoPagoServicesAdapter: model.mercadoPagoServicesAdapter, gatewayFlowResultHandler: self)
     }
 }

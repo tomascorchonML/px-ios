@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension TokenizationFlow {
+extension TokenizationService {
     internal func trackInvalidESC(error: MPSDKError, cardId: String, esc_length: Int?) {
         var properties: [String: Any] = [:]
         properties["path"] = TrackingPaths.Events.getCreateTokenPath()

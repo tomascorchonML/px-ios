@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension MercadoPagoCheckout: TokenizationFlowResultHandler {
+extension MercadoPagoCheckout: TokenizationServiceResultHandler {
     func finishInvalidIdentificationNumber() {
         if let identificationViewController = viewModel.pxNavigationHandler.navigationController.viewControllers.last as? IdentificationViewController {
             identificationViewController.showErrorMessage("Revisa este dato".localized)
@@ -25,12 +25,12 @@ extension MercadoPagoCheckout: TokenizationFlowResultHandler {
 
     func finishWithError(error: MPSDKError, securityCode: String? = nil) {
         viewModel.errorInputs(error: error, errorCallback: { [weak self] () in
-            self?.getTokenizationFlow().createCardToken(securityCode: securityCode)
+            self?.getTokenizationService().createCardToken(securityCode: securityCode)
         })
         self.executeNextStep()
     }
 
-    func getTokenizationFlow() -> TokenizationFlow {
-        return TokenizationFlow(paymentOptionSelected: viewModel.paymentOptionSelected, cardToken: viewModel.cardToken, escManager: viewModel.escManager, pxNavigationHandler: viewModel.pxNavigationHandler, needToShowLoading: true, mercadoPagoServicesAdapter: viewModel.mercadoPagoServicesAdapter, gatewayFlowResultHandler: self)
+    func getTokenizationService() -> TokenizationService {
+        return TokenizationService(paymentOptionSelected: viewModel.paymentOptionSelected, cardToken: viewModel.cardToken, escManager: viewModel.escManager, pxNavigationHandler: viewModel.pxNavigationHandler, needToShowLoading: true, mercadoPagoServicesAdapter: viewModel.mercadoPagoServicesAdapter, gatewayFlowResultHandler: self)
     }
 }

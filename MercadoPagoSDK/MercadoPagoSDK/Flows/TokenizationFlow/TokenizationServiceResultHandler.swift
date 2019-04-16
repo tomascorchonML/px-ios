@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal protocol TokenizationFlowResultHandler: NSObjectProtocol {
+internal protocol TokenizationServiceResultHandler: NSObjectProtocol {
     func finishFlow(token: PXToken)
     func finishWithESCError()
     func finishWithError(error: MPSDKError, securityCode: String?)

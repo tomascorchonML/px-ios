@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal class TokenizationFlow {
+internal class TokenizationService {
     var paymentOptionSelected: PaymentMethodOption?
     var cardToken: PXCardToken?
     var escManager: MercadoPagoESC?

@@ -1,5 +1,5 @@
 //
-//  TokenizationFlow.swift
+//  TokenizationService.swift
 //  MercadoPagoSDK
 //
 //  Created by Eden Torres on 12/04/2019.
@@ -14,9 +14,9 @@ internal class TokenizationService {
     var pxNavigationHandler: PXNavigationHandler
     var needToShowLoading: Bool
     var mercadoPagoServicesAdapter: MercadoPagoServicesAdapter
-    weak var resultHandler: TokenizationFlowResultHandler?
+    weak var resultHandler: TokenizationServiceResultHandler?
 
-    init(paymentOptionSelected: PaymentMethodOption?, cardToken: PXCardToken?, escManager: MercadoPagoESC?, pxNavigationHandler: PXNavigationHandler, needToShowLoading: Bool, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, gatewayFlowResultHandler: TokenizationFlowResultHandler) {
+    init(paymentOptionSelected: PaymentMethodOption?, cardToken: PXCardToken?, escManager: MercadoPagoESC?, pxNavigationHandler: PXNavigationHandler, needToShowLoading: Bool, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, gatewayFlowResultHandler: TokenizationServiceResultHandler) {
         self.paymentOptionSelected = paymentOptionSelected
         self.escManager = escManager
         self.pxNavigationHandler = pxNavigationHandler

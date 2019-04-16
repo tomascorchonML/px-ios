@@ -1,5 +1,5 @@
 //
-//  OneTapFlow+TokenizationFlowResultHandler.swift
+//  OneTapFlow+TokenizationServiceResultHandler.swift
 //  MercadoPagoSDK
 //
 //  Created by Eden Torres on 09/05/2018.

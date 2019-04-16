@@ -172,7 +172,7 @@ extension MercadoPagoCheckout {
     func showSecurityCodeScreen() {
 
         let securityCodeVc = SecurityCodeViewController(viewModel: self.viewModel.savedCardSecurityCodeViewModel(), collectSecurityCodeCallback: { [weak self] (_, securityCode: String) -> Void in
-            self?.getTokenizationFlow().createCardToken(securityCode: securityCode)
+            self?.getTokenizationService().createCardToken(securityCode: securityCode)
         })
         viewModel.pxNavigationHandler.pushViewController(viewController: securityCodeVc, animated: true, backToFirstPaymentVault: true)
     }
@@ -182,7 +182,7 @@ extension MercadoPagoCheckout {
             guard let token = cardInformation as? PXToken else {
                 fatalError("Cannot convert cardInformation to Token")
             }
-            self?.getTokenizationFlow().createCardToken(securityCode: securityCode, token: token)
+            self?.getTokenizationService().createCardToken(securityCode: securityCode, token: token)
 
         })
         viewModel.pxNavigationHandler.pushViewController(viewController: securityCodeVc, animated: true)

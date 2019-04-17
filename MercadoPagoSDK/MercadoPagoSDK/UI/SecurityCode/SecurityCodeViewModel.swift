@@ -48,13 +48,13 @@ internal class SecurityCodeViewModel {
         return (UIScreen.main.bounds.width - 100)
     }
     func getCardX() -> CGFloat {
-        return ((UIScreen.main.bounds.width - getCardWidth())/2)
+        return ((UIScreen.main.bounds.width - getCardWidth()) / 2)
     }
 
     func getCardY() -> CGFloat {
         let cardSeparation: CGFloat = 510
         let yPos = (UIScreen.main.bounds.height - getCardHeight() - cardSeparation) / 2
-        return yPos>10 ? yPos : 10
+        return yPos > 10 ? yPos : 10
     }
 
     func getCardBounds() -> CGRect {
@@ -76,6 +76,7 @@ extension SecurityCodeViewModel {
         if let token = cardInfo as? PXCardInformation {
             properties["card_id"] =  token.getCardId()
         }
+        properties["reason"] = reason.rawValue
         return properties
     }
 

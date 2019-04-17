@@ -20,6 +20,7 @@ internal struct Tracking {
     internal struct Style {
         static let customComponent = "custom_component"
         static let screen = "screen"
+        static let noScreen = "non_screen"
         static let snackbar = "snackbar"
     }
 
@@ -39,6 +40,7 @@ internal struct Tracking {
             static let invalidBin = "invalid_bin"
             static let invalidNumber = "invalid_cc_number"
             static let invalidExpirationDate = "invalid_expiration_date"
+            static let invalidESC = "invalid_esc"
         }
     }
 }

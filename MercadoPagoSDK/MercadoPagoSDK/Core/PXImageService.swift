@@ -20,9 +20,9 @@ final class PXImageService: NSObject {
         let dictPM = NSDictionary(contentsOfFile: path!)
 
         if let pm = dictPM?.value(forKey: paymentMethod.id) as? NSDictionary {
-            return ResourceManager.shared.getImage(pm.object(forKey: "image_name") as? String ?? nil)
+            return ResourceManager.shared.getImage(pm.object(forKey: "image_name") as? String)
         } else if let pmPt = dictPM?.value(forKey: paymentMethod.id + "_" + paymentMethod.paymentTypeId) as? NSDictionary {
-            return ResourceManager.shared.getImage(pmPt.object(forKey: "image_name") as? String ?? nil)
+            return ResourceManager.shared.getImage(pmPt.object(forKey: "image_name") as? String)
         }
 
         return nil

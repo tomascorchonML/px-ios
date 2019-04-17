@@ -110,7 +110,7 @@ extension PXSummaryFullComponentView {
     internal func addPayerCost(payerCost: PXPayerCost) {
         let payerCostView = PayerCostView(frame: CGRect(x: 0, y: requiredHeight, width: self.frame.size.width, height: PAYER_COST_HEIGHT), payerCost: payerCost)
         self.addSubview(payerCostView)
-        payerCostView.frame =  CGRect(x: 0, y: requiredHeight, width: self.frame.size.width, height: payerCostView.getHeight())
+        payerCostView.frame = CGRect(x: 0, y: requiredHeight, width: self.frame.size.width, height: payerCostView.getHeight())
         requiredHeight += payerCostView.getHeight()
     }
 

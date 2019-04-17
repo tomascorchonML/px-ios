@@ -61,7 +61,7 @@ class CardView: UIView {
             self.gradient.layer.addSublayer(gradient)
         } else {
             let layer = CAGradientLayer()
-            let end = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1).cgColor
+            let end = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1).cgColor
             layer.colors = [UIColor.black.cgColor, end]
             layer.frame = frame
             layer.startPoint = CGPoint(x: 0, y: 1)

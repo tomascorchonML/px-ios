@@ -42,7 +42,7 @@ open class PXPayer: NSObject, Codable, NSCopying {
         let container = try decoder.container(keyedBy: PXPayerKeys.self)
         let accessToken: String? = try container.decodeIfPresent(String.self, forKey: .accessToken)
         let type: String? = try container.decodeIfPresent(String.self, forKey: .type)
-        let email: String =  try container.decodeIfPresent(String.self, forKey: .email) ?? ""
+        let email: String = try container.decodeIfPresent(String.self, forKey: .email) ?? ""
         let id: String? = try container.decodeIfPresent(String.self, forKey: .id)
         let entityType: String? = try container.decodeIfPresent(String.self, forKey: .entityType)
         let firstName: String? = try container.decodeIfPresent(String.self, forKey: .firstName)
@@ -50,7 +50,7 @@ open class PXPayer: NSObject, Codable, NSCopying {
         let legalName: String? = try container.decodeIfPresent(String.self, forKey: .legalName)
         let identification: PXIdentification? = try container.decodeIfPresent(PXIdentification.self, forKey: .identification)
 
-        self.init(id: id, accessToken: accessToken, identification: identification, type: type, entityType: entityType, email: email, firstName: firstName, lastName: lastName , legalName: legalName)
+        self.init(id: id, accessToken: accessToken, identification: identification, type: type, entityType: entityType, email: email, firstName: firstName, lastName: lastName, legalName: legalName)
     }
 
     /// :nodoc:
@@ -90,7 +90,7 @@ extension PXPayer {
     open func setLastName(lastName: String) {
         self.lastName = lastName
     }
-    
+
     open func setLegalName(lastName: String) {
         self.legalName = lastName
     }
@@ -132,7 +132,7 @@ extension PXPayer {
     open func getLastName() -> String? {
         return lastName
     }
-    
+
     @objc
     open func getLegalName() -> String? {
         return legalName

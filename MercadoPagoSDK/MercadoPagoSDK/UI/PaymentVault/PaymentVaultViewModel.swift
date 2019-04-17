@@ -18,7 +18,7 @@ class PaymentVaultViewModel: NSObject {
     var paymentMethodPlugins = [PXPaymentMethodPlugin]()
     var paymentMethods: [PXPaymentMethod]!
     var defaultPaymentOption: PXPaymentMethodSearchItem?
-    var disabledOption: PXDisabledOption? = nil
+    var disabledOption: PXDisabledOption?
 
     var displayItems = [PaymentOptionDrawable]()
     var currency: PXCurrency = SiteManager.shared.getCurrency()
@@ -93,11 +93,11 @@ extension PaymentVaultViewModel {
 
 // MARK: Disabled methods
 extension PaymentVaultViewModel {
-    func shouldDisableAccountMoney() ->  Bool {
+    func shouldDisableAccountMoney() -> Bool {
         return disabledOption?.isAccountMoneyDisabled() ?? false
     }
 
-    func getDisabledCardID() ->  String? {
+    func getDisabledCardID() -> String? {
         return disabledOption?.getDisabledCardId()
     }
  }
@@ -144,11 +144,11 @@ extension PaymentVaultViewModel {
         var returnDrawable = [PaymentOptionDrawable]()
         let customerPaymentMethodsCount = getCustomerPaymentMethodsToDisplayCount()
         if customerPaymentMethodsCount > 0 {
-            for customerPaymentMethodIndex in 0...customerPaymentMethodsCount-1 {
+            for customerPaymentMethodIndex in 0...customerPaymentMethodsCount - 1 {
                 if let customerPaymentOptions = customerPaymentOptions, customerPaymentOptions.indices.contains(customerPaymentMethodIndex) {
                     let customerPaymentOption = customerPaymentOptions[customerPaymentMethodIndex]
-                    
-                    let isAM = customerPaymentOption.getPaymentMethodId() == PXPaymentTypes.ACCOUNT_MONEY.rawValue;
+
+                    let isAM = customerPaymentOption.getPaymentMethodId() == PXPaymentTypes.ACCOUNT_MONEY.rawValue
                     let disableAM = isAM && shouldDisableAccountMoney()
                     let disableCC = customerPaymentOption.getCardId() == getDisabledCardID()
                     let disableCustomerOption = disableAM || disableCC

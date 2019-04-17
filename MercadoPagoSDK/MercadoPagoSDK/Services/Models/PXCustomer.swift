@@ -32,7 +32,7 @@ open class PXCustomer: NSObject, Codable {
         self.defaultCard = defaultCard
         self._description = description
         self.dateCreated = dateCreated
-        self.dateLastUpdated =  dateLastUpdated
+        self.dateLastUpdated = dateLastUpdated
         self.email = email
         self.firstName = firstName
         self.id = id

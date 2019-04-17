@@ -49,7 +49,7 @@ internal class DiscountService: MercadoPagoService {
                 failure(PXError(domain: "mercadopago.sdk.PaymentMethodSearchService.getPaymentMethods", code: ErrorTypes.API_UNKNOWN_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "No se ha podido obtener el descuento"]))
             }
 
-        }, failure: { (error) -> Void in
+        }, failure: { (_) -> Void in
             failure(PXError(domain: "mercadopago.sdk.DiscountService.getDiscount", code: ErrorTypes.NO_INTERNET_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "Verifique su conexión a internet e intente nuevamente"]))
         })
     }
@@ -78,7 +78,7 @@ internal class DiscountService: MercadoPagoService {
                 failure(PXError(domain: "mercadopago.sdk.PaymentMethodSearchService.getPaymentMethods", code: ErrorTypes.API_UNKNOWN_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "No se ha podido obtener la campaña"]))
             }
 
-        }, failure: { (error) -> Void in
+        }, failure: { (_) -> Void in
             failure(PXError(domain: "mercadopago.sdk.DiscountService.getCampaigns", code: ErrorTypes.NO_INTERNET_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "Verifique su conexión a internet e intente nuevamente"]))
         })
     }

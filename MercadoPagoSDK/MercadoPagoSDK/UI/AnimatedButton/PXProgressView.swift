@@ -55,7 +55,7 @@ final class ProgressView: UIView {
     @objc fileprivate func increment() {
         timerCounter += 1
         let incompleteWidth = self.progressViewEndX - self.frame.width
-        let newWidth =  self.frame.width + incompleteWidth / deltaIncrementFraction
+        let newWidth = self.frame.width + incompleteWidth / deltaIncrementFraction
 
         let newFrame = CGRect(x: 0, y: 0, width: (newWidth), height: self.frame.height)
 

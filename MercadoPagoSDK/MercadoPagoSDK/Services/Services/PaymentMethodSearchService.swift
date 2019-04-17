@@ -43,14 +43,14 @@ internal class PaymentMethodSearchService: MercadoPagoService {
 
     internal func getPaymentMethods(_ amount: Double, customerEmail: String? = nil, customerId: String? = nil, defaultPaymenMethodId: String?, excludedPaymentTypeIds: [String], excludedPaymentMethodIds: [String], cardsWithEsc: [String]?, supportedPlugins: [String]?, site: PXSite, payer: PXPayer, language: String, differentialPricingId: String?, defaultInstallments: String?, expressEnabled: String, splitEnabled: String, discountParamsConfiguration: PXDiscountParamsConfiguration?, marketplace: String?, charges: [PXPaymentTypeChargeRule]?, success: @escaping (_ paymentMethodSearch: PXPaymentMethodSearch) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
 
-        var params =  MercadoPagoServices.getParamsPublicKey(merchantPublicKey)
+        var params = MercadoPagoServices.getParamsPublicKey(merchantPublicKey)
 
         params.paramsAppend(key: ApiParams.AMOUNT, value: String(amount))
 
         let newExcludedPaymentTypesIds = excludedPaymentTypeIds
 
         if newExcludedPaymentTypesIds.count > 0 {
-            let excludedPaymentTypesParams = newExcludedPaymentTypesIds.map({$0}).joined(separator: ",")
+            let excludedPaymentTypesParams = newExcludedPaymentTypesIds.map({ $0 }).joined(separator: ",")
             params.paramsAppend(key: ApiParams.EXCLUDED_PAYMET_TYPES, value: String(excludedPaymentTypesParams).trimSpaces())
         }
 
@@ -74,11 +74,11 @@ internal class PaymentMethodSearchService: MercadoPagoService {
         params.paramsAppend(key: ApiParams.PROCESSING_MODE, value: processingMode)
         params.paramsAppend(key: ApiParams.DIFFERENTIAL_PRICING_ID, value: differentialPricingId)
 
-        if let cardsWithEscParams = cardsWithEsc?.map({$0}).joined(separator: ",") {
+        if let cardsWithEscParams = cardsWithEsc?.map({ $0 }).joined(separator: ",") {
             params.paramsAppend(key: "cards_esc", value: cardsWithEscParams)
         }
 
-        if let supportedPluginsParams = supportedPlugins?.map({$0}).joined(separator: ",") {
+        if let supportedPluginsParams = supportedPlugins?.map({ $0 }).joined(separator: ",") {
             params.paramsAppend(key: "support_plugins", value: supportedPluginsParams)
         }
 

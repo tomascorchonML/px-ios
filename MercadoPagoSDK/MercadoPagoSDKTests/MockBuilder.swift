@@ -98,7 +98,7 @@ open class MockBuilder: NSObject {
     }
 
     class func buildPayer() -> PXPayer {
-        let payer =  PXPayer(email: "thisisanem@il.com")
+        let payer = PXPayer(email: "thisisanem@il.com")
         return payer
     }
 

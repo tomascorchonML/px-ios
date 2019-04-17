@@ -59,7 +59,7 @@ internal extension PXDiscount {
         var obj: [String: Any] = [
             "id": self.id,
             "percent_off": self.percentOff ?? 0,
-            "amount_off": self.amountOff ??  0,
+            "amount_off": self.amountOff ?? 0,
             "coupon_amount": self.couponAmount ?? 0
         ]
 

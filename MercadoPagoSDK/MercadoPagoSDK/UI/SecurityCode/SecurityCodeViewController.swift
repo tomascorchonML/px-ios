@@ -44,7 +44,7 @@ internal class SecurityCodeViewController: MercadoPagoUIViewController, UITextFi
         self.securityCodeTextField.placeholder = "security_code".localized
         setupInputAccessoryView()
         self.view.backgroundColor = ThemeManager.shared.getMainColor()
-        self.cardFront = CardFrontView.init(frame: viewModel.getCardBounds())
+        self.cardFront = CardFrontView(frame: viewModel.getCardBounds())
         self.view.addSubview(cardFront)
         self.securityCodeLabel = cardFront.cardCVV
         self.view.bringSubviewToFront(panelView)
@@ -107,7 +107,7 @@ internal class SecurityCodeViewController: MercadoPagoUIViewController, UITextFi
     }
 
     func setupInputAccessoryView() {
-        let frame =  CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44)
+        let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44)
         let toolbar = PXToolbar(frame: frame)
 
         toolbar.barStyle = UIBarStyle.default

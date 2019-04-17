@@ -112,8 +112,8 @@ extension PaymentSearchCollectionViewCell {
         let warningBadgeIcon = UIImageView(image: image)
         paymentOptionImageContainer.insertSubview(warningBadgeIcon, at: 2)
 
-        PXLayout.setHeight(owner: warningBadgeIcon, height: paymentOptionImageContainer.frame.width/2).isActive = true
-        PXLayout.setWidth(owner: warningBadgeIcon, width: paymentOptionImageContainer.frame.width/2).isActive = true
+        PXLayout.setHeight(owner: warningBadgeIcon, height: paymentOptionImageContainer.frame.width / 2).isActive = true
+        PXLayout.setWidth(owner: warningBadgeIcon, width: paymentOptionImageContainer.frame.width / 2).isActive = true
         PXLayout.pinTop(view: warningBadgeIcon, withMargin: -PXLayout.XXS_MARGIN).isActive = true
         PXLayout.pinRight(view: warningBadgeIcon, withMargin: -PXLayout.S_MARGIN).isActive = true
     }
@@ -121,7 +121,7 @@ extension PaymentSearchCollectionViewCell {
     fileprivate func addPaymentOptionIconComponent(image: UIImage?) {
         let paymentMethodIconComponent = PXPaymentMethodIconComponent(props: PXPaymentMethodIconProps(paymentMethodIcon: image)).render()
 
-        paymentMethodIconComponent.layer.cornerRadius = paymentOptionImageContainer.frame.width/2
+        paymentMethodIconComponent.layer.cornerRadius = paymentOptionImageContainer.frame.width / 2
 
         paymentMethodIconComponent.removeFromSuperview()
 

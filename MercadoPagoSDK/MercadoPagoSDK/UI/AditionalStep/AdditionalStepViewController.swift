@@ -15,7 +15,7 @@ internal class AdditionalStepViewController: MercadoPagoUIScrollViewController {
     // MARK: Defs
     var bundle: Bundle? = ResourceManager.shared.getBundle()
     let viewModel: AdditionalStepViewModel!
-    override var maxFontSize: CGFloat { return self.viewModel.maxFontSize}
+    override var maxFontSize: CGFloat { return self.viewModel.maxFontSize }
 
     // MARK: Init
     public init(viewModel: AdditionalStepViewModel, callback: @escaping ((_ callbackData: NSObject) -> Void)) {
@@ -207,7 +207,7 @@ extension AdditionalStepViewController: UITableViewDelegate, UITableViewDataSour
                         card.fadeCard()
                     } else {
                         if let container = card.containerView {
-                            container.alpha = 44/tableView.contentOffset.y
+                            container.alpha = 44 / tableView.contentOffset.y
                         }
                     }
                 }

@@ -85,7 +85,7 @@ class PXOneTapSplitPaymentView: PXComponentView {
         PXLayout.pinTop(view: label, withMargin: PXLayout.S_MARGIN).isActive = true
         PXLayout.pinBottom(view: label, withMargin: PXLayout.S_MARGIN).isActive = true
 
-        if let splitConfiguration  = splitConfiguration {
+        if let splitConfiguration = splitConfiguration {
             label.attributedText = getSplitMessage(splitConfiguration: splitConfiguration)
         } else {
             label.attributedText = "".toAttributedString()

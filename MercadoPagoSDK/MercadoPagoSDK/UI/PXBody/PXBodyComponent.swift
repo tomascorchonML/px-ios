@@ -109,7 +109,7 @@ internal class PXBodyComponent: PXComponentizable {
 
         var disclaimerText: String?
         if let statementDescription = self.props.paymentResult.statementDescription {
-            disclaimerText =  ("En tu estado de cuenta verás el cargo como %0".localized as NSString).replacingOccurrences(of: "%0", with: "\(statementDescription)")
+            disclaimerText = ("En tu estado de cuenta verás el cargo como %0".localized as NSString).replacingOccurrences(of: "%0", with: "\(statementDescription)")
         }
 
         let bodyProps = PXPaymentMethodProps(paymentMethodIcon: image, title: amountTitle, subtitle: subtitle, descriptionTitle: pmDescription.toAttributedString(), descriptionDetail: descriptionDetail, disclaimer: disclaimerText?.toAttributedString(), backgroundColor: .white, lightLabelColor: ThemeManager.shared.labelTintColor(), boldLabelColor: ThemeManager.shared.boldLabelTintColor())
@@ -130,7 +130,7 @@ internal class PXBodyComponent: PXComponentizable {
         let title = getErrorTitle(status: status, statusDetail: statusDetail)
         let message = getErrorMessage(status: status,
                                       statusDetail: statusDetail,
-                                      amount:  amount,
+                                      amount: amount,
                                       paymentMethodName: paymentMethodName)
 
         let errorProps = PXErrorProps(title: title.toAttributedString(), message: message?.toAttributedString(), secondaryTitle: nil, action: nil)

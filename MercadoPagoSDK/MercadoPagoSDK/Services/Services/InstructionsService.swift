@@ -47,7 +47,7 @@ internal class InstructionsService: MercadoPagoService {
             } catch {
                 failure?(PXError(domain: "mercadopago.sdk.PaymentMethodSearchService.getPaymentMethods", code: ErrorTypes.API_UNKNOWN_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "No se ha podido obtener las instrucciones"]))
             }
-        }, failure: { (error) in
+        }, failure: { (_) in
             failure?(PXError(domain: "com.mercadopago.sdk.getInstructions", code: ErrorTypes.NO_INTERNET_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "Verifique su conexión a internet e intente nuevamente"]))
         })
     }

@@ -31,7 +31,7 @@ class ArrayExtensionsTest: XCTestCase {
         testArray.safeRemoveLast(suffix)
         let resultArray = testArray
 
-        XCTAssertEqual(resultArray.count, firstArray.count-suffix)
+        XCTAssertEqual(resultArray.count, firstArray.count - suffix)
         XCTAssertEqual(resultArray, ["a", "b"])
 
         //Test delete more components than the array contains
@@ -49,7 +49,7 @@ class ArrayExtensionsTest: XCTestCase {
         testArray3.safeRemoveLast(suffix)
         let resultArray3 = testArray3
 
-        XCTAssertEqual(resultArray3.count, firstArray.count-suffix)
+        XCTAssertEqual(resultArray3.count, firstArray.count - suffix)
         XCTAssertEqual(resultArray3, [])
     }
 
@@ -61,7 +61,7 @@ class ArrayExtensionsTest: XCTestCase {
         testArray.safeRemoveFirst(suffix)
         let resultArray = testArray
 
-        XCTAssertEqual(resultArray.count, firstArray.count-suffix)
+        XCTAssertEqual(resultArray.count, firstArray.count - suffix)
         XCTAssertEqual(resultArray, ["d", "e"])
 
         //Test delete more components than the array contains
@@ -79,7 +79,7 @@ class ArrayExtensionsTest: XCTestCase {
         testArray3.safeRemoveFirst(suffix)
         let resultArray3 = testArray3
 
-        XCTAssertEqual(resultArray3.count, firstArray.count-suffix)
+        XCTAssertEqual(resultArray3.count, firstArray.count - suffix)
         XCTAssertEqual(resultArray3, [])
     }
 

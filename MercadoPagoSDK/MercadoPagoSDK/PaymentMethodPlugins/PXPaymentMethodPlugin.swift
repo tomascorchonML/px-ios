@@ -53,7 +53,7 @@ open class PXPaymentMethodPlugin: NSObject {
     /**
      Determinate if your payment method plugin should be show.
      */
-    open var mustShowPaymentMethodPlugin: (PXCheckoutStore) -> Bool = {shouldShowPlugin in return true}
+    open var mustShowPaymentMethodPlugin: (PXCheckoutStore) -> Bool = { shouldShowPlugin in return true }
 }
 
 // MARK: - Setters

@@ -20,7 +20,7 @@ extension ThemeManager {
         navigationController.navigationBar.barTintColor = navControllerMemento.navBarTintColor
         navigationController.navigationBar.titleTextAttributes = navControllerMemento.navTitleTextAttributes
         navigationController.navigationBar.tintColor = navControllerMemento.navTintColor
-        navigationController.navigationBar.titleTextAttributes =  navControllerMemento.navTitleTextAttributes
+        navigationController.navigationBar.titleTextAttributes = navControllerMemento.navTitleTextAttributes
         navigationController.navigationBar.isTranslucent = navControllerMemento.navIsTranslucent
         navigationController.navigationBar.backgroundColor = navControllerMemento.navBackgroundColor
         navigationController.navigationBar.restoreBottomLine()

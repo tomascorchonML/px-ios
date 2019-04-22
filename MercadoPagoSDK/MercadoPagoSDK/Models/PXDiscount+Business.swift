@@ -21,16 +21,7 @@ internal extension PXDiscount {
     }
 
     internal func getDiscountDescription() -> String {
-        let currency = SiteManager.shared.getCurrency()
-        if self.percentOff != 0 {
-            let percentageAttributedString = Utils.getAttributedPercentage(withAttributes: [:], amount: self.percentOff, addPercentageSymbol: true, negativeAmount: false)
-            let string: String = ("total_row_title_percent_off".localized_beta as NSString).replacingOccurrences(of: "%1$s", with: percentageAttributedString.string)
-            return string
-        } else {
-            let amountAttributedString = Utils.getAttributedAmount(withAttributes: [:], amount: self.amountOff, currency: currency, negativeAmount: true)
-            let string: String = ("total_row_title_amount_off".localized_beta as NSString).replacingOccurrences(of: "%1$s", with: amountAttributedString.string)
-            return string
-        }
+        return name ?? ""
     }
 
     internal func getDiscountAmount() -> Double? {

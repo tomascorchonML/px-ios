@@ -66,6 +66,13 @@
 		<key>value</key>
 		<string>Por favor, intente pagar de otra forma.</string>
 	</dict>
+	<key>error_body_description_cc_rejected_insufficient_amount</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Tus fondos son insuficientes o superaste el límite de compra. Intenta pagar con otro medio.</string>
+	</dict>
 	<key>error_body_description_cc_rejected_duplicated_payment</key>
 	<dict>
 		<key>comment</key>
@@ -190,7 +197,7 @@
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>Tu tarjeta no tiene límite suficiente</string>
+		<string>Tu tarjeta rechazó el pago</string>
 	</dict>
 	<key>cc_rejected_other_reason_title</key>
 	<dict>

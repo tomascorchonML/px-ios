@@ -14,6 +14,7 @@ internal class PXBodyComponent: PXComponentizable {
                                          PXPayment.StatusDetails.REJECTED_CARD_DISABLED,
                                          PXPayment.StatusDetails.REJECTED_INVALID_INSTALLMENTS,
                                          PXPayment.StatusDetails.REJECTED_DUPLICATED_PAYMENT,
+                                         PXPayment.StatusDetails.REJECTED_INSUFFICIENT_AMOUNT,
                                          PXPayment.StatusDetails.REJECTED_MAX_ATTEMPTS,
                                          PXPayment.StatusDetails.REJECTED_HIGH_RISK,
                                          PXPayment.StatusDetails.REJECTED_CARD_HIGH_RISK,

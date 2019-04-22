@@ -49,9 +49,7 @@
 		<key>comment</key>
 		<string></string>
 		<key>value</key>
-		<string>Do not be discouraged! Recharge it in any bank or from your internet banking and try again.
-
-Or if you prefer, you can choose another payment method.</string>
+		<string>Your funds are insufficient or you exceeded the purchase limit. Try paying with a different payment method.</string>
 	</dict>
 	<key>error_body_description_cc_rejected_other_reason</key>
 	<dict>
@@ -129,6 +127,13 @@ Or if you prefer, you can choose another payment method.</string>
 		<string></string>
 		<key>value</key>
 		<string>Tu tarjeta no autorizó el pago</string>
+	</dict>
+	<key>cc_rejected_insufficient_amount_title</key>
+	<dict>
+		<key>comment</key>
+		<string></string>
+		<key>value</key>
+		<string>Your card rejected the payment</string>
 	</dict>
 	<key>discount_coupon_detail_default_concept</key>
 	<dict>

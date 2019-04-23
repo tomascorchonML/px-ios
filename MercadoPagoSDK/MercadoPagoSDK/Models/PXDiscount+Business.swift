@@ -21,7 +21,7 @@ internal extension PXDiscount {
     }
 
     internal func getDiscountDescription() -> String {
-        return name ?? ""
+        return name ?? "discount_coupon_detail_default_concept".localized_beta
     }
 
     internal func getDiscountAmount() -> Double? {
@@ -32,16 +32,9 @@ internal extension PXDiscount {
         return percentOff != 0
     }
 
-    internal func getDiscountReviewDescription() -> String {
-        let text  = "discount_coupon_detail_default_concept".localized_beta
-         if self.percentOff != 0 {
-            return text + " " + String(describing: self.percentOff) + " %"
-        }
-        return text
-    }
     var concept: String {
         get {
-            return getDiscountReviewDescription()
+            return getDiscountDescription()
         }
     }
 

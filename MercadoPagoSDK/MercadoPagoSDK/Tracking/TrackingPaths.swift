@@ -41,6 +41,7 @@ internal struct Tracking {
             static let invalidNumber = "invalid_cc_number"
             static let invalidExpirationDate = "invalid_expiration_date"
             static let invalidESC = "invalid_esc"
+            static let invalidFingerprint = "invalid_fingerprint"
         }
     }
 }

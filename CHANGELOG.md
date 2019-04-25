@@ -1,3 +1,8 @@
+# v4.10.2
+🚀Private Release - 4.10.2 🚀
+MercadoPagoSDKV4 - Private Version
+- Fix for broken card layout
+
 # v4.10.0
 🚀Private RC - 4.10.0 🚀
 MercadoPagoSDKV4 - Private Version

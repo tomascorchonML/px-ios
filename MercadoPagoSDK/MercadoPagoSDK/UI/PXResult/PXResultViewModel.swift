@@ -56,6 +56,12 @@ internal class PXResultViewModel: PXResultViewModelInterface {
 // MARK: Tracking
 extension PXResultViewModel {
     func getTrackingProperties() -> [String: Any] {
+        let currency_id = "currency_id"
+        let discount_id = "discount_id"
+        let discount_coupon_amount = "discount_coupon_amount"
+        let has_split = "has_split_payment"
+        let raw_amount = "preference_amount"
+        
         var properties: [String: Any] = amountHelper.getPaymentData().getPaymentDataForTracking()
         properties["style"] = "generic"
         if let paymentId = paymentResult.paymentId {
@@ -63,6 +69,19 @@ extension PXResultViewModel {
         }
         properties["payment_status"] = paymentResult.status
         properties["payment_status_detail"] = paymentResult.statusDetail
+
+        properties[has_split] = amountHelper.isSplitPayment
+        properties[currency_id] = SiteManager.shared.getCurrency().id
+
+        if let discountId = amountHelper.getPaymentData().getDiscount()?.id {
+            properties[discount_id] = discountId
+        }
+        if let discountCouponAmount = amountHelper.getPaymentData().getDiscount()?.getCouponAmount() {
+            properties[discount_coupon_amount] = discountCouponAmount.decimalValue
+        }
+        if let rawAmount = amountHelper.getPaymentData().getRawAmount() {
+            properties[raw_amount] = rawAmount.decimalValue
+        }
 
         return properties
     }

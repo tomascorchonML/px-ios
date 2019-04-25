@@ -32,10 +32,10 @@ extension PXBusinessResultViewModel {
             properties[discount_id] = discountId
         }
         if let discountCouponAmount = amountHelper.getPaymentData().getDiscount()?.getCouponAmount() {
-            properties[discount_coupon_amount] = discountCouponAmount
+            properties[discount_coupon_amount] = discountCouponAmount.decimalValue
         }
         if let rawAmount = amountHelper.getPaymentData().getRawAmount() {
-            properties[raw_amount] = rawAmount
+            properties[raw_amount] = rawAmount.decimalValue
         }
 
         return properties

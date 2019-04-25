@@ -67,6 +67,12 @@ internal struct PXAmountHelper {
         }
     }
 
+    var isSplitPayment: Bool {
+        get {
+            return splitAccountMoney != nil
+        }
+    }
+
     func getAmountToPayWithoutPayerCost(_ paymentMethodId: String?) -> Double {
         guard let paymentMethodId = paymentMethodId, let amountFromPaymentMethod = paymentConfigurationService.getAmountToPayWithoutPayerCostForPaymentMethod(paymentMethodId) else {
             return amountToPayWithoutPayerCost

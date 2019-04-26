@@ -10,6 +10,11 @@ import Foundation
 extension PXBusinessResultViewModel {
 
     func getTrackingProperties() -> [String: Any] {
+        let currency_id = "currency_id"
+        let discount_coupon_amount = "discount_coupon_amount"
+        let has_split = "has_split_payment"
+        let raw_amount = "preference_amount"
+
         var properties: [String: Any] = amountHelper.getPaymentData().getPaymentDataForTracking()
         properties["style"] = "custom"
 
@@ -18,6 +23,14 @@ extension PXBusinessResultViewModel {
         }
         properties["payment_status"] = businessResult.paymentStatus
         properties["payment_status_detail"] = businessResult.paymentStatusDetail
+
+        properties[has_split] = amountHelper.isSplitPayment
+        properties[currency_id] = SiteManager.shared.getCurrency().id
+        properties[discount_coupon_amount] = amountHelper.getDiscountCouponAmountForTracking()
+
+        if let rawAmount = amountHelper.getPaymentData().getRawAmount() {
+            properties[raw_amount] = rawAmount.decimalValue
+        }
 
         return properties
     }

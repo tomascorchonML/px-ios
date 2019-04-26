@@ -67,6 +67,12 @@ internal struct PXAmountHelper {
         }
     }
 
+    var isSplitPayment: Bool {
+        get {
+            return splitAccountMoney != nil
+        }
+    }
+
     func getAmountToPayWithoutPayerCost(_ paymentMethodId: String?) -> Double {
         guard let paymentMethodId = paymentMethodId, let amountFromPaymentMethod = paymentConfigurationService.getAmountToPayWithoutPayerCostForPaymentMethod(paymentMethodId) else {
             return amountToPayWithoutPayerCost
@@ -133,5 +139,16 @@ internal extension PXAmountHelper {
         let amountRounded: Double = Double(round(pow(10, decimalPlaces) * Double(targetAmount)) / pow(10, decimalPlaces))
         let amountString = String(format: "%\(decimalPlaces / 10)f", amountRounded)
         return NSDecimalNumber(string: amountString)
+    }
+}
+
+// MARK: Tracking usage,.
+internal extension PXAmountHelper {
+    func getDiscountCouponAmountForTracking() -> Decimal {
+        guard let couponAmount = paymentData.getDiscount()?.getCouponAmount()?.decimalValue else { return 0 }
+        if let amPaymentDataAmount = splitAccountMoney?.getDiscount()?.getCouponAmount() {
+            return amPaymentDataAmount.decimalValue + couponAmount
+        }
+        return couponAmount
     }
 }

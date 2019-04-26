@@ -71,10 +71,8 @@ extension PXResultViewModel {
 
         properties[has_split] = amountHelper.isSplitPayment
         properties[currency_id] = SiteManager.shared.getCurrency().id
+        properties[discount_coupon_amount] = amountHelper.getDiscountCouponAmountForTracking()
 
-        if let discountCouponAmount = amountHelper.getPaymentData().getDiscount()?.getCouponAmount() {
-            properties[discount_coupon_amount] = discountCouponAmount.decimalValue
-        }
         if let rawAmount = amountHelper.getPaymentData().getRawAmount() {
             properties[raw_amount] = rawAmount.decimalValue
         }

@@ -141,3 +141,14 @@ internal extension PXAmountHelper {
         return NSDecimalNumber(string: amountString)
     }
 }
+
+// MARK: Tracking usage,.
+internal extension PXAmountHelper {
+    func getDiscountCouponAmountForTracking() -> Decimal {
+        guard let couponAmount = paymentData.getDiscount()?.getCouponAmount()?.decimalValue else { return 0 }
+        if let amPaymentDataAmount = splitAccountMoney?.getDiscount()?.getCouponAmount() {
+            return amPaymentDataAmount.decimalValue + couponAmount
+        }
+        return couponAmount
+    }
+}

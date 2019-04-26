@@ -9,7 +9,7 @@ import Foundation
 
 internal struct PXDisabledOption {
 
-    private var disabledCardId: String? = nil
+    private var disabledCardId: String?
     private var disabledAccountMoney: Bool = false
 
     init(paymentResult: PaymentResult?) {

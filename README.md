@@ -49,12 +49,12 @@ let checkout = MercadoPagoCheckout.init(builder: MercadoPagoCheckoutBuilder.init
 
 ### 3 - Start
 ```swift
-checkout.start(navigationController: self.navigationController!)
+checkout.start(navigationController: self.navigationController)
 ```
 
 ## 💪 One line integration
 ```swift
-MercadoPagoCheckout.init(builder: MercadoPagoCheckoutBuilder.init(publicKey: "your_public_key", preferenceId: "your_checkout_preference_id")).start(navigationController: self.navigationController!)
+MercadoPagoCheckout.init(builder: MercadoPagoCheckoutBuilder.init(publicKey: "your_public_key", preferenceId: "your_checkout_preference_id")).start(navigationController: self.navigationController)
 ```
 
 ## 💡Advanced integration

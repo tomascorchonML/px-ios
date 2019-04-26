@@ -154,7 +154,7 @@ internal class CardFormViewController: MercadoPagoUIViewController, UITextFieldD
 
         let cardHeight = getCardHeight()
         let cardWidht = getCardWidth()
-        let xMargin = (UIScreen.main.bounds.size.width  - cardWidht) / 2
+        let xMargin = (UIScreen.main.bounds.size.width - cardWidht) / 2
         let yMargin = (UIScreen.main.bounds.size.height - 384 - cardHeight ) / 2
 
         let rectBackground = CGRect(x: xMargin, y: yMargin, width: cardWidht, height: cardHeight)
@@ -451,7 +451,7 @@ internal class CardFormViewController: MercadoPagoUIViewController, UITextFieldD
     func setupToolbarButtons() {
 
         if self.toolbar == nil {
-            let frame =  CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44)
+            let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44)
 
             let toolbar = PXToolbar(frame: frame)
 
@@ -475,7 +475,7 @@ internal class CardFormViewController: MercadoPagoUIViewController, UITextFieldD
     }
 
     func setOnlyOneCardMessage(message: String, color: UIColor, isError: Bool) {
-        let frame =  CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44)
+        let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44)
         let onlyOnePaymentMethodLabel = MPCardFormToolbarLabel(frame: frame)
         onlyOnePaymentMethodLabel.backgroundColor = color
         onlyOnePaymentMethodLabel.textColor = UIColor.white
@@ -501,7 +501,7 @@ internal class CardFormViewController: MercadoPagoUIViewController, UITextFieldD
                 self.editingLabel?.text = ""
                 self.textBox.text = ""
                 self.hideMessage()
-                let availableCardsDetail =  AvailableCardsViewController(paymentMethods: paymentMethods)
+                let availableCardsDetail = AvailableCardsViewController(paymentMethods: paymentMethods)
                 self.navigationController?.present(availableCardsDetail, animated: true, completion: {})
             })
             setTextBox(isError: true, inputAccessoryView: cardNotAvailableError)
@@ -638,7 +638,7 @@ internal class CardFormViewController: MercadoPagoUIViewController, UITextFieldD
     func clearCardSkin() {
         if self.cardFront?.cardLogo.image != nil, self.cardFront?.cardLogo.image != ResourceManager.shared.getCardDefaultLogo() {
             self.cardFront?.cardLogo.alpha = 0
-            self.cardFront?.cardLogo.image =  ResourceManager.shared.getCardDefaultLogo()
+            self.cardFront?.cardLogo.image = ResourceManager.shared.getCardDefaultLogo()
             UIView.animate(withDuration: 0.7, animations: { () -> Void in
                 self.cardView.backgroundColor = UIColor.cardDefaultColor()
                 self.cardFront?.cardLogo.alpha = 1
@@ -681,13 +681,13 @@ internal class CardFormViewController: MercadoPagoUIViewController, UITextFieldD
 
                 if self.cardFront?.cardLogo.image == ResourceManager.shared.getCardDefaultLogo() {
                     self.cardFront?.cardLogo.alpha = 0
-                    self.cardFront?.cardLogo.image =  paymentMethod.getImage()
+                    self.cardFront?.cardLogo.image = paymentMethod.getImage()
                     UIView.animate(withDuration: 0.7, animations: { () -> Void in
                         self.cardView.backgroundColor = (paymentMethod.getColor(bin: bin))
                         self.cardFront?.cardLogo.alpha = 1
                     })
                 } else if self.cardFront?.cardLogo.image == nil {
-                    self.cardFront?.cardLogo.image =  paymentMethod.getImage()
+                    self.cardFront?.cardLogo.image = paymentMethod.getImage()
                     self.cardView.backgroundColor = (paymentMethod.getColor(bin: bin))
                 }
                 let labelMask = paymentMethod.getLabelMask(bin: bin)
@@ -712,7 +712,7 @@ internal class CardFormViewController: MercadoPagoUIViewController, UITextFieldD
 
         }
         if self.cvvLabel == nil || self.cvvLabel!.text!.count == 0 {
-            if (viewModel.guessedPMS != nil)&&(!(viewModel.getGuessedPM()?.secCodeInBack())!) {
+            if (viewModel.guessedPMS != nil) && (!(viewModel.getGuessedPM()?.secCodeInBack())!) {
                 cvvLabel = cardFront?.cardCVV
                 cardBack?.cardCVV.text = ""
                 cardFront?.cardCVV.alpha = 1
@@ -736,7 +736,7 @@ internal class CardFormViewController: MercadoPagoUIViewController, UITextFieldD
         expirationDateLabel?.textColor = self.viewModel.getLabelTextColor(cardNumber: cardNumberLabel?.text)
         cvvLabel?.textColor = MPLabel.defaultColorText
         cardNumberLabel?.alpha = 0.7
-        nameLabel?.alpha =  0.7
+        nameLabel?.alpha = 0.7
         expirationDateLabel?.alpha = 0.7
         cvvLabel?.alpha = 0.7
     }

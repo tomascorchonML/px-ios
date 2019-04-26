@@ -46,7 +46,7 @@ class PXOneTapHeaderMerchantView: PXComponentView {
 
         let imageView = PXUIImageView()
         imageView.layer.masksToBounds = false
-        imageView.layer.cornerRadius = IMAGE_SIZE/2
+        imageView.layer.cornerRadius = IMAGE_SIZE / 2
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.enableFadeIn()

@@ -30,7 +30,7 @@ internal class PreferenceService: MercadoPagoService {
                 } } catch {
                     failure(PXError(domain: "mercadopago.sdk.PaymentMethodSearchService.getPaymentMethods", code: ErrorTypes.API_UNKNOWN_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "No se ha podido obtener la preferencia"]))
             }
-        }, failure: { (error) in
+        }, failure: { (_) in
             failure(PXError(domain: "mercadopago.sdk.PreferenceService.getPreference", code: ErrorTypes.NO_INTERNET_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "Verifique su conexión a internet e intente nuevamente"]))
         })
     }

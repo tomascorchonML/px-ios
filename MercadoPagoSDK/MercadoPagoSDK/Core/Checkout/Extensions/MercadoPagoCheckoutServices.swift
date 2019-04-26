@@ -161,7 +161,7 @@ extension MercadoPagoCheckout {
             }
             let mpError = MPSDKError.convertFrom(error, requestOrigin: ApiUtil.RequestOrigin.CREATE_TOKEN.rawValue)
 
-            if let apiException = mpError.apiException, apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_ESC.rawValue) ||  apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_FINGERPRINT.rawValue) {
+            if let apiException = mpError.apiException, apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_ESC.rawValue) || apiException.containsCause(code: ApiUtil.ErrorCauseCodes.INVALID_FINGERPRINT.rawValue) {
                     strongSelf.viewModel.mpESCManager.deleteESC(cardId: savedESCCardToken.cardId)
             } else {
                 strongSelf.viewModel.errorInputs(error: mpError, errorCallback: { [weak self] () in

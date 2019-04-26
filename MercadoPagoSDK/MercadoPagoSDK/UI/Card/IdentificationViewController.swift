@@ -56,7 +56,7 @@ internal class IdentificationViewController: MercadoPagoUIViewController, UIText
 
         let IDcardHeight = getCardHeight()
         let IDcardWidht = getCardWidth()
-        let xMargin = (UIScreen.main.bounds.size.width  - IDcardWidht) / 2
+        let xMargin = (UIScreen.main.bounds.size.width - IDcardWidht) / 2
         let yMargin = (UIScreen.main.bounds.size.height - 384 - IDcardHeight ) / 2
 
         let rectBackground = CGRect(x: xMargin, y: yMargin, width: IDcardWidht, height: IDcardHeight)
@@ -219,7 +219,7 @@ internal class IdentificationViewController: MercadoPagoUIViewController, UIText
     }
 
     open func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        identificationType =  self.identificationTypes[row]
+        identificationType = self.identificationTypes[row]
         textField.text = self.identificationTypes[row].name
         self.numberTextField.text = ""
         self.remask()
@@ -233,7 +233,7 @@ internal class IdentificationViewController: MercadoPagoUIViewController, UIText
     func setupInputAccessoryView() {
 
         if self.toolbar == nil {
-            let frame =  CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44)
+            let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44)
 
             let toolbar = PXToolbar(frame: frame)
 

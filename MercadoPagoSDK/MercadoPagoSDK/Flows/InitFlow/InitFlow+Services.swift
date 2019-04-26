@@ -62,7 +62,7 @@ extension InitFlow {
     }
 
     func getPaymentMethodSearch() {
-        let paymentMethodPluginsToShow = model.properties.paymentMethodPlugins.filter {$0.mustShowPaymentMethodPlugin(PXCheckoutStore.sharedInstance) == true}
+        let paymentMethodPluginsToShow = model.properties.paymentMethodPlugins.filter { $0.mustShowPaymentMethodPlugin(PXCheckoutStore.sharedInstance) == true }
         var pluginIds = [String]()
         for plugin in paymentMethodPluginsToShow {
             pluginIds.append(plugin.getId())

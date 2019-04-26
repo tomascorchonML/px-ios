@@ -179,7 +179,7 @@ class CompositeInputComponent: SimpleInputComponent, UIPickerViewDataSource, UIP
     }
 
     open func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        dropDownSelectedOptionText =  self.dropDownOptions[row]
+        dropDownSelectedOptionText = self.dropDownOptions[row]
         self.optionSelected = row
         dropDownTextField.text = dropDownSelectedOptionText
         self.inputTextField.text = ""

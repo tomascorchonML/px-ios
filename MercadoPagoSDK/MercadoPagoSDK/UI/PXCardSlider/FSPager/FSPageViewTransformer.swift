@@ -22,13 +22,13 @@ public enum FSPagerViewTransformerType: Int {
 }
 
 open class FSPagerViewTransformer: NSObject {
-    
+
     open internal(set) weak var pagerView: FSPagerView?
     open internal(set) var type: FSPagerViewTransformerType
-    
+
     open var minimumScale: CGFloat = 0.65
     open var minimumAlpha: CGFloat = 0.6
-    
+
     @objc
     public init(type: FSPagerViewTransformerType) {
         self.type = type
@@ -41,7 +41,7 @@ open class FSPagerViewTransformer: NSObject {
             break
         }
     }
-    
+
     // Apply transform to attributes - zIndex: Int, frame: CGRect, alpha: CGFloat, transform: CGAffineTransform or transform3D: CATransform3D.
     open func applyTransform(to attributes: FSPagerViewLayoutAttributes) {
         guard let pagerView = self.pagerView else {
@@ -87,16 +87,16 @@ open class FSPagerViewTransformer: NSObject {
                 transform.d = scaleFactor
                 switch scrollDirection {
                 case .horizontal:
-                    let vertMargin = attributes.bounds.height * (1 - scaleFactor) / 2;
-                    let horzMargin = itemSpacing * (1 - scaleFactor) / 2;
-                    transform.tx = position < 0 ? (horzMargin - vertMargin*2) : (-horzMargin + vertMargin*2)
+                    let vertMargin = attributes.bounds.height * (1 - scaleFactor) / 2
+                    let horzMargin = itemSpacing * (1 - scaleFactor) / 2
+                    transform.tx = position < 0 ? (horzMargin - vertMargin * 2) : (-horzMargin + vertMargin * 2)
                 case .vertical:
-                    let horzMargin = attributes.bounds.width * (1 - scaleFactor) / 2;
-                    let vertMargin = itemSpacing * (1 - scaleFactor) / 2;
-                    transform.ty = position < 0 ? (vertMargin - horzMargin*2) : (-vertMargin + horzMargin*2)
+                    let horzMargin = attributes.bounds.width * (1 - scaleFactor) / 2
+                    let vertMargin = itemSpacing * (1 - scaleFactor) / 2
+                    transform.ty = position < 0 ? (vertMargin - horzMargin * 2) : (-vertMargin + horzMargin * 2)
                 }
                 // Fade the page relative to its size.
-                alpha = self.minimumAlpha + (scaleFactor-self.minimumScale)/(1-self.minimumScale)*(1-self.minimumAlpha)
+                alpha = self.minimumAlpha + (scaleFactor - self.minimumScale) / (1 - self.minimumScale) * (1 - self.minimumAlpha)
             case 1 ... CGFloat.greatestFiniteMagnitude :  // (1,+Infinity]
                 // This page is way off-screen to the right.
                 alpha = 0
@@ -133,7 +133,7 @@ open class FSPagerViewTransformer: NSObject {
                 }
                 // Scale the page down (between minimumScale and 1)
                 let scaleFactor = self.minimumScale
-                    + (1.0 - self.minimumScale) * (1.0 - abs(position));
+                    + (1.0 - self.minimumScale) * (1.0 - abs(position))
                 transform.a = scaleFactor
                 transform.d = scaleFactor
                 zIndex = 0
@@ -147,25 +147,25 @@ open class FSPagerViewTransformer: NSObject {
             attributes.alpha = alpha
             attributes.transform = transform
             attributes.zIndex = zIndex
-        case .overlap,.linear:
+        case .overlap, .linear:
             guard scrollDirection == .horizontal else {
                 // This type doesn't support vertical mode
                 return
             }
-            let scale = max(1 - (1-self.minimumScale) * abs(position), self.minimumScale)
+            let scale = max(1 - (1 - self.minimumScale) * abs(position), self.minimumScale)
             let transform = CGAffineTransform(scaleX: scale, y: scale)
             attributes.transform = transform
-            let alpha = (self.minimumAlpha + (1-abs(position))*(1-self.minimumAlpha))
+            let alpha = (self.minimumAlpha + (1 - abs(position)) * (1 - self.minimumAlpha))
             attributes.alpha = alpha
-            let zIndex = (1-abs(position)) * 10
+            let zIndex = (1 - abs(position)) * 10
             attributes.zIndex = Int(zIndex)
         case .coverFlow:
             guard scrollDirection == .horizontal else {
                 // This type doesn't support vertical mode
                 return
             }
-            let position = min(max(-position,-1) ,1)
-            let rotation = sin(position*(.pi)*0.5)*(.pi)*0.25*1.5
+            let position = min(max(-position, -1), 1)
+            let rotation = sin(position * (.pi) * 0.5) * (.pi) * 0.25 * 1.5
             let translationZ = -itemSpacing * 0.5 * abs(position)
             var transform3D = CATransform3DIdentity
             transform3D.m34 = -0.002
@@ -183,17 +183,17 @@ open class FSPagerViewTransformer: NSObject {
             var transform = CGAffineTransform.identity
             switch position {
             case -5 ... 5:
-                let itemSpacing = attributes.bounds.width+self.proposedInteritemSpacing()
+                let itemSpacing = attributes.bounds.width + self.proposedInteritemSpacing()
                 let count: CGFloat = 14
                 let circle: CGFloat = .pi * 2.0
                 let radius = itemSpacing * count / circle
                 let ty = radius * (self.type == .ferrisWheel ? 1 : -1)
                 let theta = circle / count
                 let rotation = position * theta * (self.type == .ferrisWheel ? 1 : -1)
-                transform = transform.translatedBy(x: -position*itemSpacing, y: ty)
+                transform = transform.translatedBy(x: -position * itemSpacing, y: ty)
                 transform = transform.rotated(by: rotation)
                 transform = transform.translatedBy(x: 0, y: -ty)
-                zIndex = Int((4.0-abs(position)*10))
+                zIndex = Int((4.0 - abs(position) * 10))
             default:
                 break
             }
@@ -206,7 +206,7 @@ open class FSPagerViewTransformer: NSObject {
                 attributes.alpha = 0
             case -1 ..< 1:
                 attributes.alpha = 1
-                attributes.zIndex = Int((1-position) * CGFloat(10))
+                attributes.zIndex = Int((1 - position) * CGFloat(10))
                 let direction: CGFloat = position < 0 ? 1 : -1
                 let theta = position * .pi * 0.5 * (scrollDirection == .horizontal ? 1 : -1)
                 let radius = scrollDirection == .horizontal ? attributes.bounds.width : attributes.bounds.height
@@ -215,14 +215,14 @@ open class FSPagerViewTransformer: NSObject {
                 switch scrollDirection {
                 case .horizontal:
                     // ForwardX -> RotateY -> BackwardX
-                    attributes.center.x += direction*radius*0.5 // ForwardX
+                    attributes.center.x += direction * radius * 0.5 // ForwardX
                     transform3D = CATransform3DRotate(transform3D, theta, 0, 1, 0) // RotateY
-                    transform3D = CATransform3DTranslate(transform3D,-direction*radius*0.5, 0, 0) // BackwardX
+                    transform3D = CATransform3DTranslate(transform3D, -direction * radius * 0.5, 0, 0) // BackwardX
                 case .vertical:
                     // ForwardY -> RotateX -> BackwardY
-                    attributes.center.y += direction*radius*0.5 // ForwardY
+                    attributes.center.y += direction * radius * 0.5 // ForwardY
                     transform3D = CATransform3DRotate(transform3D, theta, 1, 0, 0) // RotateX
-                    transform3D = CATransform3DTranslate(transform3D,0, -direction*radius*0.5, 0) // BackwardY
+                    transform3D = CATransform3DTranslate(transform3D, 0, -direction * radius * 0.5, 0) // BackwardY
                 }
                 attributes.transform3D = transform3D
             case 1 ... CGFloat.greatestFiniteMagnitude:
@@ -233,7 +233,7 @@ open class FSPagerViewTransformer: NSObject {
             }
         }
     }
-    
+
     // An interitem spacing proposed by transformer class. This will override the default interitemSpacing provided by the pager view.
     open func proposedInteritemSpacing() -> CGFloat {
         guard let pagerView = self.pagerView else {
@@ -255,8 +255,8 @@ open class FSPagerViewTransformer: NSObject {
             guard scrollDirection == .horizontal else {
                 return 0
             }
-            return -pagerView.itemSize.width * sin(.pi*0.25*0.25*3.0)
-        case .ferrisWheel,.invertedFerrisWheel:
+            return -pagerView.itemSize.width * sin(.pi * 0.25 * 0.25 * 3.0)
+        case .ferrisWheel, .invertedFerrisWheel:
             guard scrollDirection == .horizontal else {
                 return 0
             }
@@ -268,6 +268,5 @@ open class FSPagerViewTransformer: NSObject {
         }
         return pagerView.interitemSpacing
     }
-    
-}
 
+}

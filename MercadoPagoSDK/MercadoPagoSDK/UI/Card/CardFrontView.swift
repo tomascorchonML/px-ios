@@ -31,7 +31,7 @@ import UIKit
     }
 
     func updateCard(token: PXCardInformationForm?, paymentMethod: PXPaymentMethod) {
-        self.cardLogo.image =  paymentMethod.getImage()
+        self.cardLogo.image = paymentMethod.getImage()
         self.cardLogo.alpha = 1
         let fontColor = paymentMethod.getFontColor(bin: token?.getCardBin())
         if let token = token {
@@ -43,7 +43,7 @@ import UIKit
         cardName.text = ""
         cardExpirationDate.text = ""
         cardNumber.alpha = 0.8
-        cardNumber.textColor =  fontColor
+        cardNumber.textColor = fontColor
         backgroundView.backgroundColor = paymentMethod.getColor(bin: token?.getCardBin())
 
     }
@@ -89,6 +89,6 @@ internal extension UIView {
 
 internal extension String {
     func insert(_ string: String, ind: Int) -> String {
-        return  String(self.prefix(ind)) + string + String(self.suffix(self.count-ind))
+        return  String(self.prefix(ind)) + string + String(self.suffix(self.count - ind))
     }
 }

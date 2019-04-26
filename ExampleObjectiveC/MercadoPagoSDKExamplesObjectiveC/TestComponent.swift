@@ -14,7 +14,7 @@ import UIKit
     import MercadoPagoSDK
 #endif
 
-@objc public class TestComponent: NSObject {
+@objcMembers public class TestComponent: NSObject {
     public func getView(text: String = "Custom Component", color: UIColor = .white) -> UIView {
         let frame = CGRect(x: 0, y: 0, width: 500, height: 100)
         let view = UIView(frame: frame)
@@ -29,9 +29,9 @@ import UIKit
         label.textColor = .black
         view.addSubview(label)
 
-        NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1.0, constant: 0).isActive = true
 
-        NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1.0, constant: 0).isActive = true
 
         return view
     }
@@ -101,9 +101,9 @@ extension TestComponent: PXDynamicViewControllerProtocol {
         }
         viewController.view.addSubview(button)
 
-        NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: viewController.view, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: button, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: viewController.view, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1.0, constant: 0).isActive = true
 
-        NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: viewController.view, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: button, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: viewController.view, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1.0, constant: 0).isActive = true
 
         return viewController
     }
@@ -113,6 +113,6 @@ extension TestComponent: PXDynamicViewControllerProtocol {
     }
 
     public func navigationHandler(navigationHandler: PXPluginNavigationHandler) {
-        
+
     }
 }

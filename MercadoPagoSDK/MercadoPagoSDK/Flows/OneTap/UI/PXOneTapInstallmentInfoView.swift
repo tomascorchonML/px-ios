@@ -69,7 +69,7 @@ extension PXOneTapInstallmentInfoView: FSPagerViewDataSource {
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
 
-        guard let model = model else {return FSPagerViewCell()}
+        guard let model = model else { return FSPagerViewCell() }
 
         let itemModel = model[index]
         cell.removeAllSubviews()

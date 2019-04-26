@@ -31,7 +31,7 @@ class FSPagerViewCollectionView: UICollectionView {
         set {
             super.contentInset = .zero
             if (newValue.top > 0) {
-                let contentOffset = CGPoint(x: self.contentOffset.x, y: self.contentOffset.y+newValue.top)
+                let contentOffset = CGPoint(x: self.contentOffset.x, y: self.contentOffset.y + newValue.top)
                 self.contentOffset = contentOffset
             }
         }

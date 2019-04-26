@@ -11,11 +11,11 @@ import Foundation
 internal extension UIImage {
 
     func grayscale() -> UIImage? {
-        if let currentFilter = CIFilter(name: "CIPhotoEffectMono")  {
+        if let currentFilter = CIFilter(name: "CIPhotoEffectMono") {
             let context = CIContext(options: nil)
             currentFilter.setValue(CIImage(image: self), forKey: kCIInputImageKey)
             if let output = currentFilter.outputImage,
-                let cgimg = context.createCGImage(output,from: output.extent) {
+                let cgimg = context.createCGImage(output, from: output.extent) {
                 let processedImage = UIImage(cgImage: cgimg)
                 return processedImage
             }
@@ -29,7 +29,7 @@ internal extension UIImage {
             data: nil, width: Int(self.size.width), height: Int(self.size.height),
             bitsPerComponent: 8, bytesPerRow: 0,
             space: CGColorSpaceCreateDeviceGray(),
-            bitmapInfo: CGBitmapInfo.init(rawValue: CGImageAlphaInfo.none.rawValue).rawValue
+            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue).rawValue
 
         )
         let alphaContext = CGContext(data: nil, width: Int(self.size.width), height: Int(self.size.height), bitsPerComponent: 8, bytesPerRow: 0, space: CGColorSpaceCreateDeviceGray(), bitmapInfo: CGImageAlphaInfo.none.rawValue

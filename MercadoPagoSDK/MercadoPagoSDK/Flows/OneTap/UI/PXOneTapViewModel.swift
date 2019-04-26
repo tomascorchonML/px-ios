@@ -20,7 +20,7 @@ final class PXOneTapViewModel: PXReviewViewModel {
     var splitPaymentEnabled: Bool = false
     var splitPaymentSelectionByUser: Bool?
     var additionalInfoSummary: PXAdditionalInfoSummary?
-    var disabledOption: PXDisabledOption? = nil
+    var disabledOption: PXDisabledOption?
 
     public init(amountHelper: PXAmountHelper, paymentOptionSelected: PaymentMethodOption, advancedConfig: PXAdvancedConfiguration, userLogged: Bool, disabledOption: PXDisabledOption? = nil) {
         self.disabledOption = disabledOption
@@ -292,10 +292,10 @@ extension PXOneTapViewModel {
     }
 
     func getPaymentMethod(targetId: String) -> PXPaymentMethod? {
-        if let plugins = paymentMethodPlugins, let pluginsPms = plugins.filter({return $0.getId() == targetId}).first {
+        if let plugins = paymentMethodPlugins, let pluginsPms = plugins.filter({ return $0.getId() == targetId }).first {
             return pluginsPms.toPaymentMethod()
         }
-        return paymentMethods.filter({return $0.id == targetId}).first
+        return paymentMethods.filter({ return $0.id == targetId }).first
     }
 }
 

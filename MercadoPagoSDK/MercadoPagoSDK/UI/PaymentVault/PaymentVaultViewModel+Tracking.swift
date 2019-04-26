@@ -28,7 +28,7 @@ extension PaymentVaultViewModel {
         for paymentOption in paymentMethodOptions {
             var paymentOptionDic: [String: Any] = [:]
             if paymentOption.getPaymentType() == PXPaymentMethodSearchItemTypes.PAYMENT_METHOD {
-                let filterPaymentMethods = paymentMethods.filter {paymentOption.getId().startsWith($0.id)}
+                let filterPaymentMethods = paymentMethods.filter { paymentOption.getId().startsWith($0.id) }
                 if let paymentMethod = filterPaymentMethods.first {
                     paymentOptionDic["payment_method_id"] = paymentOption.getId()
                     paymentOptionDic["payment_method_type"] = paymentMethod.paymentTypeId

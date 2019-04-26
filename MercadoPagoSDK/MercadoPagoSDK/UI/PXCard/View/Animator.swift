@@ -15,8 +15,8 @@ class Animator {
 
         let ovalSize = CGSize(width: view.frame.width * 2, height: view.frame.height * 2)
         let ovalOrigin = CGPoint(x: -view.frame.width * 2, y: -view.frame.height * 2)
-        var toPath = UIBezierPath.init(ovalIn: CGRect(origin: CGPoint.zero, size: ovalSize)).cgPath
-        var fromPath = UIBezierPath.init(ovalIn: CGRect(origin: ovalOrigin, size: ovalSize)).cgPath
+        var toPath = UIBezierPath(ovalIn: CGRect(origin: CGPoint.zero, size: ovalSize)).cgPath
+        var fromPath = UIBezierPath(ovalIn: CGRect(origin: ovalOrigin, size: ovalSize)).cgPath
 
         let ellipseLayer = CAShapeLayer()
         ellipseLayer.bounds = view.animation.layer.frame

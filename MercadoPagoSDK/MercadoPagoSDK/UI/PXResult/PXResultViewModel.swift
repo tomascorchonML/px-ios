@@ -21,7 +21,7 @@ internal class PXResultViewModel: PXResultViewModelInterface {
     init(amountHelper: PXAmountHelper, paymentResult: PaymentResult, instructionsInfo: PXInstructions? = nil, resultConfiguration: PXPaymentResultConfiguration = PXPaymentResultConfiguration()) {
         self.paymentResult = paymentResult
         self.instructionsInfo = instructionsInfo
-        self.preference =  resultConfiguration
+        self.preference = resultConfiguration
         self.amountHelper = amountHelper
     }
 

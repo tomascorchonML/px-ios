@@ -139,7 +139,7 @@ extension MercadoPagoCheckoutViewModel {
         if selectedType.isCustomerPaymentMethod() {
             return false
         }
-        if !paymentData.hasIssuer()  && pm.isCard && !Array.isNullOrEmpty(issuers) {
+        if !paymentData.hasIssuer() && pm.isCard && !Array.isNullOrEmpty(issuers) {
             return true
         }
         return false
@@ -266,7 +266,7 @@ extension MercadoPagoCheckoutViewModel {
         if self.businessResult != nil {
             return true
         }
-        if let paymentResult = self.paymentResult,  paymentResult.isInvalidESC() {
+        if let paymentResult = self.paymentResult, paymentResult.isInvalidESC() {
             return false
         }
         if self.payment != nil || self.paymentResult != nil {

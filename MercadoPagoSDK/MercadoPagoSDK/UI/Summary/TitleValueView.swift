@@ -21,7 +21,7 @@ final class TitleValueView: UIView, PXComponent {
     fileprivate var titleLabel: UILabel!
     fileprivate var valueLabel: UILabel?
 
-    public init(frame: CGRect, titleText: String, valueDouble: Double, colorTitle: UIColor =  ThemeManager.shared.boldLabelTintColor(), colorValue: UIColor =  ThemeManager.shared.boldLabelTintColor(), upperSeparatorLine: Bool = false, valueEnable: Bool = true, titleFontSize: CGFloat = FONT_SIZE, valueFontSize: CGFloat = FONT_SIZE) {
+    public init(frame: CGRect, titleText: String, valueDouble: Double, colorTitle: UIColor = ThemeManager.shared.boldLabelTintColor(), colorValue: UIColor = ThemeManager.shared.boldLabelTintColor(), upperSeparatorLine: Bool = false, valueEnable: Bool = true, titleFontSize: CGFloat = FONT_SIZE, valueFontSize: CGFloat = FONT_SIZE) {
         super.init(frame: frame)
         titleLabel = UILabel(frame: getTitleFrame())
         titleLabel.textAlignment = .left
@@ -35,9 +35,9 @@ final class TitleValueView: UIView, PXComponent {
             let currency = SiteManager.shared.getCurrency()
             var attributedTotal: NSAttributedString
             if valueDouble < 0 {
-                attributedTotal  = Utils.getAttributedAmount(-valueDouble, currency: currency, color: colorValue, fontSize: valueFontSize, baselineOffset: 5, negativeAmount: true)
+                attributedTotal = Utils.getAttributedAmount(-valueDouble, currency: currency, color: colorValue, fontSize: valueFontSize, baselineOffset: 5, negativeAmount: true)
             } else {
-                attributedTotal  = Utils.getAttributedAmount(valueDouble, currency: currency, color: colorValue, fontSize: valueFontSize, baselineOffset: 5)
+                attributedTotal = Utils.getAttributedAmount(valueDouble, currency: currency, color: colorValue, fontSize: valueFontSize, baselineOffset: 5)
             }
 
             valueLabel?.textAlignment = .right
@@ -72,7 +72,7 @@ extension TitleValueView {
     }
 
     func getValueFrame() -> CGRect {
-        return CGRect(x: HORIZONTAL_MARGIN +  ((self.frame.size.width - 3 * HORIZONTAL_MARGIN) * VALUE_WIDTH_PERCENT) + HORIZONTAL_MARGIN, y: VERTICAL_MARGIN, width: (self.frame.size.width - 3 * HORIZONTAL_MARGIN) * VALUE_WIDTH_PERCENT, height: self.frame.size.height - 2 * VERTICAL_MARGIN)
+        return CGRect(x: HORIZONTAL_MARGIN + ((self.frame.size.width - 3 * HORIZONTAL_MARGIN) * VALUE_WIDTH_PERCENT) + HORIZONTAL_MARGIN, y: VERTICAL_MARGIN, width: (self.frame.size.width - 3 * HORIZONTAL_MARGIN) * VALUE_WIDTH_PERCENT, height: self.frame.size.height - 2 * VERTICAL_MARGIN)
     }
 
     func adjustViewFrames() {

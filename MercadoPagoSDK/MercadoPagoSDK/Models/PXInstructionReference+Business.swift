@@ -15,7 +15,7 @@ extension PXInstructionReference {
         if fieldValue.count == 0 {
             return ""
         }
-        var referenceFullValue: String = fieldValue.reduce("", {($0 as String) + self.separator + $1})
+        var referenceFullValue: String = fieldValue.reduce("", { ($0 as String) + self.separator + $1 })
         if self.separator != "" {
             referenceFullValue = String(referenceFullValue.dropFirst())
         }

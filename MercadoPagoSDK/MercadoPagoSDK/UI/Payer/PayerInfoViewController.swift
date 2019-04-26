@@ -145,7 +145,7 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
     }
 
     fileprivate func setUpToolbarErrorMessage() {
-        let frame =  getToolbarFrame()
+        let frame = getToolbarFrame()
         self.errorLabel = MPLabel(frame: frame)
     }
 
@@ -187,7 +187,7 @@ class PayerInfoViewController: MercadoPagoUIViewController, UITextFieldDelegate,
     }
 
     func createToolbar() -> PXToolbar {
-        let frame =  getToolbarFrame()
+        let frame = getToolbarFrame()
 
         let toolbar = PXToolbar(frame: frame)
 

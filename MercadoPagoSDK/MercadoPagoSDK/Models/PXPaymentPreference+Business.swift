@@ -98,7 +98,7 @@ extension PXPaymentPreference {
 
     internal func addSettings(_ defaultPaymentTypeId: String? = nil, excludedPaymentMethodsIds: [String] = [], excludedPaymentTypesIds: [String] = [], defaultPaymentMethodId: String? = nil, maxAcceptedInstallment: Int = 0, defaultInstallments: Int? = nil) -> PXPaymentPreference {
 
-        self.excludedPaymentMethodIds =  excludedPaymentMethodsIds
+        self.excludedPaymentMethodIds = excludedPaymentMethodsIds
         self.excludedPaymentTypeIds = excludedPaymentTypesIds
         self.maxAcceptedInstallments = maxAcceptedInstallment
         self.defaultInstallments = defaultInstallments

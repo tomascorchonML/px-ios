@@ -223,7 +223,7 @@ internal class SessionDelegate: NSObject {
         case #selector(URLSessionDelegate.urlSession(_:didBecomeInvalidWithError:)):
             return sessionDidBecomeInvalidWithError != nil
         case #selector(URLSessionDelegate.urlSession(_:didReceive:completionHandler:)):
-            return (sessionDidReceiveChallenge != nil  || sessionDidReceiveChallengeWithCompletion != nil)
+            return (sessionDidReceiveChallenge != nil || sessionDidReceiveChallengeWithCompletion != nil)
         case #selector(URLSessionTaskDelegate.urlSession(_:task:willPerformHTTPRedirection:newRequest:completionHandler:)):
             return (taskWillPerformHTTPRedirection != nil || taskWillPerformHTTPRedirectionWithCompletion != nil)
         case #selector(URLSessionDataDelegate.urlSession(_:dataTask:didReceive:completionHandler:)):

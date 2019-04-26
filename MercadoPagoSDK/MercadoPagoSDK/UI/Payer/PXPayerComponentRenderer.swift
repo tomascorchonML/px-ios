@@ -38,7 +38,7 @@ class PXPayerComponentRenderer: NSObject {
     func addPayerIcon(component: PXPayerComponent) {
         let payerIcon = component.getPayerIconComponent()
         payerView.payerIcon = payerIcon.render()
-        payerView.payerIcon!.layer.cornerRadius = IMAGE_WIDTH/2
+        payerView.payerIcon!.layer.cornerRadius = IMAGE_WIDTH / 2
         payerView.payerIcon!.layer.borderWidth = 2
         payerView.payerIcon!.layer.borderColor = ThemeManager.shared.lightTintColor().cgColor
         payerView.addSubview(payerView.payerIcon!)

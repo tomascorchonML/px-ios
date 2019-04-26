@@ -88,7 +88,7 @@ internal final class PXHeaderRenderer: NSObject {
     func buildCircleImage(with image: UIImage?) -> PXUIImageView {
         let circleImage = PXUIImageView(frame: CGRect(x: 0, y: 0, width: IMAGE_WIDTH, height: IMAGE_HEIGHT))
         circleImage.layer.masksToBounds = false
-        circleImage.layer.cornerRadius = circleImage.frame.height/2
+        circleImage.layer.cornerRadius = circleImage.frame.height / 2
         circleImage.clipsToBounds = true
         circleImage.translatesAutoresizingMaskIntoConstraints = false
         circleImage.enableFadeIn()

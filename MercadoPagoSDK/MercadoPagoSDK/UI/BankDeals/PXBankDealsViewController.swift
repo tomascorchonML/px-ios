@@ -93,7 +93,7 @@ class PXBankDealsViewController: MercadoPagoUIViewController, UICollectionViewDa
 
     func getCellSize() -> CGSize {
         let screenWidth = PXLayout.getScreenWidth()
-        let width: CGFloat = screenWidth/2 - MARGINS*2
+        let width: CGFloat = screenWidth / 2 - MARGINS * 2
         return CGSize(width: width, height: CELL_HEIGHT)
     }
 }

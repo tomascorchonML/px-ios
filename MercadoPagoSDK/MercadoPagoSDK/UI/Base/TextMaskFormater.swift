@@ -64,7 +64,7 @@ internal class TextMaskFormater {
     private func maskText(_ text: String!) -> String! {
         let maskArray = Array(mask)
         var textToMask = text
-        if (!leftToRight)&&(completeEmptySpaces) {
+        if (!leftToRight) && (completeEmptySpaces) {
             textToMask = completeWithEmptySpaces(text)
         }
         let textArray = Array(textToMask!)
@@ -81,7 +81,7 @@ internal class TextMaskFormater {
 
              charMask = maskArray[indexMask]
 
-            if textArray.count>indexText {
+            if textArray.count > indexText {
                 charText = textArray[indexText]
             } else {
                 charText = nil

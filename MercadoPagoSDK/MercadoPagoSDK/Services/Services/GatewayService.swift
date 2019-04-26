@@ -35,7 +35,7 @@ internal class GatewayService: MercadoPagoService {
                 do {
                     let jsonResult = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
 
-                    var token : PXToken? = nil
+                    var token : PXToken?
                     if let tokenDic = jsonResult as? NSDictionary {
                         if tokenDic["error"] == nil {
                             token = try PXToken.fromJSON(data: data)
@@ -48,7 +48,7 @@ internal class GatewayService: MercadoPagoService {
                     let secCodeDic : [String: Any] = ["security_code": securityCode]
                     let jsonData = try JSONSerialization.data(withJSONObject: secCodeDic, options: .prettyPrinted)
 
-                    self.request(uri: url + "/" + token!.id, params: "public_key=" + public_key, body: jsonData, method: HTTPMethod.put, success: success, failure: { (error) in
+                    self.request(uri: url + "/" + token!.id, params: "public_key=" + public_key, body: jsonData, method: HTTPMethod.put, success: success, failure: { (_) in
                         failure?(PXError(domain: "mercadopago.sdk.GatewayService.cloneToken", code: ErrorTypes.NO_INTERNET_ERROR, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: "Verifique su conexión a internet e intente nuevamente"]))
                     })
                 } catch {

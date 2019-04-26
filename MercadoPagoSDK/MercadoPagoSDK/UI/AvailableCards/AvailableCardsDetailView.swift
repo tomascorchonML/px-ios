@@ -84,7 +84,7 @@ class AvailableCardsDetailView: UIView {
     }
 
     func getTitleLabelFrame() -> CGRect {
-        let width = self.frame.size.width - (2*margin)
+        let width = self.frame.size.width - (2 * margin)
         return CGRect(x: 0, y: margin, width: width, height: AvailableCardsDetailView.HEADER_HEIGHT)
     }
 

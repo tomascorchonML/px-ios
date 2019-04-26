@@ -60,7 +60,7 @@ internal class CardFormViewModel {
         }
         let paymentMethod = paymentMethods[0]
         if !Array.isNullOrEmpty(self.paymentMethods) {
-            let filterArray = paymentMethods.filter { return $0.paymentTypeId != paymentMethod.paymentTypeId}
+            let filterArray = paymentMethods.filter { return $0.paymentTypeId != paymentMethod.paymentTypeId }
             return filterArray.isEmpty ? paymentMethod.paymentTypeId : nil
         } else {
             return nil

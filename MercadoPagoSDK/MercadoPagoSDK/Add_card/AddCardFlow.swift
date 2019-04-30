@@ -22,6 +22,10 @@ public class AddCardFlow: NSObject, PXFlow {
     private let model = AddCardFlowModel()
     private let navigationHandler: PXNavigationHandler
 
+    // Change in Q2 when esc info comes from backend
+    private let escEnabled: Bool = true
+    private let escManager: PXESCManager
+
     private lazy var mercadoPagoServicesAdapter = MercadoPagoServicesAdapter(publicKey: "APP_USR-5bd14fdd-3807-446f-babd-095788d5ed4d", privateKey: self.accessToken)
 
     public convenience init(accessToken: String, locale: String, navigationController: UINavigationController, shouldSkipCongrats: Bool) {
@@ -32,11 +36,12 @@ public class AddCardFlow: NSObject, PXFlow {
     public init(accessToken: String, locale: String, navigationController: UINavigationController) {
         self.accessToken = accessToken
         self.navigationHandler = PXNavigationHandler(navigationController: navigationController)
+        MPXTracker.sharedInstance.startNewSession()
+        escManager = PXESCManager(enabled: escEnabled, sessionId: MPXTracker.sharedInstance.getSessionID())
         super.init()
         Localizator.sharedInstance.setLanguage(string: locale)
         ThemeManager.shared.saveNavBarStyleFor(navigationController: navigationController)
         PXNotificationManager.SuscribeTo.attemptToClose(self, selector: #selector(goBack))
-        MPXTracker.sharedInstance.startNewSession()
     }
 
     public func setSiteId(_ siteId: String) {
@@ -161,9 +166,14 @@ public class AddCardFlow: NSObject, PXFlow {
         guard let cardToken = self.model.cardToken else {
             return
         }
+        cardToken.requireESC = escEnabled
         self.navigationHandler.presentLoading()
+
         self.mercadoPagoServicesAdapter.createToken(cardToken: cardToken, callback: { [weak self] (token) in
             self?.model.tokenizedCard = token
+            if let esc = token.esc {
+                self?.escManager.saveESC(firstSixDigits: token.firstSixDigits, lastFourDigits: token.lastFourDigits, esc: esc)
+            }
             self?.executeNextStep()
             }, failure: {[weak self] (error) in
                 let reachabilityManager = PXReach()
@@ -188,10 +198,6 @@ public class AddCardFlow: NSObject, PXFlow {
             print(json)
             self?.navigationHandler.dismissLoading()
             self?.model.associateCardResult = json
-            if let esc = token.esc {
-                let escManager = PXESCManager(enabled: false, sessionId: MPXTracker.sharedInstance.getSessionID())
-                _ = escManager.saveESC(cardId: token.cardId, esc: esc)
-            }
             self?.executeNextStep()
         }) { [weak self] (error) in
             if error.code == ErrorTypes.NO_INTERNET_ERROR {

@@ -39,7 +39,7 @@ extension PXSummaryCompactComponentView {
         totalLabel = tLabel
         customTextLabel = cLabel
 
-        return titleHeight + customTitleHeight + INTER_MARGIN + TOP_BOTTOM_MARGIN*2
+        return titleHeight + customTitleHeight + INTER_MARGIN + TOP_BOTTOM_MARGIN * 2
     }
 
     fileprivate func buildLabels(amountText: NSAttributedString?, customText: NSAttributedString?, in superView: UIView, textColor: UIColor) -> (UILabel, UILabel) {

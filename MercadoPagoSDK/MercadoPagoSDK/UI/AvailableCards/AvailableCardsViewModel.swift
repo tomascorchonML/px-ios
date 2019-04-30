@@ -27,8 +27,8 @@ internal class AvailableCardsViewModel {
         let availableCardsViewWidth = screenWidth - 2 * MARGIN_X_SCROLL_VIEW
         let availableCardsViewTotalHeight = getAvailableCardsViewTotalHeight(headerHeight: AvailableCardsDetailView.HEADER_HEIGHT, paymentMethodsHeight: AvailableCardsDetailView.ITEMS_HEIGHT, paymentMethodsCount: CGFloat(self.paymentMethods.count))
 
-        let xPos = (self.screenWidth - availableCardsViewWidth)/2
-        let yPos = (self.screenHeight - availableCardsViewTotalHeight)/2
+        let xPos = (self.screenWidth - availableCardsViewWidth) / 2
+        let yPos = (self.screenHeight - availableCardsViewTotalHeight) / 2
         return CGRect(x: xPos, y: yPos, width: availableCardsViewWidth, height: availableCardsViewTotalHeight)
     }
 

@@ -21,16 +21,7 @@ internal extension PXDiscount {
     }
 
     internal func getDiscountDescription() -> String {
-        let currency = SiteManager.shared.getCurrency()
-        if self.percentOff != 0 {
-            let percentageAttributedString = Utils.getAttributedPercentage(withAttributes: [:], amount: self.percentOff, addPercentageSymbol: true, negativeAmount: false)
-            let string: String = ("total_row_title_percent_off".localized_beta as NSString).replacingOccurrences(of: "%1$s", with: percentageAttributedString.string)
-            return string
-        } else {
-            let amountAttributedString = Utils.getAttributedAmount(withAttributes: [:], amount: self.amountOff, currency: currency, negativeAmount: true)
-            let string: String = ("total_row_title_amount_off".localized_beta as NSString).replacingOccurrences(of: "%1$s", with: amountAttributedString.string)
-            return string
-        }
+        return name ?? "discount_coupon_detail_default_concept".localized_beta
     }
 
     internal func getDiscountAmount() -> Double? {
@@ -41,16 +32,9 @@ internal extension PXDiscount {
         return percentOff != 0
     }
 
-    internal func getDiscountReviewDescription() -> String {
-        let text  = "discount_coupon_detail_default_concept".localized_beta
-         if self.percentOff != 0 {
-            return text + " " + String(describing: self.percentOff) + " %"
-        }
-        return text
-    }
     var concept: String {
         get {
-            return getDiscountReviewDescription()
+            return getDiscountDescription()
         }
     }
 
@@ -59,7 +43,7 @@ internal extension PXDiscount {
         var obj: [String: Any] = [
             "id": self.id,
             "percent_off": self.percentOff ?? 0,
-            "amount_off": self.amountOff ??  0,
+            "amount_off": self.amountOff ?? 0,
             "coupon_amount": self.couponAmount ?? 0
         ]
 

@@ -128,7 +128,7 @@ internal class MercadoPagoUIViewController: UIViewController, UIGestureRecognize
     @objc internal func executeBack() {
         if let targetNavigationController = navigationController {
             // TODO: Tener en cuenta las pantallas que no son de PX.
-            let vcs = targetNavigationController.viewControllers.filter {$0.isKind(of: MercadoPagoUIViewController.self)}
+            let vcs = targetNavigationController.viewControllers.filter { $0.isKind(of: MercadoPagoUIViewController.self) }
             if vcs.count == 1 {
                 if let callbackBackAction = callbackBack {
                     callbackBackAction()
@@ -203,7 +203,7 @@ internal class MercadoPagoUIViewController: UIViewController, UIGestureRecognize
             self.navigationController?.navigationBar.removeBottomLine()
             self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
             self.navigationController?.navigationBar.shadowImage = UIImage()
-            self.navigationController!.navigationBar.backgroundColor =  UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
+            self.navigationController!.navigationBar.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
             self.navigationController?.navigationBar.isTranslucent = true
 
             if self.shouldDisplayBackButton {

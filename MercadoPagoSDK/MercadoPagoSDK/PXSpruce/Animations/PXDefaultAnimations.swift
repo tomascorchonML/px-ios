@@ -239,9 +239,9 @@ internal enum StockAnimation {
             case .spin(let size):
                 switch size {
                 case .slightly:
-                    return CGFloat(Double.pi/4)
+                    return CGFloat(Double.pi / 4)
                 case .moderately:
-                    return CGFloat(Double.pi/2)
+                    return CGFloat(Double.pi / 2)
                 case .severely:
                     return CGFloat(Double.pi)
                 case .toAngle(let value):

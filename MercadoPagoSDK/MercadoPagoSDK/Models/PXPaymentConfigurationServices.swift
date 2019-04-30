@@ -14,8 +14,8 @@ internal class PXPaymentConfigurationServices {
 
     // Payer Costs for Payment Method
     func getPayerCostsForPaymentMethod(_ id: String, splitPaymentEnabled: Bool = false) -> [PXPayerCost]? {
-        if let configuration = configurations.first(where: {$0.paymentOptionID == id}) {
-            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: {$0.id == configuration.selectedAmountConfiguration}) {
+        if let configuration = configurations.first(where: { $0.paymentOptionID == id }) {
+            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: { $0.id == configuration.selectedAmountConfiguration }) {
                 if splitPaymentEnabled {
                     return paymentOptionConfiguration.amountConfiguration?.splitConfiguration?.primaryPaymentMethod?.payerCosts
                 } else {
@@ -31,8 +31,8 @@ internal class PXPaymentConfigurationServices {
         guard let id = id else {
             return nil
         }
-        if let configuration = configurations.first(where: {$0.paymentOptionID == id}) {
-            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: {$0.id == configuration.selectedAmountConfiguration}) {
+        if let configuration = configurations.first(where: { $0.paymentOptionID == id }) {
+            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: { $0.id == configuration.selectedAmountConfiguration }) {
                 return paymentOptionConfiguration.amountConfiguration
             }
         }
@@ -41,8 +41,8 @@ internal class PXPaymentConfigurationServices {
 
     // Split Configuration for Payment Method
     func getSplitConfigurationForPaymentMethod(_ id: String) -> PXSplitConfiguration? {
-        if let configuration = configurations.first(where: {$0.paymentOptionID == id}) {
-            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: {$0.id == configuration.selectedAmountConfiguration}) {
+        if let configuration = configurations.first(where: { $0.paymentOptionID == id }) {
+            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: { $0.id == configuration.selectedAmountConfiguration }) {
                 return paymentOptionConfiguration.amountConfiguration?.splitConfiguration
             }
         }
@@ -51,8 +51,8 @@ internal class PXPaymentConfigurationServices {
 
     // Selected Payer Cost for Payment Method
     func getSelectedPayerCostsForPaymentMethod(_ id: String, splitPaymentEnabled: Bool = false) -> PXPayerCost? {
-        if let configuration = configurations.first(where: {$0.paymentOptionID == id}) {
-            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: {$0.id == configuration.selectedAmountConfiguration}) {
+        if let configuration = configurations.first(where: { $0.paymentOptionID == id }) {
+            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: { $0.id == configuration.selectedAmountConfiguration }) {
                 if splitPaymentEnabled {
                     return paymentOptionConfiguration.amountConfiguration?.splitConfiguration?.primaryPaymentMethod?.selectedPayerCost
                 } else {
@@ -68,8 +68,8 @@ internal class PXPaymentConfigurationServices {
         guard let id = id else {
             return nil
         }
-        if let configuration = configurations.first(where: {$0.paymentOptionID == id}) {
-            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: {$0.id == configuration.selectedAmountConfiguration}) {
+        if let configuration = configurations.first(where: { $0.paymentOptionID == id }) {
+            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: { $0.id == configuration.selectedAmountConfiguration }) {
                 return paymentOptionConfiguration.amountConfiguration?.amount
             }
         }
@@ -78,7 +78,7 @@ internal class PXPaymentConfigurationServices {
 
     // Discount Info for Payment Method
     func getDiscountInfoForPaymentMethod(_ id: String) -> String? {
-        if let configuration = configurations.first(where: {$0.paymentOptionID == id}) {
+        if let configuration = configurations.first(where: { $0.paymentOptionID == id }) {
             return configuration.discountInfo
         }
         return nil
@@ -86,8 +86,8 @@ internal class PXPaymentConfigurationServices {
 
     // Discount Configuration for Payment Method
     func getDiscountConfigurationForPaymentMethod(_ id: String) -> PXDiscountConfiguration? {
-        if let configuration = configurations.first(where: {$0.paymentOptionID == id}) {
-            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: {$0.id == configuration.selectedAmountConfiguration}) {
+        if let configuration = configurations.first(where: { $0.paymentOptionID == id }) {
+            if let paymentOptionConfiguration = configuration.paymentOptionsConfigurations.first(where: { $0.id == configuration.selectedAmountConfiguration }) {
                 let discountConfiguration = paymentOptionConfiguration.discountConfiguration
                 return discountConfiguration
             }
@@ -110,7 +110,7 @@ internal class PXPaymentConfigurationServices {
 
     // All Configurations
     func getConfigurationsForPaymentMethod(_ id: String) -> [PXPaymentOptionConfiguration]? {
-        if let config = configurations.first(where: {$0.paymentOptionID == id}) {
+        if let config = configurations.first(where: { $0.paymentOptionID == id }) {
             return config.paymentOptionsConfigurations
         }
         return nil

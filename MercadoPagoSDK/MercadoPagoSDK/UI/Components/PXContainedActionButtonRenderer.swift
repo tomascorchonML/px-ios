@@ -14,7 +14,7 @@ class PXContainedActionButtonRenderer: NSObject {
 
     func render(_ containedButton: PXContainedActionButtonComponent) -> PXContainedActionButtonView {
 
-        let containedButtonView =  PXContainedActionButtonView()
+        let containedButtonView = PXContainedActionButtonView()
 
         containedButtonView.translatesAutoresizingMaskIntoConstraints = false
 

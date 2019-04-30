@@ -146,7 +146,7 @@ internal extension UIColor {
     func adjust(_ red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) -> UIColor {
         var redVar: CGFloat = 0, greenVar: CGFloat = 0, blueVar: CGFloat = 0, alphaVar: CGFloat = 0
         self.getRed(&redVar, green: &greenVar, blue: &blueVar, alpha: &alphaVar)
-        return UIColor(red: redVar+red, green: greenVar+green, blue: blueVar+blue, alpha: alphaVar+alpha)
+        return UIColor(red: redVar + red, green: greenVar + green, blue: blueVar + blue, alpha: alphaVar + alpha)
     }
 }
 

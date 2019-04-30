@@ -41,8 +41,6 @@ open class MercadoPagoCheckout: NSObject {
             fatalError("CheckoutPreference or preferenceId must be mandatory.")
         }
 
-        PXServicesURLConfigs.PX_SDK_VERSION = Utils.getSetting(identifier: "sdk_version") ?? ""
-
         viewModel = MercadoPagoCheckoutViewModel(checkoutPreference: choPref, publicKey: builder.publicKey, privateKey: builder.privateKey, advancedConfig: builder.advancedConfig)
 
         // Set Theme.

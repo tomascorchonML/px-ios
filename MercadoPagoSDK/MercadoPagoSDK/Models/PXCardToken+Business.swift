@@ -38,7 +38,7 @@ extension PXCardToken {
     }
 
     func validate(_ includeSecurityCode: Bool) -> Bool {
-        var result: Bool = validateCardNumber() == nil  && validateExpiryDate() == nil && validateIdentification() == nil && validateCardholderName() == nil
+        var result: Bool = validateCardNumber() == nil && validateExpiryDate() == nil && validateIdentification() == nil && validateCardholderName() == nil
         if includeSecurityCode {
             result = result && validateSecurityCode() == nil
         }
@@ -73,7 +73,7 @@ extension PXCardToken {
             }
 
             // Validate card length
-            let filteredSettings = settings?.filter({return $0.cardNumber?.length == cardNumber!.trimSpaces().count})
+            let filteredSettings = settings?.filter({ return $0.cardNumber?.length == cardNumber!.trimSpaces().count })
 
             if Array.isNullOrEmpty(filteredSettings) {
                 if userInfo == nil {
@@ -278,7 +278,7 @@ extension PXCardToken {
     }
 
     func getBin() -> String? {
-        let range =  cardNumber!.startIndex ..< cardNumber!.index(cardNumber!.startIndex, offsetBy: 6)
+        let range = cardNumber!.startIndex ..< cardNumber!.index(cardNumber!.startIndex, offsetBy: 6)
         let bin: String? = cardNumber!.count >= 6 ? String(cardNumber![range]) : nil
         return bin
     }

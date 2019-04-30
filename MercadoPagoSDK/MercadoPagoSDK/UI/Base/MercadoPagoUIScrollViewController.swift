@@ -26,9 +26,9 @@ internal class MercadoPagoUIScrollViewController: MercadoPagoUIViewController {
         navBarFontSize = 18
 
         if let titleCell = titleCell {
-            let fontSize = 18 - (scrollView.contentOffset.y + scrollPositionToShowNavBar())/(CGFloat(64) - scrollPositionToShowNavBar())*4
+            let fontSize = 18 - (scrollView.contentOffset.y + scrollPositionToShowNavBar()) / (CGFloat(64) - scrollPositionToShowNavBar()) * 4
 
-            if fontSize<maxFontSize {
+            if fontSize < maxFontSize {
                 titleCell.updateTitleFontSize(toSize: fontSize)
             } else {
                 titleCell.updateTitleFontSize(toSize: maxFontSize)

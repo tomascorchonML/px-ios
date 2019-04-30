@@ -27,7 +27,7 @@ extension PXToken: PXCardInformationForm {
 
         var masknumber: String = ""
 
-        for _ in 0...cardNumberLength-4 {
+        for _ in 0...cardNumberLength - 4 {
             masknumber += "X"
         }
 

@@ -181,7 +181,7 @@ extension PXItemRenderer {
 
     fileprivate func buildCircle(targetImageView: UIImageView?) {
         targetImageView?.layer.masksToBounds = false
-        targetImageView?.layer.cornerRadius = PXItemRenderer.IMAGE_HEIGHT/2
+        targetImageView?.layer.cornerRadius = PXItemRenderer.IMAGE_HEIGHT / 2
         targetImageView?.clipsToBounds = true
         targetImageView?.translatesAutoresizingMaskIntoConstraints = false
         targetImageView?.contentMode = .scaleAspectFill

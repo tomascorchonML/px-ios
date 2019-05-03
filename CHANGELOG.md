@@ -1,8 +1,10 @@
-# v4.11.0
-🚀Private Release - 4.11.0 🚀
+# v4.12.0
+🚀Private Release - 4.12.0 🚀
 MercadoPagoSDKV4 - Private Version
-- Tracking keys changed
-- Congrats wordings updated
+- ESC for new cards
+- Tracking ESC
+- Improvements in tokenization service
+- Loyalty discount name
 
 # v4.10.2
 🚀Private Release - 4.10.2 🚀

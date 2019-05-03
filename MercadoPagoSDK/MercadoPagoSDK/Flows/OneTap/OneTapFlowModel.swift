@@ -36,6 +36,8 @@ final internal class OneTapFlowModel: PXFlowModel {
 
     var chargeRules: [PXPaymentTypeChargeRule]?
 
+    var invalidESC: Bool = false
+
     // In order to ensure data updated create new instance for every usage
     internal var amountHelper: PXAmountHelper {
         get {
@@ -43,12 +45,12 @@ final internal class OneTapFlowModel: PXFlowModel {
         }
     }
 
-    let mpESCManager: MercadoPagoESC
+    let escManager: MercadoPagoESC?
     let advancedConfiguration: PXAdvancedConfiguration
     let mercadoPagoServicesAdapter: MercadoPagoServicesAdapter
     let paymentConfigurationService: PXPaymentConfigurationServices
 
-    init(paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, chargeRules: [PXPaymentTypeChargeRule]?, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, advancedConfiguration: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices, disabledOption: PXDisabledOption?) {
+    init(paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, chargeRules: [PXPaymentTypeChargeRule]?, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, advancedConfiguration: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices, disabledOption: PXDisabledOption?, escManager: MercadoPagoESC?) {
         self.paymentData = paymentData.copy() as? PXPaymentData ?? paymentData
         self.checkoutPreference = checkoutPreference
         self.search = search
@@ -56,7 +58,7 @@ final internal class OneTapFlowModel: PXFlowModel {
         self.advancedConfiguration = advancedConfiguration
         self.chargeRules = chargeRules
         self.mercadoPagoServicesAdapter = mercadoPagoServicesAdapter
-        self.mpESCManager = MercadoPagoESCImplementation(enabled: advancedConfiguration.escEnabled)
+        self.escManager = escManager
         self.paymentConfigurationService = paymentConfigurationService
         self.disabledOption = disabledOption
 
@@ -93,7 +95,12 @@ internal extension OneTapFlowModel {
             fatalError("Don't have paymentData to open Security View Controller")
         }
 
-        let reason = SecurityCodeViewModel.Reason.SAVED_CARD
+        var reason: SecurityCodeViewModel.Reason
+        if invalidESC {
+            reason = SecurityCodeViewModel.Reason.INVALID_ESC
+        } else {
+            reason = SecurityCodeViewModel.Reason.SAVED_CARD
+        }
         return SecurityCodeViewModel(paymentMethod: paymentMethod, cardInfo: cardInformation, reason: reason)
     }
 
@@ -208,7 +215,7 @@ internal extension OneTapFlowModel {
 
     func hasSavedESC() -> Bool {
         if let card = paymentOptionSelected as? PXCardInformation {
-            return mpESCManager.getESC(cardId: card.getCardId()) == nil ? false : true
+            return escManager?.getESC(cardId: card.getCardId(), firstSixDigits: card.getFirstSixDigits(), lastFourDigits: card.getCardLastForDigits()) == nil ? false : true
         }
         return false
     }

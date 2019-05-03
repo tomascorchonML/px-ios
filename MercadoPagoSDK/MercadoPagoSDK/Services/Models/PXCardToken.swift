@@ -15,13 +15,14 @@ open class PXCardToken: NSObject, Encodable {
     open var expirationMonth: Int = 0
     open var expirationYear: Int = 0
     open var securityCode: String?
+    open var requireESC: Bool = false
 
     // For validations
     let MIN_LENGTH_NUMBER: Int = 10
     let MAX_LENGTH_NUMBER: Int = 19
     let now = (Calendar.current as NSCalendar).components([.year, .month], from: Date())
 
-    internal init (cardNumber: String?, expirationMonth: Int, expirationYear: Int, securityCode: String?, cardholderName: String, docType: String, docNumber: String) {
+    internal init (cardNumber: String?, expirationMonth: Int, expirationYear: Int, securityCode: String?, cardholderName: String, docType: String, docNumber: String, requireESC: Bool = false) {
         super.init()
         self.cardholder = PXCardHolder(name: cardholderName, identification: PXIdentification(number: docNumber, type: docType))
         self.cardholder?.name = cardholderName
@@ -29,10 +30,16 @@ open class PXCardToken: NSObject, Encodable {
         self.expirationMonth = expirationMonth
         self.expirationYear = 2000 + expirationYear
         self.securityCode = securityCode
+        self.requireESC = requireESC
     }
 
     override init() {
 
+    }
+
+    // Set if esc is enabled
+    internal func setRequireESC(escEnabled: Bool) {
+        requireESC = escEnabled
     }
 
     public enum PXCardTokenKeys: String, CodingKey {
@@ -42,6 +49,7 @@ open class PXCardToken: NSObject, Encodable {
         case expirationMonth = "expiration_month"
         case expirationYear = "expiration_year"
         case securityCode = "security_code"
+        case requireEsc = "require_esc"
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -52,6 +60,8 @@ open class PXCardToken: NSObject, Encodable {
         try container.encodeIfPresent(self.expirationMonth, forKey: .expirationMonth)
         try container.encodeIfPresent(self.expirationYear, forKey: .expirationYear)
         try container.encodeIfPresent(self.securityCode, forKey: .securityCode)
+        try container.encodeIfPresent(self.requireESC, forKey: .requireEsc)
+
     }
 
     open func toJSONString() throws -> String? {

@@ -161,7 +161,7 @@ extension MercadoPagoCheckout {
         case .SCREEN_ISSUERS:
             self.showIssuersScreen()
         case .SERVICE_CREATE_CARD_TOKEN:
-            self.createCardToken()
+            self.getTokenizationService().createCardToken()
         case .SERVICE_GET_IDENTIFICATION_TYPES:
             self.getIdentificationTypes()
         case .SERVICE_GET_PAYER_COSTS:
@@ -245,13 +245,22 @@ extension MercadoPagoCheckout {
 
 // MARK: Privates
 extension MercadoPagoCheckout {
+
     private func initialize() {
         startTracking()
         MercadoPagoCheckout.currentCheckout = self
+
+        initializeEscManager()
+
         if let currentCheckout = MercadoPagoCheckout.currentCheckout {
             PXNotificationManager.SuscribeTo.attemptToClose(currentCheckout, selector: #selector(closeCheckout))
         }
         viewModel.startInitFlow()
+    }
+
+    // Chnage in Q2 when esc info comes in the init flow
+    private func initializeEscManager() {
+        viewModel.escManager = PXESCManager(enabled: viewModel.getAdvancedConfiguration().escEnabled, sessionId: MPXTracker.sharedInstance.getSessionID())
     }
 
     private func commondInit() {

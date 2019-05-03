@@ -60,7 +60,7 @@ extension PXResultViewModel {
         let discount_coupon_amount = "discount_coupon_amount"
         let has_split = "has_split_payment"
         let raw_amount = "preference_amount"
-        
+
         var properties: [String: Any] = amountHelper.getPaymentData().getPaymentDataForTracking()
         properties["style"] = "generic"
         if let paymentId = paymentResult.paymentId {

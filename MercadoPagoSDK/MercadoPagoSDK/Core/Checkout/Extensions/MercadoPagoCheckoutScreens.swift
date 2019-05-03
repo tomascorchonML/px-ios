@@ -171,8 +171,8 @@ extension MercadoPagoCheckout {
 
     func showSecurityCodeScreen() {
 
-        let securityCodeVc = SecurityCodeViewController(viewModel: self.viewModel.savedCardSecurityCodeViewModel(), collectSecurityCodeCallback: { [weak self] (cardInformation: PXCardInformationForm, securityCode: String) -> Void in
-            self?.createCardToken(cardInformation: cardInformation as? PXCardInformation, securityCode: securityCode)
+        let securityCodeVc = SecurityCodeViewController(viewModel: self.viewModel.savedCardSecurityCodeViewModel(), collectSecurityCodeCallback: { [weak self] (_, securityCode: String) -> Void in
+            self?.getTokenizationService().createCardToken(securityCode: securityCode)
         })
         viewModel.pxNavigationHandler.pushViewController(viewController: securityCodeVc, animated: true, backToFirstPaymentVault: true)
     }
@@ -182,7 +182,7 @@ extension MercadoPagoCheckout {
             guard let token = cardInformation as? PXToken else {
                 fatalError("Cannot convert cardInformation to Token")
             }
-            self?.cloneCardToken(token: token, securityCode: securityCode)
+            self?.getTokenizationService().createCardToken(securityCode: securityCode, token: token)
 
         })
         viewModel.pxNavigationHandler.pushViewController(viewController: securityCodeVc, animated: true)
@@ -310,7 +310,9 @@ extension MercadoPagoCheckout {
         }
 
         let paymentFlow = viewModel.createPaymentFlow(paymentErrorHandler: self)
-        let onetapFlow = OneTapFlow(navigationController: viewModel.pxNavigationHandler, paymentData: viewModel.paymentData, checkoutPreference: viewModel.checkoutPreference, search: search, paymentOptionSelected: paymentOtionSelected, reviewConfirmConfiguration: viewModel.getAdvancedConfiguration().reviewConfirmConfiguration, chargeRules: viewModel.chargeRules, oneTapResultHandler: self, advancedConfiguration: viewModel.getAdvancedConfiguration(), mercadoPagoServicesAdapter: viewModel.mercadoPagoServicesAdapter, paymentConfigurationService: self.viewModel.paymentConfigurationService, disabledOption: viewModel.disabledOption)
+
+        let onetapFlow = OneTapFlow(navigationController: viewModel.pxNavigationHandler, paymentData: viewModel.paymentData, checkoutPreference: viewModel.checkoutPreference, search: search, paymentOptionSelected: paymentOtionSelected, reviewConfirmConfiguration: viewModel.getAdvancedConfiguration().reviewConfirmConfiguration, chargeRules: viewModel.chargeRules, oneTapResultHandler: self, advancedConfiguration: viewModel.getAdvancedConfiguration(), mercadoPagoServicesAdapter: viewModel.mercadoPagoServicesAdapter, paymentConfigurationService: self.viewModel.paymentConfigurationService, disabledOption: viewModel.disabledOption, escManager: viewModel.escManager)
+
         onetapFlow.setCustomerPaymentMethods(viewModel.customPaymentOptions)
         onetapFlow.setPaymentMethodPlugins(viewModel.paymentMethodPlugins)
         onetapFlow.setPaymentFlow(paymentFlow: paymentFlow)

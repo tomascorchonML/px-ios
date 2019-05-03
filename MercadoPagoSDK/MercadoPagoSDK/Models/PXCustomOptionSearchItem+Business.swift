@@ -8,6 +8,6 @@
 import Foundation
 internal extension PXCustomOptionSearchItem {
     func getCustomerPaymentMethod() -> CustomerPaymentMethod {
-        return CustomerPaymentMethod(cPaymentMethodId: id, paymentMethodId: paymentMethodId ?? "", paymentMethodTypeId: paymentTypeId ?? "", description: _description ?? "")
+        return CustomerPaymentMethod(id: id, paymentMethodId: paymentMethodId ?? "", paymentMethodTypeId: paymentTypeId ?? "", description: _description ?? "", issuer: issuer, firstSixDigits: firstSixDigits, lastFourDigits: lastFourDigits)
     }
 }

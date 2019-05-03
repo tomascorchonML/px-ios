@@ -16,11 +16,11 @@ final class OneTapFlow: NSObject, PXFlow {
 
     let advancedConfig: PXAdvancedConfiguration
 
-    init(navigationController: PXNavigationHandler, paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, reviewConfirmConfiguration: PXReviewConfirmConfiguration, chargeRules: [PXPaymentTypeChargeRule]?, oneTapResultHandler: PXOneTapResultHandlerProtocol, advancedConfiguration: PXAdvancedConfiguration, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, paymentConfigurationService: PXPaymentConfigurationServices, disabledOption: PXDisabledOption? = nil) {
+    init(navigationController: PXNavigationHandler, paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, reviewConfirmConfiguration: PXReviewConfirmConfiguration, chargeRules: [PXPaymentTypeChargeRule]?, oneTapResultHandler: PXOneTapResultHandlerProtocol, advancedConfiguration: PXAdvancedConfiguration, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, paymentConfigurationService: PXPaymentConfigurationServices, disabledOption: PXDisabledOption? = nil, escManager: MercadoPagoESC?) {
         pxNavigationHandler = navigationController
         resultHandler = oneTapResultHandler
         advancedConfig = advancedConfiguration
-        model = OneTapFlowModel(paymentData: paymentData, checkoutPreference: checkoutPreference, search: search, paymentOptionSelected: paymentOptionSelected, chargeRules: chargeRules, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter, advancedConfiguration: advancedConfiguration, paymentConfigurationService: paymentConfigurationService, disabledOption: disabledOption)
+        model = OneTapFlowModel(paymentData: paymentData, checkoutPreference: checkoutPreference, search: search, paymentOptionSelected: paymentOptionSelected, chargeRules: chargeRules, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter, advancedConfiguration: advancedConfiguration, paymentConfigurationService: paymentConfigurationService, disabledOption: disabledOption, escManager: escManager)
     }
 
     deinit {
@@ -44,7 +44,7 @@ final class OneTapFlow: NSObject, PXFlow {
         case .screenSecurityCode:
             self.showSecurityCodeScreen()
         case .serviceCreateESCCardToken:
-            self.createCardToken()
+            self.getTokenizationService().createCardToken()
         case .payment:
             self.startPaymentFlow()
         case .finish:
@@ -134,7 +134,7 @@ extension OneTapFlow {
         guard let customerPaymentMethods = model.customerPaymentOptions else {
             return nil
         }
-        let customOptionsFound = customerPaymentMethods.filter { return $0.card?.id == forId }
+        let customOptionsFound = customerPaymentMethods.filter { return $0.id == forId }
         return customOptionsFound.first
     }
 }

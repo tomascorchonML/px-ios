@@ -315,7 +315,7 @@ extension MercadoPagoCheckoutViewModel {
         }
 
         if let card = pmSelected as? PXCardInformation {
-            return mpESCManager.getESC(cardId: card.getCardId()) == nil ? false : true
+            return escManager?.getESC(cardId: card.getCardId(), firstSixDigits: card.getFirstSixDigits(), lastFourDigits: card.getCardLastForDigits()) == nil ? false : true
         }
         return false
     }

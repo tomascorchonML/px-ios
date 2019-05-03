@@ -97,7 +97,8 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
     private var checkoutComplete = false
     var paymentMethodConfigPluginShowed = false
 
-    let mpESCManager: MercadoPagoESC
+    var escManager: MercadoPagoESC?
+    var invalidESC: Bool = false
 
     // Discounts bussines service.
     var paymentConfigurationService = PXPaymentConfigurationServices()
@@ -126,9 +127,6 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
         if let advConfig = advancedConfig {
             self.advancedConfig = advConfig
-            self.mpESCManager = MercadoPagoESCImplementation(enabled: advConfig.escEnabled)
-        } else {
-            self.mpESCManager = MercadoPagoESCImplementation(enabled: false)
         }
 
         mercadoPagoServicesAdapter = MercadoPagoServicesAdapter(publicKey: publicKey, privateKey: privateKey)
@@ -221,7 +219,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         var cardIdsWithESC: [String] = []
         if let customPaymentOptions = customPaymentOptions {
             for customCard in customPaymentOptions {
-                if mpESCManager.getESC(cardId: customCard.getCardId()) != nil {
+                if escManager?.getESC(cardId: customCard.getCardId(), firstSixDigits: customCard.getFirstSixDigits(), lastFourDigits: customCard.getCardLastForDigits()) != nil {
                     cardIdsWithESC.append(customCard.getCardId())
                 }
             }
@@ -284,7 +282,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             fatalError("Cannot conver payment option selected to CardInformation")
         }
         var reason: SecurityCodeViewModel.Reason
-        if paymentResult != nil && paymentResult!.isInvalidESC() {
+        if paymentResult != nil && paymentResult!.isInvalidESC() || invalidESC {
             reason = SecurityCodeViewModel.Reason.INVALID_ESC
         } else {
             reason = SecurityCodeViewModel.Reason.SAVED_CARD
@@ -314,6 +312,8 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         self.cleanIdentificationTypesSearch()
         self.paymentData.updatePaymentDataWith(paymentMethod: paymentMethods[0])
         self.cardToken = cardToken
+        // Sets if esc is enabled to card token
+        self.cardToken?.setRequireESC(escEnabled: advancedConfig.escEnabled)
     }
 
     //CREDIT_DEBIT
@@ -561,12 +561,6 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
         for pxCustomOptionSearchItem in search.customOptionSearchItems {
             let customerPaymentMethod = pxCustomOptionSearchItem.getCustomerPaymentMethod()
-            if let paymentMethodSearchCards = paymentMethodSearch.cards {
-                var filteredCustomerCard = paymentMethodSearchCards.filter({ return $0.id == customerPaymentMethod.customerPaymentMethodId })
-                if !Array.isNullOrEmpty(filteredCustomerCard) {
-                    customerPaymentMethod.card = filteredCustomerCard[0]
-                }
-            }
             customPaymentOptions = Array.safeAppend(customPaymentOptions, customerPaymentMethod)
         }
 
@@ -590,9 +584,15 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
     public func updateCheckoutModel(token: PXToken) {
         if !token.cardId.isEmpty {
             if let esc = token.esc {
-                mpESCManager.saveESC(cardId: token.cardId, esc: esc)
+                escManager?.saveESC(cardId: token.cardId, esc: esc)
             } else {
-                mpESCManager.deleteESC(cardId: token.cardId)
+                escManager?.deleteESC(cardId: token.cardId)
+            }
+        } else {
+            if let esc = token.esc {
+                escManager?.saveESC(firstSixDigits: token.firstSixDigits, lastFourDigits: token.lastFourDigits, esc: esc)
+            } else {
+                escManager?.deleteESC(firstSixDigits: token.firstSixDigits, lastFourDigits: token.lastFourDigits)
             }
         }
         self.paymentData.updatePaymentDataWith(token: token)
@@ -724,7 +724,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         }
         if token.hasCardId() {
             if !isApprovedPayment {
-                mpESCManager.deleteESC(cardId: token.cardId)
+                escManager?.deleteESC(cardId: token.cardId)
                 return false
             }
         }
@@ -858,7 +858,7 @@ extension MercadoPagoCheckoutViewModel {
         if self.paymentData.isComplete() {
             readyToPay = true
             self.savedESCCardToken = PXSavedESCCardToken(cardId: self.paymentData.getToken()!.cardId, esc: nil, requireESC: advancedConfig.escEnabled)
-            mpESCManager.deleteESC(cardId: self.paymentData.getToken()!.cardId)
+            escManager?.deleteESC(cardId: self.paymentData.getToken()!.cardId)
         }
         self.paymentData.cleanToken()
     }
@@ -898,7 +898,7 @@ extension MercadoPagoCheckoutViewModel {
 extension MercadoPagoCheckoutViewModel {
     func createPaymentFlow(paymentErrorHandler: PXPaymentErrorHandlerProtocol) -> PXPaymentFlow {
         guard let paymentFlow = paymentFlow else {
-            let paymentFlow = PXPaymentFlow(paymentPlugin: paymentPlugin, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter, paymentErrorHandler: paymentErrorHandler, navigationHandler: pxNavigationHandler, amountHelper: amountHelper, checkoutPreference: checkoutPreference, escEnabled: advancedConfig.escEnabled)
+            let paymentFlow = PXPaymentFlow(paymentPlugin: paymentPlugin, mercadoPagoServicesAdapter: mercadoPagoServicesAdapter, paymentErrorHandler: paymentErrorHandler, navigationHandler: pxNavigationHandler, amountHelper: amountHelper, checkoutPreference: checkoutPreference, escManager: escManager)
             self.paymentFlow = paymentFlow
             return paymentFlow
         }

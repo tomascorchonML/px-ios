@@ -62,7 +62,7 @@ internal class SecurityCodeViewModel {
     }
 
     internal enum Reason: String {
-        case INVALID_ESC = "invalid_esc"
+        case INVALID_ESC = "cap_error"
         case CALL_FOR_AUTH = "call_for_auth"
         case SAVED_CARD = "saved_card"
     }
@@ -76,6 +76,7 @@ extension SecurityCodeViewModel {
         if let token = cardInfo as? PXCardInformation {
             properties["card_id"] =  token.getCardId()
         }
+        properties["reason"] = reason.rawValue
         return properties
     }
 

@@ -54,13 +54,12 @@ open class PXPaymentMethodSearch: NSObject, Codable {
         let paymentMethodSearchItem: [PXPaymentMethodSearchItem] = try container.decodeIfPresent([PXPaymentMethodSearchItem].self, forKey: .paymentMethodSearchItem) ?? []
         let customOptionSearchItems: [PXCustomOptionSearchItem] = try container.decodeIfPresent([PXCustomOptionSearchItem].self, forKey: .customOptionSearchItems) ?? []
         let paymentMethods: [PXPaymentMethod] = try container.decodeIfPresent([PXPaymentMethod].self, forKey: .paymentMethods) ?? []
-        let cards: [PXCard]? = try container.decodeIfPresent([PXCard].self, forKey: .cards)
         let defaultOption: PXPaymentMethodSearchItem? = try container.decodeIfPresent(PXPaymentMethodSearchItem.self, forKey: .defaultOption)
         let expressCho: [PXOneTapDto]? = try container.decodeIfPresent([PXOneTapDto].self, forKey: .expressCho)
         let defaultAmountConfiguration: String = try container.decode(String.self, forKey: .defaultAmountConfiguration)
         let discountConfigurations: [String: PXDiscountConfiguration] = try container.decode([String: PXDiscountConfiguration].self, forKey: .discountConfigurations)
 
-        self.init(defaultAmountConfiguration: defaultAmountConfiguration, discountConfigurations: discountConfigurations, paymentMethodSearchItem: paymentMethodSearchItem, customOptionSearchItems: customOptionSearchItems, paymentMethods: paymentMethods, cards: cards, defaultOption: defaultOption, oneTap: nil, expressCho: expressCho)
+        self.init(defaultAmountConfiguration: defaultAmountConfiguration, discountConfigurations: discountConfigurations, paymentMethodSearchItem: paymentMethodSearchItem, customOptionSearchItems: customOptionSearchItems, paymentMethods: paymentMethods, cards: [], defaultOption: defaultOption, oneTap: nil, expressCho: expressCho)
     }
 
     public func encode(to encoder: Encoder) throws {

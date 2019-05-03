@@ -98,6 +98,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
     var paymentMethodConfigPluginShowed = false
 
     var escManager: MercadoPagoESC?
+    var invalidESC: Bool = false
 
     // Discounts bussines service.
     var paymentConfigurationService = PXPaymentConfigurationServices()
@@ -281,7 +282,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             fatalError("Cannot conver payment option selected to CardInformation")
         }
         var reason: SecurityCodeViewModel.Reason
-        if paymentResult != nil && paymentResult!.isInvalidESC() {
+        if paymentResult != nil && paymentResult!.isInvalidESC() || invalidESC {
             reason = SecurityCodeViewModel.Reason.INVALID_ESC
         } else {
             reason = SecurityCodeViewModel.Reason.SAVED_CARD

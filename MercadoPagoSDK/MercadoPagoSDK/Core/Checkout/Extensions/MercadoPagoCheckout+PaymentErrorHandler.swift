@@ -9,6 +9,7 @@
 import Foundation
 extension MercadoPagoCheckout: PXPaymentErrorHandlerProtocol {
     func escError() {
+        viewModel.invalidESC = true
         viewModel.prepareForInvalidPaymentWithESC()
         executeNextStep()
     }

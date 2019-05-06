@@ -17,6 +17,16 @@ extension MercadoPagoCheckoutViewModel {
 
         amountHelper.preference.clearCardId()
 
+
+        if let options = self.paymentMethodOptions {
+            let optionsFound = options.filter { (paymentMethodOption: PaymentMethodOption) -> Bool in
+                return paymentMethodOption.getId() == cardId
+            }
+            if let paymentOption = optionsFound.first {
+                return paymentOption
+            }
+        }
+
         if self.search != nil {
             guard let customerPaymentMethods = customPaymentOptions else {
                 return nil
@@ -28,14 +38,6 @@ extension MercadoPagoCheckoutViewModel {
             }
         }
 
-        if let options = self.paymentMethodOptions {
-            let optionsFound = options.filter { (paymentMethodOption: PaymentMethodOption) -> Bool in
-                return paymentMethodOption.getId() == cardId
-            }
-            if let paymentOption = optionsFound.first {
-                return paymentOption
-            }
-        }
         return nil
     }
 }

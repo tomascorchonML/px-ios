@@ -26,14 +26,6 @@
 @synthesize allowInstallmentsSelection;
 
 - (void)viewDidLoad {
-//    [super viewDidLoad];
-//    [MercadoPagoServices getPaymentMethods:^(NSArray<PaymentMethod *> *paymentMethods) {
-//        currentPaymentMethods = paymentMethods;
-//        [[self tableView] reloadData];
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,17 +41,11 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MPPaymentMethodSelection"];
-    
-    UIImageView* pmIcon = [cell viewWithTag:1];
-    
-    UILabel *pmTitle = [cell viewWithTag:2];
-    
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self performSegueWithIdentifier:@"paymentFormSegue" sender:self];
-    
 }
 
 #pragma mark - Navigation
@@ -70,11 +56,6 @@
     // Pass the selected object to the new view controller.
     SimpleVaultFormViewController *simpleFormVc= (SimpleVaultFormViewController*) [segue destinationViewController];
     simpleFormVc.allowInstallmentsSelection = self.allowInstallmentsSelection;
-    
-
 }
-
-
-
 
 @end

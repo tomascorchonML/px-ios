@@ -135,9 +135,7 @@ UILabel *identificationType;
 }
 
 -(IBAction)prepareForUnwind:(UIStoryboardSegue *)segue {
-    InstallmentsTableViewController *installmentsVC = [segue sourceViewController];
     [[self tableView] reloadData];
-    
 }
 
 

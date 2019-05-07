@@ -18,15 +18,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-//    [MercadoPagoContext setCustomerURI:MERCHANT_MOCK_GET_CUSTOMER_URI];
-//    [CustomServer getCustomer:^(Customer * customer) {
-//        self.cards = customer.cards;
-//        [self.tableView reloadData];
-//    } failure:^(NSError * error) {
-//        
-//    }];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,7 +37,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SavedCardCell" forIndexPath:indexPath];
-    UIImageView *pmIcon = [cell viewWithTag:1];
     return cell;
 }
 

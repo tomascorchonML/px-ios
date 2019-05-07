@@ -27,60 +27,18 @@
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.opaque = YES;
 
-
-
     self.pref = nil;
-
-    ///  PASO 1: SETEAR PREFERENCIAS
-
-    // Setear ServicePreference
-    // [self setServicePreference];
-
-    ///  PASO 2: SETEAR CHECKOUTPREF, PAYMENTDATA Y PAYMENTRESULT
-
-    // Setear una preferencia hecha a mano
-    //[self setCheckoutPref_CardsNotExcluded];
-
-/*
-    DiscountCoupon* dc = [[DiscountCoupon alloc] initWithDiscountId:123];
-    
-    NSNumber *externalDiscount = [NSNumber numberWithDouble:2.00];
-    
-    dc.name = @"Patito Off";
-    dc.coupon_amount = [externalDiscount stringValue];
-    dc.percent_off = @"10";
-    dc.currency_id = @"ARS";
-    dc.concept = @"Descuento de patito";
-    dc.amountWithoutDiscount = 50;
-    dc = nil;
-*/
-    
-
-
-    // self.pref.preferenceId = @"243962506-ca09fbc6-7fa6-461d-951c-775b37d19abc";
-    //Differential pricing
-    // self.pref.preferenceId = @"99628543-518e6477-ac0d-4f4a-8097-51c2fcc00b71";
-    /* self.mpCheckout = [[MercadoPagoCheckout alloc] initWithPublicKey:@"TEST-4763b824-93d7-4ca2-a7f7-93539c3ee5bd"
-                                                         accessToken:nil checkoutPreference:self.pref paymentData:self.paymentData paymentResult:self.paymentResult navigationController:self.navigationController]; */
-
-//    self.pref.preferenceId = @"99628543-518e6477-ac0d-4f4a-8097-51c2fcc00b71";
-//
 
     [self setCheckoutPref_CreditCardNotExcluded];
     [self setCheckoutPrefAdditionalInfo];
 
     self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"APP_USR-ba2e6b8c-8b6d-4fc3-8a47-0ab241d0dba4" checkoutPreference:self.pref paymentConfiguration:[self getPaymentConfiguration]];
 
-
-//    self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"TEST-4763b824-93d7-4ca2-a7f7-93539c3ee5bd" preferenceId:@"243962506-63f1b044-c8bf-4d34-a800-f257a46628b8"];
     NSDictionary *dict = @{ @"key" : @"value"};
 
     [PXTracker setListener:self flowName:@"instore" flowDetails:dict];
 
-//    [self.checkoutBuilder setPrivateKeyWithKey:@"APP_USR-2590709739431780-102916-f3a297acb7f392333d80ba71b736a700__LA_LD__-181794596"];
-
     [self.checkoutBuilder setPrivateKeyWithKey:@"APP_USR-6519316523937252-070516-964fafa7e2c91a2c740155fcb5474280__LA_LD__-261748045"];
-
 
     // AdvancedConfig
     PXAdvancedConfiguration* advancedConfig = [[PXAdvancedConfiguration alloc] init];
@@ -92,9 +50,6 @@
     // Add theme to advanced config.
     MeliTheme *meliTheme = [[MeliTheme alloc] init];
     [advancedConfig setTheme:meliTheme];
-
-    //MPTheme *mpTheme = [[MPTheme alloc] init];
-    //[advancedConfig setTheme:mpTheme];
 
     // Add ReviewConfirm configuration to advanced config.
     [advancedConfig setReviewConfirmConfiguration: [self getReviewScreenConfiguration]];
@@ -115,28 +70,6 @@
 
     // Set advanced comnfig
     [self.checkoutBuilder setAdvancedConfigurationWithConfig:advancedConfig];
-
-    // Enable to test one tap
-//    [self.checkoutBuilder setPrivateKeyWithKey:@"TEST-1458038826212807-062020-ff9273c67bc567320eae1a07d1c2d5b5-246046416"];
-    // CDP color.
-    // [self.checkoutComponents setDefaultColor:[UIColor colorWithRed:0.49 green:0.17 blue:0.55 alpha:1.0]];
-
-    // [self.mpCheckout discountNotAvailable];
-
-
-
-    // [self.mpCheckout setDiscount:discount withCampaign:campaign];
-
-    // CDP color.
-    //[self.mpCheckout setDefaultColor:[UIColor colorWithRed:0.49 green:0.17 blue:0.55 alpha:1.0]];
-
-    //[self setHooks];
-    
-    //[self setPaymentMethodPlugins];
-
-    //[self setPaymentPlugin];
-
-    // [self.mpCheckout discountNotAvailable];
 
     [self.checkoutBuilder setLanguage:@"es"];
   
@@ -183,8 +116,6 @@
 }
 
 -(void)addPaymentMethodPluginToPaymentConfig {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:
-                                @"PaymentMethodPlugins" bundle:[NSBundle mainBundle]];
 
     PXPaymentMethodPlugin * bitcoinPaymentMethodPlugin = [[PXPaymentMethodPlugin alloc] initWithPaymentMethodPluginId:@"account_money" name:@"Bitcoin" image:[UIImage imageNamed:@"bitcoin_payment"] description:@"Estas usando dinero invertido"];
 

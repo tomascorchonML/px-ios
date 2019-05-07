@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="SOP-J7-wnf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="SOP-J7-wnf">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -74,104 +73,6 @@
                                                 <constraint firstItem="NLR-IY-vgG" firstAttribute="top" secondItem="8zM-HR-Uvt" secondAttribute="topMargin" id="aUp-mE-Tgy"/>
                                                 <constraint firstItem="NLR-IY-vgG" firstAttribute="leading" secondItem="8zM-HR-Uvt" secondAttribute="leadingMargin" id="pUk-QR-p5T"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="NLR-IY-vgG" secondAttribute="bottom" id="wT2-OP-h3e"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="100" id="k2d-fO-kGn">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k2d-fO-kGn" id="UHU-hQ-JSH">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Puzzle" translatesAutoresizingMaskIntoConstraints="NO" id="5gt-nP-Abp">
-                                                    <rect key="frame" x="26" y="24" width="66" height="52"/>
-                                                    <color key="tintColor" red="0.0" green="0.62352941179999999" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="66" id="1P8-aM-C9l"/>
-                                                        <constraint firstAttribute="height" constant="52" id="25l-Zz-qH2"/>
-                                                    </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="">
-                                                            <color key="value" red="1" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="" value="YES"/>
-                                                    </userDefinedRuntimeAttributes>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Componentes UI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y4a-SV-Kaz">
-                                                    <rect key="frame" x="102" y="39.5" width="128.5" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="5gt-nP-Abp" firstAttribute="leading" secondItem="UHU-hQ-JSH" secondAttribute="leadingMargin" constant="10" id="7PB-Fp-yeY"/>
-                                                <constraint firstItem="5gt-nP-Abp" firstAttribute="centerY" secondItem="UHU-hQ-JSH" secondAttribute="centerY" id="dbl-SZ-tR0"/>
-                                                <constraint firstItem="Y4a-SV-Kaz" firstAttribute="leading" secondItem="5gt-nP-Abp" secondAttribute="trailing" constant="10" id="vTW-R9-B1P"/>
-                                                <constraint firstItem="Y4a-SV-Kaz" firstAttribute="centerY" secondItem="UHU-hQ-JSH" secondAttribute="centerY" id="yFi-Up-vfG"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="6cu-aN-0W8" kind="show" id="pU0-XR-K3J"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="100" id="tng-OX-A9m">
-                                        <rect key="frame" x="0.0" y="200" width="375" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tng-OX-A9m" id="TwQ-U7-Fhh">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Ninja" translatesAutoresizingMaskIntoConstraints="NO" id="SIq-5B-Q9D">
-                                                    <rect key="frame" x="26" y="24" width="66" height="52"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="66" id="aMG-bU-cPc"/>
-                                                        <constraint firstAttribute="height" constant="52" id="kfj-3e-6b6"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Servicios" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rP8-1a-pPe">
-                                                    <rect key="frame" x="102" y="39.5" width="70" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="rP8-1a-pPe" firstAttribute="centerY" secondItem="TwQ-U7-Fhh" secondAttribute="centerY" id="1Cu-0k-arm"/>
-                                                <constraint firstItem="SIq-5B-Q9D" firstAttribute="centerY" secondItem="TwQ-U7-Fhh" secondAttribute="centerY" id="Ids-9S-cGz"/>
-                                                <constraint firstItem="rP8-1a-pPe" firstAttribute="leading" secondItem="SIq-5B-Q9D" secondAttribute="trailing" constant="10" id="WXK-Bm-REV"/>
-                                                <constraint firstItem="SIq-5B-Q9D" firstAttribute="leading" secondItem="TwQ-U7-Fhh" secondAttribute="leadingMargin" constant="10" id="f2s-hj-eBU"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="zgb-CH-QU9" kind="show" id="8LL-r2-xIS"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="107" id="oKn-ED-9zu">
-                                        <rect key="frame" x="0.0" y="300" width="375" height="107"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oKn-ED-9zu" id="nPf-bz-ijW">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="106.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Administrador de Tarjetas" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kp4-W0-5dD">
-                                                    <rect key="frame" x="90" y="43.5" width="196" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C2e-t6-NUA">
-                                                    <rect key="frame" x="8" y="8" width="359" height="89"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <connections>
-                                                        <action selector="startCardManager:" destination="Rgx-dD-8Cm" eventType="touchUpInside" id="Eh1-wv-gpR"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Kp4-W0-5dD" firstAttribute="centerY" secondItem="nPf-bz-ijW" secondAttribute="centerY" id="2X6-yQ-VUU"/>
-                                                <constraint firstItem="Kp4-W0-5dD" firstAttribute="centerX" secondItem="nPf-bz-ijW" secondAttribute="centerX" id="zow-7z-HK6"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -997,9 +898,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Ninja" width="200" height="150"/>
         <image name="PlugNplay" width="200" height="150"/>
-        <image name="Puzzle" width="70" height="53"/>
         <image name="amex" width="32" height="22"/>
         <image name="master" width="42" height="33"/>
         <image name="visa" width="57" height="19"/>

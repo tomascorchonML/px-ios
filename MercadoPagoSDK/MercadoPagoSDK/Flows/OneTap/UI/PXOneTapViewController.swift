@@ -93,12 +93,7 @@ extension PXOneTapViewController {
         navigationController?.navigationBar.backgroundColor = ThemeManager.shared.highlightBackgroundColor()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.backgroundColor = .clear
-
-        removeNavigationTapGesture()
-        navigationBarTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapOnNavigationbar))
-        if let navTapGesture = navigationBarTapGesture {
-            navigationController?.navigationBar.addGestureRecognizer(navTapGesture)
-        }
+        addNavigationTapGesture()
     }
 
     private func setupUI() {
@@ -183,6 +178,14 @@ extension PXOneTapViewController {
     private func removeNavigationTapGesture() {
         if let targetGesture = navigationBarTapGesture {
             navigationController?.navigationBar.removeGestureRecognizer(targetGesture)
+        }
+    }
+
+    private func addNavigationTapGesture() {
+        removeNavigationTapGesture()
+        navigationBarTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapOnNavigationbar))
+        if let navTapGesture = navigationBarTapGesture {
+            navigationController?.navigationBar.addGestureRecognizer(navTapGesture)
         }
     }
 }

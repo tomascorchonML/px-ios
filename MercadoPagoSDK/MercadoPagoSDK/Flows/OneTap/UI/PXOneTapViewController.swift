@@ -287,7 +287,15 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
         }
     }
 
-    func didTapSummary() {
+    func didTapNavigationHeader() {
+        print("PEPE")
+    }
+
+    func didTapCharges() {
+        // TODO: Patito will implement in PXN-750
+    }
+
+    func didTapDiscount() {
         let discountViewController = PXDiscountDetailViewController(amountHelper: viewModel.amountHelper)
 
         if let discount = viewModel.amountHelper.discount {

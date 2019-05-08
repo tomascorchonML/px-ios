@@ -291,6 +291,10 @@ extension PXOneTapHeaderView {
 
         let showHorizontally = shouldShowHorizontally(model: model)
         let merchantView = PXOneTapHeaderMerchantView(image: model.icon, title: model.title, subTitle: model.subTitle, showHorizontally: showHorizontally)
+
+        let headerTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeaderTap))
+        merchantView.addGestureRecognizer(headerTapGesture)
+
         self.merchantView = merchantView
         self.addSubview(merchantView)
 
@@ -308,9 +312,6 @@ extension PXOneTapHeaderView {
 
         self.verticalLayoutConstraints.append(contentsOf: verticalLayoutConstraints)
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleSummaryTap))
-        summaryView.addGestureRecognizer(tapGesture)
-
         if showHorizontally {
             animateToHorizontal()
         } else {
@@ -321,7 +322,17 @@ extension PXOneTapHeaderView {
 
 // MARK: Publics.
 extension PXOneTapHeaderView {
-    @objc func handleSummaryTap() {
-        delegate?.didTapSummary()
+    // TODO: Patito will implement in PXN-750
+    @objc func handleDiscountTap() {
+        delegate?.didTapDiscount()
+    }
+
+    // TODO: Patito will implement in PXN-750
+    @objc func handleChargesTap() {
+        delegate?.didTapCharges()
+    }
+
+    @objc func handleHeaderTap() {
+        delegate?.didTapMerchantHeader()
     }
 }

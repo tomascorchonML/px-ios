@@ -96,8 +96,13 @@ class PXOneTapHeaderMerchantView: PXComponentView {
         } else {
             animateToVertical()
         }
-    }
 
+        isUserInteractionEnabled = true
+    }
+}
+
+// MARK: Publics
+extension PXOneTapHeaderMerchantView {
     func updateContentViewLayout(margin: CGFloat = PXLayout.M_MARGIN) {
         self.layoutIfNeeded()
         if UIDevice.isLargeDevice() || UIDevice.isExtraLargeDevice() {

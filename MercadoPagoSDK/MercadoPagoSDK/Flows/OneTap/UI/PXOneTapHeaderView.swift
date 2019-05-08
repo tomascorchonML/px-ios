@@ -317,6 +317,8 @@ extension PXOneTapHeaderView {
         } else {
             animateToVertical()
         }
+
+        isUserInteractionEnabled = true
     }
 }
 

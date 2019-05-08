@@ -34,6 +34,7 @@ final class PXOneTapViewController: PXComponentContainerViewController {
     let timeOutPayButton: TimeInterval
 
     var cardSliderMarginConstraint: NSLayoutConstraint?
+    private var navigationBarTapGesture: UITapGestureRecognizer?
 
     // MARK: Lifecycle/Publics
     init(viewModel: PXOneTapViewModel, timeOutPayButton: TimeInterval = 15, callbackPaymentData : @escaping ((PXPaymentData) -> Void), callbackConfirm: @escaping ((PXPaymentData, Bool) -> Void), callbackUpdatePaymentOption: @escaping ((PaymentMethodOption) -> Void), callbackExit: @escaping (() -> Void), finishButtonAnimation: @escaping (() -> Void)) {
@@ -62,6 +63,7 @@ final class PXOneTapViewController: PXComponentContainerViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         PXNotificationManager.UnsuscribeTo.animateButton(loadingButtonComponent)
+        removeNavigationTapGesture()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -91,6 +93,9 @@ extension PXOneTapViewController {
         navigationController?.navigationBar.backgroundColor = ThemeManager.shared.highlightBackgroundColor()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.backgroundColor = .clear
+
+        removeNavigationTapGesture()
+        navigationBarTapGesture = UITapGestureRecognizer(target:self, action: #selector(didTapOnNavigationbar))
     }
 
     private func setupUI() {
@@ -171,6 +176,12 @@ extension PXOneTapViewController {
 
         addCardSlider(inContainerView: cardSliderContentView)
     }
+
+    private func removeNavigationTapGesture() {
+        if let targetGesture = navigationBarTapGesture {
+            navigationController?.navigationBar.removeGestureRecognizer(targetGesture)
+        }
+    }
 }
 
 // MARK: Components Builders.
@@ -221,6 +232,10 @@ extension PXOneTapViewController {
 
 // MARK: User Actions.
 extension PXOneTapViewController {
+    @objc func didTapOnNavigationbar() {
+        didTapNavigationHeader()
+    }
+
     @objc func shouldChangePaymentMethod() {
         callbackPaymentData(viewModel.getClearPaymentData())
     }
@@ -289,7 +304,6 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
 
     func didTapNavigationHeader() {
         // TODO: Juan will implement in PXN-748
-        print("didTapNavigationHeader")
     }
 
     func didTapCharges() {

@@ -288,7 +288,8 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
     }
 
     func didTapNavigationHeader() {
-        print("PEPE")
+        // TODO: Juan will implement in PXN-748
+        print("didTapNavigationHeader")
     }
 
     func didTapCharges() {

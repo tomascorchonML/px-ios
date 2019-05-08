@@ -95,7 +95,10 @@ extension PXOneTapViewController {
         navigationController?.navigationBar.backgroundColor = .clear
 
         removeNavigationTapGesture()
-        navigationBarTapGesture = UITapGestureRecognizer(target:self, action: #selector(didTapOnNavigationbar))
+        navigationBarTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapOnNavigationbar))
+        if let navTapGesture = navigationBarTapGesture {
+            navigationController?.navigationBar.addGestureRecognizer(navTapGesture)
+        }
     }
 
     private func setupUI() {
@@ -233,7 +236,7 @@ extension PXOneTapViewController {
 // MARK: User Actions.
 extension PXOneTapViewController {
     @objc func didTapOnNavigationbar() {
-        didTapNavigationHeader()
+        didTapMerchantHeader()
     }
 
     @objc func shouldChangePaymentMethod() {
@@ -302,8 +305,9 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
         }
     }
 
-    func didTapNavigationHeader() {
+    func didTapMerchantHeader() {
         // TODO: Juan will implement in PXN-748
+        print("didTapMerchantHeader")
     }
 
     func didTapCharges() {

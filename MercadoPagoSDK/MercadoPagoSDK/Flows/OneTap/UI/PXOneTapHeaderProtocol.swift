@@ -8,7 +8,7 @@
 import Foundation
 
 protocol PXOneTapHeaderProtocol: NSObjectProtocol {
-    func didTapNavigationHeader()
+    func didTapMerchantHeader()
     func didTapCharges()
     func didTapDiscount()
     func splitPaymentSwitchChangedValue(isOn: Bool, isUserSelection: Bool)

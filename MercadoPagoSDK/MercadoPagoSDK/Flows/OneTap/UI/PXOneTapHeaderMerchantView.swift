@@ -96,6 +96,8 @@ class PXOneTapHeaderMerchantView: PXComponentView {
         } else {
             animateToVertical()
         }
+
+        isUserInteractionEnabled = true
     }
 }
 

@@ -317,8 +317,6 @@ extension PXOneTapHeaderView {
         } else {
             animateToVertical()
         }
-
-        isUserInteractionEnabled = true
     }
 }
 
@@ -335,6 +333,6 @@ extension PXOneTapHeaderView {
     }
 
     @objc func handleHeaderTap() {
-        delegate?.didTapNavigationHeader()
+        delegate?.didTapMerchantHeader()
     }
 }

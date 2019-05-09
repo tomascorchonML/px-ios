@@ -355,4 +355,10 @@ extension PXOneTapViewModel {
         let disclaimer = isAccountMoney ? amDisclaimer.localized_beta : cardDisclaimer.localized_beta
         return NSAttributedString(string: disclaimer, attributes: attributes)
     }
+
+    func getExternalViewControllerForSubtitle() -> UIViewController? {
+        return advancedConfiguration.dynamicViewControllersConfiguration.filter({
+            $0.position(store: PXCheckoutStore.sharedInstance) == .DID_TAP_ONETAP_SUBTITLE
+        }).first?.viewController(store: PXCheckoutStore.sharedInstance)
+    }
 }

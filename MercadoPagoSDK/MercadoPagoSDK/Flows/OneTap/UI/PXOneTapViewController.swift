@@ -309,8 +309,9 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
     }
 
     func didTapMerchantHeader() {
-        // TODO: Juan will implement in PXN-748
-        print("didTapMerchantHeader")
+        if let externalVC = viewModel.getExternalViewControllerForSubtitle() {
+            PXComponentFactory.Modal.show(viewController: externalVC, title: externalVC.title)
+        }
     }
 
     func didTapCharges() {

@@ -165,6 +165,15 @@ extension PXOneTapViewModel {
         var yourPurchaseToShow = Utils.getAmountFormated(amount: amountHelper.preferenceAmount, forCurrency: currency)
         var customData: [OneTapHeaderSummaryData] = [OneTapHeaderSummaryData]()
 
+//        let chargesAmount = amountHelper.chargeRuleAmount
+//        if chargesAmount > 0 {
+            var yourPurchaseSummaryTitle: String = "onetap_purchase_summary_title".localized_beta
+            customData.append(OneTapHeaderSummaryData(yourPurchaseSummaryTitle, yourPurchaseToShow, summaryColor, 1, false, nil))
+            let helperImage: UIImage? = isDefaultStatusBarStyle ? ResourceManager.shared.getImage("helper_ico_gray") : ResourceManager.shared.getImage("helper_ico_light")
+            let row = OneTapHeaderSummaryData("Charges", "$ 50", summaryColor, 1, false, helperImage)
+            customData.append(row)
+//        }
+
         if let discountConfiguration = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(selectedCard?.cardId), let campaign = discountConfiguration.getDiscountConfiguration().campaign {
 
             let discount = discountConfiguration.getDiscountConfiguration().discount
@@ -188,6 +197,7 @@ extension PXOneTapViewModel {
                 customData.append(OneTapHeaderSummaryData(yourPurchaseSummaryTitle, yourPurchaseToShow, summaryColor, summaryAlpha, false, nil))
                 let discountToShow = Utils.getAmountFormated(amount: discount.couponAmount, forCurrency: currency)
                 let helperImage: UIImage? = isDefaultStatusBarStyle ? ResourceManager.shared.getImage("helper_ico") : ResourceManager.shared.getImage("helper_ico_light")
+                customData.append(OneTapHeaderSummaryData(discount.getDiscountDescription(), "- \(discountToShow)", discountColor, discountAlpha, false, helperImage))
                 customData.append(OneTapHeaderSummaryData(discount.getDiscountDescription(), "- \(discountToShow)", discountColor, discountAlpha, false, helperImage))
 
                 totalAmountToShow = Utils.getAmountFormated(amount: amountHelper.getAmountToPayWithoutPayerCost(selectedCard?.cardId), forCurrency: currency)

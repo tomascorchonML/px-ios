@@ -358,7 +358,7 @@ extension PXOneTapViewModel {
 
     func getExternalViewControllerForSubtitle() -> UIViewController? {
         return advancedConfiguration.dynamicViewControllersConfiguration.filter({
-            $0.position(store: PXCheckoutStore.sharedInstance) == .DID_TAP_ONETAP_SUBTITLE
+            $0.position(store: PXCheckoutStore.sharedInstance) == .DID_TAP_ONETAP_HEADER
         }).first?.viewController(store: PXCheckoutStore.sharedInstance)
     }
 }

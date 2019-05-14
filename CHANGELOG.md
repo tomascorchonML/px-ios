@@ -1,3 +1,8 @@
+# v4.12.1
+🚀Private Release - 4.12.1 🚀
+MercadoPagoSDKV4 - Private Version
+- Change cap esc tracking name
+
 # v4.12.0
 🚀Private Release - 4.12.0 🚀
 MercadoPagoSDKV4 - Private Version

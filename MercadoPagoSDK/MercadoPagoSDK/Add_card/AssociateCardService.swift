@@ -24,7 +24,7 @@ final class AssociateCardService: MercadoPagoService {
 
         let jsonData = try? JSONSerialization.data(withJSONObject: body, options: [])
 
-        self.request(uri: uri, params: "access_token=\(accessToken)", body: jsonData, method: .post, success: { (data) in
+        self.request(uri: uri, params: "access_token=\(accessToken)", body: jsonData, method: .post, headers: nil, cache: false, success: { (data) in
             let jsonResult = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
             if let jsonResult = jsonResult as? [String: Any] {
                 do {

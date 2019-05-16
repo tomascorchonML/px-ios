@@ -13,19 +13,20 @@ extension PXSummaryComposer {
         let helperImage: UIImage? = isDefaultStatusBarStyle ? ResourceManager.shared.getImage("helper_ico_gray") : ResourceManager.shared.getImage("helper_ico_light")
 
         let amountToShow = Utils.getAmountFormated(amount: amount, forCurrency: currency)
-        let row = OneTapHeaderSummaryData("Charges", amountToShow, summaryColor, 1, false, helperImage)
+        let chargeText = "onetap_purchase_summary_charges".localized_beta
+        let row = OneTapHeaderSummaryData(chargeText, amountToShow, summaryColor(), 1, false, helperImage)
         internalSummary.append(row)
     }
 
     func addConsumedDiscountRow() {
         let helperImage: UIImage? = isDefaultStatusBarStyle ? ResourceManager.shared.getImage("helper_ico_gray") : ResourceManager.shared.getImage("helper_ico_light")
-        let row = OneTapHeaderSummaryData("total_row_consumed_discount".localized_beta, "", summaryColor, discountDisclaimerAlpha, false, helperImage)
+        let row = OneTapHeaderSummaryData("total_row_consumed_discount".localized_beta, "", summaryColor(), discountDisclaimerAlpha(), false, helperImage)
         internalSummary.append(row)
     }
 
     func addDiscountRow() {
         guard let discount = getDiscount() else {
-            print("discount is required to add the discount row")
+            printError("Discount is required to add the discount row")
             return
         }
 
@@ -33,7 +34,7 @@ extension PXSummaryComposer {
         let helperImage: UIImage? = isDefaultStatusBarStyle ? ResourceManager.shared.getImage("helper_ico") : ResourceManager.shared.getImage("helper_ico_light")
         let row = OneTapHeaderSummaryData(discount.getDiscountDescription(),
                                           "- \(discountToShow)",
-            discountColor,
+            discountColor(),
             discountAlpha,
             false,
             helperImage)
@@ -43,9 +44,9 @@ extension PXSummaryComposer {
     func addPurchaseRow(){
         let isTransparent = shouldDisplayDiscount() && !shouldDisplayCharges()
         let alpha = isTransparent ? summaryAlpha : 1
-        let oneTapHeader = OneTapHeaderSummaryData(yourPurchaseSummaryTitle,
-                                                   yourPurchaseToShow,
-                                                   summaryColor,
+        let oneTapHeader = OneTapHeaderSummaryData(yourPurchaseSummaryTitle(),
+                                                   yourPurchaseToShow(),
+                                                   summaryColor(),
                                                    alpha,
                                                    false,
                                                    nil)

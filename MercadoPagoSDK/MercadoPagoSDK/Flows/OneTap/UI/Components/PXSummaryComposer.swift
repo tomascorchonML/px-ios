@@ -26,23 +26,6 @@ class PXSummaryComposer {
     let selectedCard: PXCardSliderViewModel?
     var internalSummary: [OneTapHeaderSummaryData] = []
 
-    //MARK: computed properties
-    var summaryColor: UIColor {
-        return isDefaultStatusBarStyle ? UIColor.black : ThemeManager.shared.whiteColor()
-    }
-    var yourPurchaseSummaryTitle: String {
-        return additionalInfoSummary?.purpose ?? "onetap_purchase_summary_title".localized_beta
-    }
-    var yourPurchaseToShow: String {
-        return Utils.getAmountFormated(amount: amountHelper.preferenceAmount, forCurrency: currency)
-    }
-    var discountColor: UIColor {
-        return isDefaultStatusBarStyle ? ThemeManager.shared.noTaxAndDiscountLabelTintColor() : ThemeManager.shared.whiteColor()
-    }
-    var discountDisclaimerAlpha: CGFloat {
-        return isDefaultStatusBarStyle ? 0.45 : 1.0
-    }
-
     init(amountHelper: PXAmountHelper,
          additionalInfoSummary: PXAdditionalInfoSummary?,
          selectedCard: PXCardSliderViewModel?) {
@@ -51,13 +34,12 @@ class PXSummaryComposer {
         self.selectedCard = selectedCard
     }
 
-    func getSummaryItems() -> [OneTapHeaderSummaryData] {
-        updatePaymentData()
+    private func getSummaryItems() -> [OneTapHeaderSummaryData] {
         let summaryItems = generateSummaryItems()
         return summaryItems
     }
 
-    func generateSummaryItems() -> [OneTapHeaderSummaryData] {
+    private func generateSummaryItems() -> [OneTapHeaderSummaryData] {
         internalSummary = [OneTapHeaderSummaryData]()
         if shouldDisplayCharges() || shouldDisplayDiscount() {
             addPurchaseRow()
@@ -76,17 +58,5 @@ class PXSummaryComposer {
         }
         addTotalToPayRow()
         return internalSummary
-    }
-
-    func updatePaymentData() {
-        if let discountData = getDiscountData() {
-            let discountConfiguration = discountData.discountConfiguration
-            let campaign = discountData.campaign
-            let discount = discountConfiguration.getDiscountConfiguration().discount
-            let consumedDiscount = discountConfiguration.getDiscountConfiguration().isNotAvailable
-            amountHelper.getPaymentData().setDiscount(discount, withCampaign: campaign, consumedDiscount: consumedDiscount)
-        } else {
-            amountHelper.getPaymentData().clearDiscount()
-        }
     }
 }

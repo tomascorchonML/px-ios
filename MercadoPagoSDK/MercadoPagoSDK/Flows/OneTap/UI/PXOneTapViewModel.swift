@@ -155,12 +155,25 @@ extension PXOneTapViewModel {
         let composer = PXSummaryComposer(amountHelper: amountHelper,
                                            additionalInfoSummary: additionalInfoSummary,
                                            selectedCard: selectedCard)
+        updatePaymentData(composer: composer)
         let summaryData = composer.summaryItems
         // Populate header display data. From SP pref AdditionalInfo or instore retrocompatibility.
         let (headerTitle, headerSubtitle, headerImage) = getSummaryHeader(item: items.first, additionalInfoSummaryData: additionalInfoSummary)
 
         let headerVM = PXOneTapHeaderViewModel(icon: headerImage, title: headerTitle, subTitle: headerSubtitle, data: summaryData, splitConfiguration: splitConfiguration)
         return headerVM
+    }
+
+    func updatePaymentData(composer: PXSummaryComposer) {
+        if let discountData = composer.getDiscountData() {
+            let discountConfiguration = discountData.discountConfiguration
+            let campaign = discountData.campaign
+            let discount = discountConfiguration.getDiscountConfiguration().discount
+            let consumedDiscount = discountConfiguration.getDiscountConfiguration().isNotAvailable
+            amountHelper.getPaymentData().setDiscount(discount, withCampaign: campaign, consumedDiscount: consumedDiscount)
+        } else {
+            amountHelper.getPaymentData().clearDiscount()
+        }
     }
 
     func getSummaryHeader(item: PXItem?, additionalInfoSummaryData: PXAdditionalInfoSummary?) -> (title: String, subtitle: String?, image: UIImage) {

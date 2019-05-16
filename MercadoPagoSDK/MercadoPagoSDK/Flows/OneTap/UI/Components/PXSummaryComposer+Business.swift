@@ -1,6 +1,6 @@
 //
 //  PXSummaryComposer+Utils.swift
-//  Bugsnag
+//  MercadoPagoSDK
 //
 //  Created by Federico Bustos Fierro on 14/05/2019.
 //
@@ -8,6 +8,7 @@
 import Foundation
 
 extension PXSummaryComposer {
+    //MARK: business
     func isConsumedDiscount() -> Bool {
         if let discountData = getDiscountData() {
             return discountData.discountConfiguration.getDiscountConfiguration().isNotAvailable
@@ -40,5 +41,26 @@ extension PXSummaryComposer {
             return (discountConfiguration, campaign)
         }
         return nil
+    }
+
+    //MARK: style
+    func summaryColor() -> UIColor {
+        return isDefaultStatusBarStyle ? UIColor.black : ThemeManager.shared.whiteColor()
+    }
+    
+    func yourPurchaseSummaryTitle() -> String {
+        return additionalInfoSummary?.purpose ?? "onetap_purchase_summary_title".localized_beta
+    }
+
+    func yourPurchaseToShow() -> String {
+        return Utils.getAmountFormated(amount: amountHelper.preferenceAmount, forCurrency: currency)
+    }
+
+    func discountColor() -> UIColor {
+        return isDefaultStatusBarStyle ? ThemeManager.shared.noTaxAndDiscountLabelTintColor() : ThemeManager.shared.whiteColor()
+    }
+
+    func discountDisclaimerAlpha() -> CGFloat {
+        return isDefaultStatusBarStyle ? 0.45 : 1.0
     }
 }
